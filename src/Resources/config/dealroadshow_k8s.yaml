@@ -1,0 +1,53 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Dealroadshow\K8S\Framework\Core\Container\ContainerMaker: ~
+    Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
+    Dealroadshow\K8S\Framework\Core\Pod\PodTemplateSpecProcessor: ~
+    Dealroadshow\K8S\Framework\Dumper\AppDumper: ~
+    Dealroadshow\K8S\Framework\Dumper\ProjectDumper: ~
+    Dealroadshow\K8S\Framework\Renderer\YamlRenderer: ~
+    Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper: ~
+    Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper: ~
+    Dealroadshow\K8S\Framework\App\AppProcessor: ~
+    Dealroadshow\K8S\Framework\Project\ProjectProcessor: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\ConfigMapMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\DeploymentMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\SecretMaker: ~
+
+    Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
+    Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'
+
+
+    Dealroadshow\Bundle\K8SBundle\:
+        resource: '../../../src/'
+        exclude:
+          - '../../../src/DependencyInjection'
+          - '../../../src/Resources'
+
+    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver:
+        arguments:
+          - '%dealroadshow_k8s.code_dir%'
+          - '%dealroadshow_k8s.namespace_prefix%'
+
+    Dealroadshow\Bundle\K8SBundle\Command\DumpProjectCommand:
+        arguments:
+          $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
+
+    Dealroadshow\K8S\Framework\Core\ManifestProcessor:
+        arguments:
+          - !tagged_iterator {tag: 'dealroadshow_k8s.resource_maker'}
+
+    Dealroadshow\K8S\Framework\Registry\AppRegistry:
+        arguments:
+          - !tagged_iterator { tag: 'dealroadshow_k8s.app' }
+
+    Dealroadshow\K8S\Framework\Registry\ManifestRegistry:
+        arguments:
+          - !tagged_iterator { tag: 'dealroadshow_k8s.manifest' }
+
+    Dealroadshow\K8S\Framework\Registry\ProjectRegistry:
+        arguments:
+          - !tagged_iterator { tag: 'dealroadshow_k8s.project' }

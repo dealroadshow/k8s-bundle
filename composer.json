@@ -1,0 +1,28 @@
+{
+    "name": "dealroadshow/k8s-bundle",
+    "description": "Integrates Dealroadshow K8S framework with Symfony 5",
+    "type": "library",
+    "require": {
+        "php": ">=7.4",
+        "symfony/console": ">=5.1",
+        "symfony/dependency-injection": ">=5.1",
+        "symfony/config": ">=5.1",
+        "symfony/http-kernel": ">=5.1",
+        "dealroadshow/k8s-framework": "^0.1",
+        "symfony/polyfill-php80": ">=1.18"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Petr Buchin",
+            "email": "petrbuchyn@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Dealroadshow\\Bundle\\K8SBundle\\": "src/"
+        }
+    }
+}
