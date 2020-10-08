@@ -3,7 +3,7 @@
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppClassDetailsResolver;
 use Dealroadshow\K8S\Framework\Project\ProjectInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Registry\ProjectRegistry;
@@ -15,9 +15,9 @@ class AppGenerator
 {
     private ProjectRegistry $projectRegistry;
     private AppRegistry $appRegistry;
-    private ClassDetailsResolver $resolver;
+    private AppClassDetailsResolver $resolver;
 
-    public function __construct(ProjectRegistry $projectRegistry, AppRegistry $appRegistry, ClassDetailsResolver $resolver)
+    public function __construct(ProjectRegistry $projectRegistry, AppRegistry $appRegistry, AppClassDetailsResolver $resolver)
     {
         $this->projectRegistry = $projectRegistry;
         $this->appRegistry = $appRegistry;
@@ -28,7 +28,7 @@ class AppGenerator
     {
         $this->ensureAppNameIsValid($appName);
         $project = $this->getProject($projectName);
-        $details = $this->resolver->forApp($project, $appName);
+        $details = $this->resolver->getClassDetails($project, $appName);
         $this->createAppDirs($details);
         $code = $this->generateCode($details, $appName);
         $fileName = $details->fullFilePath();

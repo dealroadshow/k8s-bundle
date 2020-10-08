@@ -3,22 +3,22 @@
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ProjectClassDetailsResolver;
 use RuntimeException;
 use Throwable;
 
 class ProjectGenerator
 {
-    private ClassDetailsResolver $resolver;
+    private ProjectClassDetailsResolver $resolver;
 
-    public function __construct(ClassDetailsResolver $resolver)
+    public function __construct(ProjectClassDetailsResolver $resolver)
     {
         $this->resolver = $resolver;
     }
 
     public function generate(string $projectName): string
     {
-        $details = $this->resolver->forProject($projectName);
+        $details = $this->resolver->getClassDetails($projectName);
         $className = $details->className();
         $namespace = $details->namespace();
         $projectDir = $details->directory();

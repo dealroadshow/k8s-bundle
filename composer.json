@@ -1,5 +1,5 @@
 {
-    "name": "dealroadshow/k8s-bundle",
+    "name": "dealroadshow/k8s-framework-bundle",
     "description": "Integrates Dealroadshow K8S framework with Symfony 5",
     "type": "library",
     "require": {

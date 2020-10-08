@@ -27,10 +27,18 @@ services:
           - '../../../src/DependencyInjection'
           - '../../../src/Resources'
 
-    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver:
+    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ProjectClassDetailsResolver:
         arguments:
           - '%dealroadshow_k8s.code_dir%'
           - '%dealroadshow_k8s.namespace_prefix%'
+
+    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\DeploymentClassDetailsResolver:
+        arguments:
+          - '%dealroadshow_k8s.namespace_prefix%'
+
+    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppClassDetailsResolver:
+      arguments:
+        - '%dealroadshow_k8s.namespace_prefix%'
 
     Dealroadshow\Bundle\K8SBundle\Command\DumpProjectCommand:
         arguments:
