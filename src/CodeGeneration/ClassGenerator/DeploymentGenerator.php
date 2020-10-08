@@ -7,6 +7,7 @@ use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\Deployment
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\Deployment\DeploymentInterface;
 use Dealroadshow\K8S\Framework\Project\ProjectInterface;
+use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
 use Dealroadshow\K8S\Framework\Registry\ProjectRegistry;
 use InvalidArgumentException;
@@ -15,24 +16,20 @@ use Throwable;
 
 class DeploymentGenerator
 {
-    private ProjectRegistry $projectRegistry;
     private DeploymentClassDetailsResolver $resolver;
-    /**
-     * @var ManifestRegistry
-     */
     private ManifestRegistry $manifestRegistry;
+    private AppRegistry $appRegistry;
 
-    public function __construct(ProjectRegistry $projectRegistry, ManifestRegistry $manifestRegistry, DeploymentClassDetailsResolver $resolver)
+    public function __construct(AppRegistry $appRegistry, ManifestRegistry $manifestRegistry, DeploymentClassDetailsResolver $resolver)
     {
-        $this->projectRegistry = $projectRegistry;
         $this->resolver = $resolver;
         $this->manifestRegistry = $manifestRegistry;
+        $this->appRegistry = $appRegistry;
     }
 
-    public function generate(string $projectName, string $appName, string $depName): string
+    public function generate(string $appName, string $depName): string
     {
-        $project = $this->getProject($projectName);
-        $app = $this->getApp($project, $appName);
+        $app = $this->getApp($appName);
         $this->ensureDeploymentNameIsValid($app, $depName);
         $details = $this->resolver->getClassDetails($app, $depName);
         $this->createDirs($details);
@@ -73,27 +70,15 @@ class DeploymentGenerator
         }
     }
 
-    private function getProject(string $projectName): ProjectInterface
+    private function getApp(string $appName): AppInterface
     {
-        if (!$this->projectRegistry->has($projectName)) {
+        if (!$this->appRegistry->has($appName)) {
             throw new InvalidArgumentException(
-                sprintf('Project "%s" does not exist', $projectName)
+                sprintf('App "%s" does not exist', $appName)
             );
         }
 
-        return $this->projectRegistry->get($projectName);
-    }
-
-    private function getApp(ProjectInterface $project, string $appName): AppInterface
-    {
-        foreach ($project->apps() as $app) {
-            if($app->name() === $appName) {
-                return $app;
-            }
-        }
-        throw new InvalidArgumentException(
-            sprintf('Project "%s" does not have App "%s"', $project->name(), $appName)
-        );
+        return $this->appRegistry->get($appName);
     }
 
     private function ensureDeploymentNameIsValid(AppInterface $app, string $depName): void
