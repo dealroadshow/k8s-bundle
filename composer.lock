@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c485d18cca1f91ff25ef0008d72cc6b",
+    "content-hash": "06a103bfeacb94611c497de5eb20304a",
     "packages": [
         {
             "name": "dealroadshow/k8s-framework",
-            "version": "v0.1.1",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dealroadshow/k8s-framework.git",
-                "reference": "b89ffb37be7092f4353a77c0bc6d0a2c426a51ba"
+                "reference": "6c34023d44d308b24e266c15c3722b22accea8c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dealroadshow/k8s-framework/zipball/b89ffb37be7092f4353a77c0bc6d0a2c426a51ba",
-                "reference": "b89ffb37be7092f4353a77c0bc6d0a2c426a51ba",
+                "url": "https://api.github.com/repos/dealroadshow/k8s-framework/zipball/6c34023d44d308b24e266c15c3722b22accea8c6",
+                "reference": "6c34023d44d308b24e266c15c3722b22accea8c6",
                 "shasum": ""
             },
             "require": {
@@ -44,7 +44,7 @@
                 }
             ],
             "description": "Define Kubernetes manifests in PHP",
-            "time": "2020-10-06T22:05:35+00:00"
+            "time": "2020-10-09T10:28:52+00:00"
         },
         {
             "name": "dealroadshow/k8s-resources",
@@ -311,12 +311,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "04c3a31fe8ea94b42c9e2d1acc93d19782133b00"
+                "reference": "ae789a8a2ad189ce7e8216942cdb9b77319f5eb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/04c3a31fe8ea94b42c9e2d1acc93d19782133b00",
-                "reference": "04c3a31fe8ea94b42c9e2d1acc93d19782133b00",
+                "url": "https://api.github.com/repos/symfony/console/zipball/ae789a8a2ad189ce7e8216942cdb9b77319f5eb8",
+                "reference": "ae789a8a2ad189ce7e8216942cdb9b77319f5eb8",
                 "shasum": ""
             },
             "require": {
