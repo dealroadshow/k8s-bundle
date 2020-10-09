@@ -8,10 +8,8 @@ use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Project\ProjectInterface;
 use ReflectionObject;
 
-class DeploymentClassDetailsResolver
+class ManifestClassDetailsResolver
 {
-    private const SUFFIX = 'Deployment';
-
     private string $namespacePrefix;
 
     public function __construct(string $namespacePrefix)
@@ -19,33 +17,33 @@ class DeploymentClassDetailsResolver
         $this->namespacePrefix = trim($namespacePrefix, '\\');
     }
 
-    public function getClassDetails(AppInterface $app, string $depName): ClassDetails
+    public function getClassDetails(AppInterface $app, string $depName, string $suffix): ClassDetails
     {
-        $className = $this->className($depName);
-        $namespace = $this->getNamespace($app, $depName);
-        $dir = $this->getDir($app, $depName);
+        $className = $this->className($depName, $suffix);
+        $namespace = $this->getNamespace($app, $depName, $suffix);
+        $dir = $this->getDir($app, $depName, $suffix);
         $fileName = $className.'.php';
 
         return new ClassDetails($className, $namespace, $dir, $fileName);
     }
 
-    private function className(string $depName): string
+    private function className(string $depName, string $suffix): string
     {
         $className = Str::asClassName($depName);
-        return Str::withSuffix($className, self::SUFFIX);
+        return Str::withSuffix($className, $suffix);
     }
 
-    private function getNamespace(AppInterface $app, string $depName): string
+    private function getNamespace(AppInterface $app, string $depName, string $suffix): string
     {
-        $dirName = Str::asDirName($depName, self::SUFFIX);
+        $dirName = Str::asDirName($depName, $suffix);
         $rootNamespace = Str::asNamespace($app);
         return $rootNamespace.'\\Manifests\\'.$dirName;
     }
 
-    private function getDir(AppInterface $app, string $depName): string
+    private function getDir(AppInterface $app, string $depName, string $suffix): string
     {
         $rootDir = Str::asDir($app);
-        $dirName = Str::asDirName($depName, self::SUFFIX);
+        $dirName = Str::asDirName($depName, $suffix);
         return $rootDir.DIRECTORY_SEPARATOR.'Manifests'.DIRECTORY_SEPARATOR.$dirName;
     }
 }

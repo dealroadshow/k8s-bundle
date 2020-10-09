@@ -32,7 +32,7 @@ services:
           - '%dealroadshow_k8s.code_dir%'
           - '%dealroadshow_k8s.namespace_prefix%'
 
-    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\DeploymentClassDetailsResolver:
+    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ManifestClassDetailsResolver:
         arguments:
           - '%dealroadshow_k8s.namespace_prefix%'
 

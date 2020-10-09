@@ -5,14 +5,14 @@ namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ManifestClassDetailsResolver;
 use Dealroadshow\K8S\Framework\App\AppInterface;
-use Dealroadshow\K8S\Framework\Core\Deployment\DeploymentInterface;
+use Dealroadshow\K8S\Framework\Core\ConfigMap\ConfigMapInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
 use InvalidArgumentException;
 use RuntimeException;
 use Throwable;
 
-class DeploymentGenerator
+class ConfigMapGenerator
 {
     private ManifestClassDetailsResolver $resolver;
     private ManifestRegistry $manifestRegistry;
@@ -28,8 +28,8 @@ class DeploymentGenerator
     public function generate(string $appName, string $depName): string
     {
         $app = $this->getApp($appName);
-        $this->ensureDeploymentNameIsValid($app, $depName);
-        $details = $this->resolver->getClassDetails($app, $depName, 'Deployment');
+        $this->ensureConfigMapNameIsValid($app, $depName);
+        $details = $this->resolver->getClassDetails($app, $depName, 'ConfigMap');
         $this->createDirs($details);
         $code = $this->generateCode($details, $depName);
         $fileName = $details->fullFilePath();
@@ -38,7 +38,7 @@ class DeploymentGenerator
         return $fileName;
     }
 
-    private function generateCode(ClassDetails $details, string $deploymentName): string
+    private function generateCode(ClassDetails $details, string $configMapName): string
     {
         $templatesDir = dirname(__DIR__).'/../Resources/class-templates';
 
@@ -47,11 +47,11 @@ class DeploymentGenerator
         $variables = [
             'namespace' => $details->namespace(),
             'className' => $details->className(),
-            'deploymentName' => $deploymentName,
-            'fileName' => $deploymentName,
+            'configMapName' => $configMapName,
+            'fileName' => $configMapName,
         ];
         extract($variables);
-        require $templatesDir.DIRECTORY_SEPARATOR.'Deployment.tpl.php';
+        require $templatesDir.DIRECTORY_SEPARATOR.'ConfigMap.tpl.php';
 
         return ob_get_clean();
     }
@@ -63,7 +63,7 @@ class DeploymentGenerator
             @mkdir($depDir, 0777, true);
         } catch (Throwable $e) {
             throw new RuntimeException(
-                sprintf('Cannot generate Deployment directory "%s": %s', $depDir, $e->getMessage())
+                sprintf('Cannot generate ConfigMap directory "%s": %s', $depDir, $e->getMessage())
             );
         }
     }
@@ -79,13 +79,13 @@ class DeploymentGenerator
         return $this->appRegistry->get($appName);
     }
 
-    private function ensureDeploymentNameIsValid(AppInterface $app, string $depName): void
+    private function ensureConfigMapNameIsValid(AppInterface $app, string $depName): void
     {
-        $manifests = $this->manifestRegistry->byApp($app, DeploymentInterface::class);
+        $manifests = $this->manifestRegistry->byApp($app, ConfigMapInterface::class);
         foreach($manifests as $manifest) {
             if($manifest::name() === $depName) {
                 throw new InvalidArgumentException(
-                    sprintf('Deployment "%s" already exists', $depName)
+                    sprintf('ConfigMap "%s" already exists', $depName)
                 );
             }
         }
