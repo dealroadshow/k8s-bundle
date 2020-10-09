@@ -4,7 +4,7 @@ namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration;
 
 use InvalidArgumentException;
 
-class TemplateRender
+class TemplateRenderer
 {
     private string $templatesDir;
 

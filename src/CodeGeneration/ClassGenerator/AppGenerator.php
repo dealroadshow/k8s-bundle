@@ -3,8 +3,8 @@
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppClassDetailsResolver;
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\TemplateRender;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppResolver;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\TemplateRenderer;
 use Dealroadshow\Bundle\K8SBundle\Util\Dir;
 use Dealroadshow\K8S\Framework\Project\ProjectInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
@@ -17,18 +17,15 @@ class AppGenerator
 {
     private ProjectRegistry $projectRegistry;
     private AppRegistry $appRegistry;
-    private AppClassDetailsResolver $resolver;
-    /**
-     * @var TemplateRender
-     */
-    private TemplateRender $render;
+    private AppResolver $resolver;
+    private TemplateRenderer $renderer;
 
-    public function __construct(ProjectRegistry $projectRegistry, AppRegistry $appRegistry, AppClassDetailsResolver $resolver, TemplateRender $render)
+    public function __construct(ProjectRegistry $projectRegistry, AppRegistry $appRegistry, AppResolver $resolver, TemplateRenderer $renderer)
     {
         $this->projectRegistry = $projectRegistry;
         $this->appRegistry = $appRegistry;
         $this->resolver = $resolver;
-        $this->render = $render;
+        $this->renderer = $renderer;
     }
 
     public function generate(string $projectName, string $appName): string
@@ -50,7 +47,7 @@ class AppGenerator
 
     private function generateCode(ClassDetails $details, string $appName): string
     {
-        return $this->render->render('App.tpl.php', [
+        return $this->renderer->render('App.tpl.php', [
             'namespace' => $details->namespace(),
             'className' => $details->className(),
             'appName' => $appName,

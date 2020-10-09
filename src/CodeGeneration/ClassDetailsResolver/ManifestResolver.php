@@ -8,7 +8,7 @@ use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Project\ProjectInterface;
 use ReflectionObject;
 
-class ManifestClassDetailsResolver
+class ManifestResolver
 {
     private string $namespacePrefix;
 
@@ -19,7 +19,7 @@ class ManifestClassDetailsResolver
 
     public function getClassDetails(AppInterface $app, string $depName, string $suffix): ClassDetails
     {
-        $className = $this->className($depName, $suffix);
+        $className = $this->getClassName($depName, $suffix);
         $namespace = $this->getNamespace($app, $depName, $suffix);
         $dir = $this->getDir($app, $depName, $suffix);
         $fileName = $className.'.php';
@@ -27,9 +27,10 @@ class ManifestClassDetailsResolver
         return new ClassDetails($className, $namespace, $dir, $fileName);
     }
 
-    private function className(string $depName, string $suffix): string
+    private function getClassName(string $depName, string $suffix): string
     {
         $className = Str::asClassName($depName);
+
         return Str::withSuffix($className, $suffix);
     }
 
@@ -37,6 +38,7 @@ class ManifestClassDetailsResolver
     {
         $dirName = Str::asDirName($depName, $suffix);
         $rootNamespace = Str::asNamespace($app);
+
         return $rootNamespace.'\\Manifests\\'.$dirName;
     }
 
@@ -44,6 +46,7 @@ class ManifestClassDetailsResolver
     {
         $rootDir = Str::asDir($app);
         $dirName = Str::asDirName($depName, $suffix);
+
         return $rootDir.DIRECTORY_SEPARATOR.'Manifests'.DIRECTORY_SEPARATOR.$dirName;
     }
 }

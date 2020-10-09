@@ -7,7 +7,7 @@ use Dealroadshow\Bundle\K8SBundle\Util\Str;
 use Dealroadshow\K8S\Framework\Project\ProjectInterface;
 use ReflectionObject;
 
-class AppClassDetailsResolver
+class AppResolver
 {
     private const SUFFIX_APP = 'App';
     private const APPS_DIR_NAME = 'Apps';
@@ -21,7 +21,7 @@ class AppClassDetailsResolver
 
     public function getClassDetails(ProjectInterface $project, string $appName): ClassDetails
     {
-        $className = $this->className($appName);
+        $className = $this->getClassName($appName);
         $namespace = $this->getNamespace($project, $appName);
         $dir = $this->getDir($project, $appName);
         $fileName = $className.'.php';
@@ -29,7 +29,7 @@ class AppClassDetailsResolver
         return new ClassDetails($className, $namespace, $dir, $fileName);
     }
 
-    private function className(string $appName): string
+    private function getClassName(string $appName): string
     {
         $className = Str::asClassName($appName);
         return Str::withSuffix($className,self::SUFFIX_APP);

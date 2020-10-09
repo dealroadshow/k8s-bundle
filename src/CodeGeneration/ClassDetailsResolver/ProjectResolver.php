@@ -6,7 +6,7 @@ namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
 use Dealroadshow\Bundle\K8SBundle\Util\Str;
 
-class ProjectClassDetailsResolver
+class ProjectResolver
 {
     private const SUFFIX_PROJECT = 'Project';
 
@@ -21,7 +21,7 @@ class ProjectClassDetailsResolver
 
     public function getClassDetails(string $projectName): ClassDetails
     {
-        $className = $this->className($projectName);
+        $className = $this->getClassName($projectName);
         $namespace = $this->getNamespace($className);
         $dir = $this->getDir($className);
         $fileName = $className.'.php';
@@ -29,9 +29,10 @@ class ProjectClassDetailsResolver
         return new ClassDetails($className, $namespace, $dir, $fileName);
     }
 
-    private function className(string $projectName): string
+    private function getClassName(string $projectName): string
     {
         $className = Str::asClassName($projectName);
+
         return Str::withSuffix($className,self::SUFFIX_PROJECT);
     }
 

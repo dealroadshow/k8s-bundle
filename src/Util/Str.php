@@ -28,19 +28,22 @@ class Str
     public static function asDirName(string $str, string $suffix = null): string
     {
         $className = self::asClassName($str);
+
         return $suffix ? self::withoutSuffix($className, $suffix) : $className;
     }
 
-    public static function asNamespace($object): string
+    public static function asNamespace(object $object): string
     {
         $reflection = new ReflectionObject($object);
         $namespace = $reflection->getNamespaceName();
+
         return trim($namespace, '\\');
     }
 
-    public static function asDir($object): string
+    public static function asDir(object $object): string
     {
         $reflection = new ReflectionObject($object);
+
         return dirname($reflection->getFileName());
     }
 }
