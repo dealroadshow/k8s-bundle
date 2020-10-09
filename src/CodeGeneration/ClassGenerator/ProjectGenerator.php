@@ -4,6 +4,7 @@ namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ProjectClassDetailsResolver;
+use Dealroadshow\Bundle\K8SBundle\Util\Dir;
 use RuntimeException;
 use Throwable;
 
@@ -35,10 +36,8 @@ class ProjectGenerator
             );
         }
 
-        try {
-            @mkdir($projectDir, 0777, true);
-            @mkdir($appsDir, 0777, true);
-        } catch (Throwable $err) {}
+        Dir::create($projectDir);
+        Dir::create($appsDir);
 
         $code = $this->generateCode($details, $projectName);
         file_put_contents($fileName, $code);

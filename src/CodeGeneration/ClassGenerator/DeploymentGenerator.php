@@ -4,6 +4,7 @@ namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ManifestClassDetailsResolver;
+use Dealroadshow\Bundle\K8SBundle\Util\Dir;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\Deployment\DeploymentInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
@@ -30,7 +31,7 @@ class DeploymentGenerator
         $app = $this->getApp($appName);
         $this->ensureDeploymentNameIsValid($app, $depName);
         $details = $this->resolver->getClassDetails($app, $depName, 'Deployment');
-        $this->createDirs($details);
+        Dir::create($details->directory());
         $code = $this->generateCode($details, $depName);
         $fileName = $details->fullFilePath();
         file_put_contents($fileName, $code);
@@ -56,26 +57,8 @@ class DeploymentGenerator
         return ob_get_clean();
     }
 
-    private function createDirs(ClassDetails $details): void
-    {
-        $depDir = $details->directory();
-        try {
-            @mkdir($depDir, 0777, true);
-        } catch (Throwable $e) {
-            throw new RuntimeException(
-                sprintf('Cannot generate Deployment directory "%s": %s', $depDir, $e->getMessage())
-            );
-        }
-    }
-
     private function getApp(string $appName): AppInterface
     {
-        if (!$this->appRegistry->has($appName)) {
-            throw new InvalidArgumentException(
-                sprintf('App "%s" does not exist', $appName)
-            );
-        }
-
         return $this->appRegistry->get($appName);
     }
 
