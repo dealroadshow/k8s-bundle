@@ -27,6 +27,10 @@ services:
           - '../../../src/DependencyInjection'
           - '../../../src/Resources'
 
+    Dealroadshow\Bundle\K8SBundle\CodeGeneration\TemplateRender:
+        arguments:
+          - '%dealroadshow_k8s.class_templates_dir%'
+
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ProjectClassDetailsResolver:
         arguments:
           - '%dealroadshow_k8s.code_dir%'

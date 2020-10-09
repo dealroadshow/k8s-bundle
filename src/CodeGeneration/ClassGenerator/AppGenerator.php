@@ -4,6 +4,7 @@ namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppClassDetailsResolver;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\TemplateRender;
 use Dealroadshow\Bundle\K8SBundle\Util\Dir;
 use Dealroadshow\K8S\Framework\Project\ProjectInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
@@ -17,12 +18,17 @@ class AppGenerator
     private ProjectRegistry $projectRegistry;
     private AppRegistry $appRegistry;
     private AppClassDetailsResolver $resolver;
+    /**
+     * @var TemplateRender
+     */
+    private TemplateRender $render;
 
-    public function __construct(ProjectRegistry $projectRegistry, AppRegistry $appRegistry, AppClassDetailsResolver $resolver)
+    public function __construct(ProjectRegistry $projectRegistry, AppRegistry $appRegistry, AppClassDetailsResolver $resolver, TemplateRender $render)
     {
         $this->projectRegistry = $projectRegistry;
         $this->appRegistry = $appRegistry;
         $this->resolver = $resolver;
+        $this->render = $render;
     }
 
     public function generate(string $projectName, string $appName): string
@@ -44,19 +50,11 @@ class AppGenerator
 
     private function generateCode(ClassDetails $details, string $appName): string
     {
-        $templatesDir = dirname(__DIR__).'/../Resources/class-templates';
-
-        ob_get_clean();
-        ob_start();
-        $variables = [
+        return $this->render->render('App.tpl.php', [
             'namespace' => $details->namespace(),
             'className' => $details->className(),
             'appName' => $appName,
-        ];
-        extract($variables);
-        require $templatesDir.DIRECTORY_SEPARATOR.'App.tpl.php';
-
-        return ob_get_clean();
+        ]);
     }
 
     private function getProject(string $projectName): ProjectInterface
