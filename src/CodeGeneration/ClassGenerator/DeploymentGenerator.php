@@ -83,9 +83,9 @@ class DeploymentGenerator
 
     private function ensureDeploymentNameIsValid(AppInterface $app, string $depName): void
     {
-        $manifests = $this->manifestRegistry->byApp($app);
+        $manifests = $this->manifestRegistry->byApp($app, DeploymentInterface::class);
         foreach($manifests as $manifest) {
-            if($manifest instanceof DeploymentInterface && $manifest::name() === $depName) {
+            if($manifest::name() === $depName) {
                 throw new InvalidArgumentException(
                     sprintf('Deployment "%s" already exists', $depName)
                 );
