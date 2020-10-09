@@ -3,7 +3,9 @@
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppResolver;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\TemplateRenderer;
+use Dealroadshow\Bundle\K8SBundle\Util\Dir;
 use Dealroadshow\K8S\Framework\Project\ProjectInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Registry\ProjectRegistry;
@@ -15,21 +17,27 @@ class AppGenerator
 {
     private ProjectRegistry $projectRegistry;
     private AppRegistry $appRegistry;
-    private ClassDetailsResolver $resolver;
+    private AppResolver $resolver;
+    private TemplateRenderer $renderer;
 
-    public function __construct(ProjectRegistry $projectRegistry, AppRegistry $appRegistry, ClassDetailsResolver $resolver)
+    public function __construct(ProjectRegistry $projectRegistry, AppRegistry $appRegistry, AppResolver $resolver, TemplateRenderer $renderer)
     {
         $this->projectRegistry = $projectRegistry;
         $this->appRegistry = $appRegistry;
         $this->resolver = $resolver;
+        $this->renderer = $renderer;
     }
 
     public function generate(string $projectName, string $appName): string
     {
         $this->ensureAppNameIsValid($appName);
         $project = $this->getProject($projectName);
-        $details = $this->resolver->forApp($project, $appName);
-        $this->createAppDirs($details);
+        $details = $this->resolver->getClassDetails($project, $appName);
+        $appDir = $details->directory();
+
+        Dir::create($appDir);
+        Dir::create($appDir.DIRECTORY_SEPARATOR.'Manifests');
+
         $code = $this->generateCode($details, $appName);
         $fileName = $details->fullFilePath();
         file_put_contents($fileName, $code);
@@ -39,42 +47,15 @@ class AppGenerator
 
     private function generateCode(ClassDetails $details, string $appName): string
     {
-        $templatesDir = dirname(__DIR__).'/../Resources/class-templates';
-
-        ob_get_clean();
-        ob_start();
-        $variables = [
+        return $this->renderer->render('App.tpl.php', [
             'namespace' => $details->namespace(),
             'className' => $details->className(),
             'appName' => $appName,
-        ];
-        extract($variables);
-        require $templatesDir.DIRECTORY_SEPARATOR.'App.tpl.php';
-
-        return ob_get_clean();
-    }
-
-    private function createAppDirs(ClassDetails $details): void
-    {
-        $appDir = $details->directory();
-        try {
-            @mkdir($appDir, 0777, true);
-            @mkdir($appDir.DIRECTORY_SEPARATOR.'Manifests');
-        } catch (Throwable $e) {
-            throw new RuntimeException(
-                sprintf('Cannot generate App directory "%s": %s', $appDir, $e->getMessage())
-            );
-        }
+        ]);
     }
 
     private function getProject(string $projectName): ProjectInterface
     {
-        if (!$this->projectRegistry->has($projectName)) {
-            throw new InvalidArgumentException(
-                sprintf('Project "%s" does not exist', $projectName)
-            );
-        }
-
         return $this->projectRegistry->get($projectName);
     }
 

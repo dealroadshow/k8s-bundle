@@ -31,6 +31,7 @@ class DealroadshowK8SExtension extends ConfigurableExtension
 
         $this->setupCodeDir($config, $container);
         $this->setupManifestsDir($config, $container);
+        $container->setParameter('dealroadshow_k8s.class_templates_dir', __DIR__.'/../Resources/class-templates');
         $container->setParameter('dealroadshow_k8s.root_namespace', $config['root_namespace']);
 
         $this->setupNamespacePrefix($container);

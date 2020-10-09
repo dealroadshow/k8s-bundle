@@ -3,22 +3,26 @@
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ProjectResolver;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\TemplateRenderer;
+use Dealroadshow\Bundle\K8SBundle\Util\Dir;
 use RuntimeException;
 use Throwable;
 
 class ProjectGenerator
 {
-    private ClassDetailsResolver $resolver;
+    private ProjectResolver $resolver;
+    private TemplateRenderer $renderer;
 
-    public function __construct(ClassDetailsResolver $resolver)
+    public function __construct(ProjectResolver $resolver, TemplateRenderer $renderer)
     {
         $this->resolver = $resolver;
+        $this->renderer = $renderer;
     }
 
     public function generate(string $projectName): string
     {
-        $details = $this->resolver->forProject($projectName);
+        $details = $this->resolver->getClassDetails($projectName);
         $className = $details->className();
         $namespace = $details->namespace();
         $projectDir = $details->directory();
@@ -35,10 +39,8 @@ class ProjectGenerator
             );
         }
 
-        try {
-            @mkdir($projectDir, 0777, true);
-            @mkdir($appsDir, 0777, true);
-        } catch (Throwable $err) {}
+        Dir::create($projectDir);
+        Dir::create($appsDir);
 
         $code = $this->generateCode($details, $projectName);
         file_put_contents($fileName, $code);
@@ -48,18 +50,10 @@ class ProjectGenerator
 
     private function generateCode(ClassDetails $details, string $projectName): string
     {
-        $templatesDir = dirname(__DIR__).'/../Resources/class-templates';
-
-        ob_get_clean();
-        ob_start();
-        $variables = [
+        return $this->renderer->render('Project.tpl.php', [
             'namespace' => $details->namespace(),
             'className' => $details->className(),
             'projectName' => $projectName,
-        ];
-        extract($variables);
-        require $templatesDir.DIRECTORY_SEPARATOR.'Project.tpl.php';
-
-        return ob_get_clean();
+        ]);
     }
 }

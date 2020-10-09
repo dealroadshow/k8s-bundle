@@ -27,10 +27,22 @@ services:
           - '../../../src/DependencyInjection'
           - '../../../src/Resources'
 
-    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver:
+    Dealroadshow\Bundle\K8SBundle\CodeGeneration\TemplateRenderer:
+        arguments:
+          - '%dealroadshow_k8s.class_templates_dir%'
+
+    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ProjectResolver:
         arguments:
           - '%dealroadshow_k8s.code_dir%'
           - '%dealroadshow_k8s.namespace_prefix%'
+
+    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ManifestResolver:
+        arguments:
+          - '%dealroadshow_k8s.namespace_prefix%'
+
+    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppResolver:
+      arguments:
+        - '%dealroadshow_k8s.namespace_prefix%'
 
     Dealroadshow\Bundle\K8SBundle\Command\DumpProjectCommand:
         arguments:
