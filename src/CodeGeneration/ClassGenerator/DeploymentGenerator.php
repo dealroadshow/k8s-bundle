@@ -55,13 +55,13 @@ class DeploymentGenerator implements ManifestGeneratorInterface
         return $this->appRegistry->get($appName);
     }
 
-    private function ensureDeploymentNameIsValid(AppInterface $app, string $depName): void
+    private function ensureDeploymentNameIsValid(AppInterface $app, string $deploymentName): void
     {
         $manifests = $this->manifestRegistry->byApp($app, DeploymentInterface::class);
         foreach($manifests as $manifest) {
-            if($manifest::name() === $depName) {
+            if($manifest::name() === $deploymentName) {
                 throw new InvalidArgumentException(
-                    sprintf('Deployment "%s" already exists', $depName)
+                    sprintf('Deployment "%s" already exists', $deploymentName)
                 );
             }
         }

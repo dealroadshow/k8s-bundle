@@ -55,13 +55,13 @@ class JobGenerator implements ManifestGeneratorInterface
         return $this->appRegistry->get($appName);
     }
 
-    private function ensureJobNameIsValid(AppInterface $app, string $depName): void
+    private function ensureJobNameIsValid(AppInterface $app, string $jobName): void
     {
         $manifests = $this->manifestRegistry->byApp($app, JobInterface::class);
         foreach($manifests as $manifest) {
-            if($manifest::name() === $depName) {
+            if($manifest::name() === $jobName) {
                 throw new InvalidArgumentException(
-                    sprintf('Job "%s" already exists', $depName)
+                    sprintf('Job "%s" already exists', $jobName)
                 );
             }
         }
