@@ -4,15 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59268825d732c0582661c9d9d2e8236e",
+    "content-hash": "bc10b45e3dfb87491445363758c8b853",
     "packages": [
         {
-            "name": "dealroadshow/k8s-framework-dev",
-            "version": "dev-job_maker",
+            "name": "dealroadshow/k8s-framework",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dealroadshow/k8s-framework.git",
+                "reference": "6c34023d44d308b24e266c15c3722b22accea8c6"
+            },
             "dist": {
-                "type": "path",
-                "url": "../k8s-framework",
-                "reference": "da9d444d2913114aad95047091d759809a5287b1"
+                "type": "zip",
+                "url": "https://api.github.com/repos/dealroadshow/k8s-framework/zipball/6c34023d44d308b24e266c15c3722b22accea8c6",
+                "reference": "6c34023d44d308b24e266c15c3722b22accea8c6",
+                "shasum": ""
             },
             "require": {
                 "dealroadshow/k8s-resources": "^1.16 || ^1.17 || ^1.18 || ^1.19",
@@ -27,6 +33,7 @@
                     "Dealroadshow\\K8S\\Framework\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -37,9 +44,7 @@
                 }
             ],
             "description": "Define Kubernetes manifests in PHP",
-            "transport-options": {
-                "relative": true
-            }
+            "time": "2020-10-09T10:28:52+00:00"
         },
         {
             "name": "dealroadshow/k8s-resources",
@@ -1908,9 +1913,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "dealroadshow/k8s-framework-dev": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
