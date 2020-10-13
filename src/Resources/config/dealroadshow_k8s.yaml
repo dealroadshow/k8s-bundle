@@ -47,7 +47,7 @@ services:
 
     Dealroadshow\Bundle\K8SBundle\Command\DumpProjectCommand:
         arguments:
-          $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
+            $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
 
     Dealroadshow\K8S\Framework\Core\ManifestProcessor:
         arguments:
@@ -64,3 +64,9 @@ services:
     Dealroadshow\K8S\Framework\Registry\ProjectRegistry:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.project' }
+
+    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ContextRegistry:
+        arguments:
+          - !tagged_iterator { tag: 'dealroadshow_k8s.manifest_generator.context' }
+
+

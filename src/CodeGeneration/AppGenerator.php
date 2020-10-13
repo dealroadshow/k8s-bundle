@@ -1,17 +1,13 @@
 <?php
 
-namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator;
+namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration;
 
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppResolver;
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\TemplateRenderer;
 use Dealroadshow\Bundle\K8SBundle\Util\Dir;
 use Dealroadshow\K8S\Framework\Project\ProjectInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Registry\ProjectRegistry;
 use InvalidArgumentException;
-use RuntimeException;
-use Throwable;
 
 class AppGenerator
 {

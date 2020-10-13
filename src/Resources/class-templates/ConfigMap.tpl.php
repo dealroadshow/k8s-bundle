@@ -10,7 +10,7 @@ class <?= $className; ?> extends AbstractConfigMap
 {
     public static function name(): string
     {
-        return '<?= $configMapName; ?>';
+        return '<?= $manifestName; ?>';
     }
 
     public function fileNameWithoutExtension(): string

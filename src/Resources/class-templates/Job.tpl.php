@@ -11,7 +11,7 @@ class <?= $className; ?> extends AbstractJob
 {
     public static function name(): string
     {
-        return '<?= $jobName; ?>';
+        return '<?= $manifestName; ?>';
     }
 
     public function fileNameWithoutExtension(): string

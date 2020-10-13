@@ -2,7 +2,7 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator\AppGenerator;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\AppGenerator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
