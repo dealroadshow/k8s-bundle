@@ -7,12 +7,12 @@ use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ManifestRe
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\TemplateRenderer;
 use Dealroadshow\Bundle\K8SBundle\Util\Dir;
 use Dealroadshow\K8S\Framework\App\AppInterface;
-use Dealroadshow\K8S\Framework\Core\Deployment\DeploymentInterface;
+use Dealroadshow\K8S\Framework\Core\Job\JobInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
 use InvalidArgumentException;
 
-class DeploymentGenerator implements ManifestGeneratorInterface
+class JobGenerator implements ManifestGeneratorInterface
 {
     private ManifestResolver $resolver;
     private ManifestRegistry $manifestRegistry;
@@ -30,8 +30,8 @@ class DeploymentGenerator implements ManifestGeneratorInterface
     public function generate(string $appName, string $depName): string
     {
         $app = $this->getApp($appName);
-        $this->ensureDeploymentNameIsValid($app, $depName);
-        $details = $this->resolver->getClassDetails($app, $depName, 'Deployment');
+        $this->ensureJobNameIsValid($app, $depName);
+        $details = $this->resolver->getClassDetails($app, $depName, 'Job');
         Dir::create($details->directory());
         $code = $this->generateCode($details, $depName);
         $fileName = $details->fullFilePath();
@@ -40,13 +40,13 @@ class DeploymentGenerator implements ManifestGeneratorInterface
         return $fileName;
     }
 
-    private function generateCode(ClassDetails $details, string $deploymentName): string
+    private function generateCode(ClassDetails $details, string $jobName): string
     {
-        return $this->renderer->render('Deployment.tpl.php', [
+        return $this->renderer->render('Job.tpl.php', [
             'namespace' => $details->namespace(),
             'className' => $details->className(),
-            'deploymentName' => $deploymentName,
-            'fileName' => $deploymentName,
+            'jobName' => $jobName,
+            'fileName' => $jobName,
         ]);
     }
 
@@ -55,13 +55,13 @@ class DeploymentGenerator implements ManifestGeneratorInterface
         return $this->appRegistry->get($appName);
     }
 
-    private function ensureDeploymentNameIsValid(AppInterface $app, string $depName): void
+    private function ensureJobNameIsValid(AppInterface $app, string $depName): void
     {
-        $manifests = $this->manifestRegistry->byApp($app, DeploymentInterface::class);
+        $manifests = $this->manifestRegistry->byApp($app, JobInterface::class);
         foreach($manifests as $manifest) {
             if($manifest::name() === $depName) {
                 throw new InvalidArgumentException(
-                    sprintf('Deployment "%s" already exists', $depName)
+                    sprintf('Job "%s" already exists', $depName)
                 );
             }
         }

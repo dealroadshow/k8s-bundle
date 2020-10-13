@@ -4,21 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06a103bfeacb94611c497de5eb20304a",
+    "content-hash": "59268825d732c0582661c9d9d2e8236e",
     "packages": [
         {
-            "name": "dealroadshow/k8s-framework",
-            "version": "v0.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dealroadshow/k8s-framework.git",
-                "reference": "6c34023d44d308b24e266c15c3722b22accea8c6"
-            },
+            "name": "dealroadshow/k8s-framework-dev",
+            "version": "dev-job_maker",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dealroadshow/k8s-framework/zipball/6c34023d44d308b24e266c15c3722b22accea8c6",
-                "reference": "6c34023d44d308b24e266c15c3722b22accea8c6",
-                "shasum": ""
+                "type": "path",
+                "url": "../k8s-framework",
+                "reference": "da9d444d2913114aad95047091d759809a5287b1"
             },
             "require": {
                 "dealroadshow/k8s-resources": "^1.16 || ^1.17 || ^1.18 || ^1.19",
@@ -33,7 +27,6 @@
                     "Dealroadshow\\K8S\\Framework\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -44,7 +37,9 @@
                 }
             ],
             "description": "Define Kubernetes manifests in PHP",
-            "time": "2020-10-09T10:28:52+00:00"
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "dealroadshow/k8s-resources",
@@ -1913,7 +1908,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "dealroadshow/k8s-framework-dev": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
