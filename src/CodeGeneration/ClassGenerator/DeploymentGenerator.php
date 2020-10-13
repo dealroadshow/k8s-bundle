@@ -27,13 +27,13 @@ class DeploymentGenerator implements ManifestGeneratorInterface
         $this->renderer = $renderer;
     }
 
-    public function generate(string $appName, string $depName): string
+    public function generate(string $appName, string $deploymentName): string
     {
         $app = $this->getApp($appName);
-        $this->ensureDeploymentNameIsValid($app, $depName);
-        $details = $this->resolver->getClassDetails($app, $depName, 'Deployment');
+        $this->ensureDeploymentNameIsValid($app, $deploymentName);
+        $details = $this->resolver->getClassDetails($app, $deploymentName, 'Deployment');
         Dir::create($details->directory());
-        $code = $this->generateCode($details, $depName);
+        $code = $this->generateCode($details, $deploymentName);
         $fileName = $details->fullFilePath();
         file_put_contents($fileName, $code);
 

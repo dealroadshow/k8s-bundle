@@ -27,13 +27,13 @@ class JobGenerator implements ManifestGeneratorInterface
         $this->renderer = $renderer;
     }
 
-    public function generate(string $appName, string $depName): string
+    public function generate(string $appName, string $jobName): string
     {
         $app = $this->getApp($appName);
-        $this->ensureJobNameIsValid($app, $depName);
-        $details = $this->resolver->getClassDetails($app, $depName, 'Job');
+        $this->ensureJobNameIsValid($app, $jobName);
+        $details = $this->resolver->getClassDetails($app, $jobName, 'Job');
         Dir::create($details->directory());
-        $code = $this->generateCode($details, $depName);
+        $code = $this->generateCode($details, $jobName);
         $fileName = $details->fullFilePath();
         file_put_contents($fileName, $code);
 
