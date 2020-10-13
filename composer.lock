@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc10b45e3dfb87491445363758c8b853",
+    "content-hash": "06a103bfeacb94611c497de5eb20304a",
     "packages": [
         {
             "name": "dealroadshow/k8s-framework",
