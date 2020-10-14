@@ -14,8 +14,8 @@ class Configuration implements ConfigurationInterface
 
         $root
             ->children()
-                ->scalarNode('code_dir')->defaultValue('K8S')->end()
-                ->scalarNode('root_namespace')->defaultValue('App\\')->end()
+                ->scalarNode('code_dir')->defaultNull()->end()
+                ->scalarNode('namespace_prefix')->defaultValue('App\\K8S\\')->end()
                 ->scalarNode('manifests_dir')->defaultNull()->end()
             ->end();
 

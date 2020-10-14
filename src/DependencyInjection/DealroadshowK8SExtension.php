@@ -4,7 +4,7 @@ namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\Context\ContextInterface;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
-use LogicException;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -34,9 +34,7 @@ class DealroadshowK8SExtension extends ConfigurableExtension
         $this->setupCodeDir($config, $container);
         $this->setupManifestsDir($config, $container);
         $container->setParameter('dealroadshow_k8s.class_templates_dir', __DIR__.'/../Resources/class-templates');
-        $container->setParameter('dealroadshow_k8s.root_namespace', $config['root_namespace']);
-
-        $this->setupNamespacePrefix($container);
+        $container->setParameter('dealroadshow_k8s.namespace_prefix', $config['namespace_prefix']);
     }
 
     public function getAlias()
@@ -64,9 +62,14 @@ class DealroadshowK8SExtension extends ConfigurableExtension
 
     private function setupCodeDir(array $config, ContainerBuilder $container): void
     {
-        $codeDir = trim($config['code_dir'], DIRECTORY_SEPARATOR);
-        $srcDir = $this->getSrcDir($container);
-        $codeDir = $codeDir ? $srcDir.DIRECTORY_SEPARATOR.$codeDir : $srcDir;
+        $codeDir = $config['code_dir'] ?? null;
+        if (null === $codeDir) {
+            $srcDir = $this->getSrcDir($container);
+            if (!file_exists($srcDir)) {
+                throw $this->createExceptionForSrcDir('dealroadshow_k8s.code_dir', $srcDir);
+            }
+            $codeDir = $srcDir.DIRECTORY_SEPARATOR.'K8S';
+        }
         if (!file_exists($codeDir)) {
             try {
                 @mkdir($codeDir, 0700, true);
@@ -79,46 +82,37 @@ class DealroadshowK8SExtension extends ConfigurableExtension
     {
         $manifestsDir = $config['manifests_dir'] ?? null;
         if (null === $manifestsDir) {
-            $resourcesDir = $this->getSrcDir($container).DIRECTORY_SEPARATOR.'Resources';
-            $manifestsDir = $resourcesDir.DIRECTORY_SEPARATOR.'k8s-manifests';
-            if (!file_exists($manifestsDir)) {
-                @mkdir($manifestsDir, 0777, true);
+            $srcDir = $this->getSrcDir($container);
+            if (!file_exists($srcDir)) {
+                throw $this->createExceptionForSrcDir(
+                    'dealroadshow_k8s.manifests_dir',
+                    $srcDir
+                );
             }
+            $manifestsDir = $srcDir.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'k8s-manifests';
+        }
+        if (!file_exists($manifestsDir)) {
+            @mkdir($manifestsDir, 0777, true);
         }
         $container->setParameter('dealroadshow_k8s.manifests_dir', $manifestsDir);
-    }
-
-    private function setupNamespacePrefix(ContainerBuilder $container): void
-    {
-        $srcDir = $this->getSrcDir($container);
-        $codeDir = $container->getParameter('dealroadshow_k8s.code_dir');
-        if (!str_starts_with($codeDir, $srcDir)) {
-            throw new LogicException(
-                sprintf(
-                    'Your k8s code dir must reside in your source dir - "%s", but configured path is "%s"',
-                    $srcDir,
-                    $codeDir
-                )
-            );
-        }
-
-        $relativeCodePath = substr($codeDir, mb_strlen($srcDir));
-        $relativeCodePath = trim($relativeCodePath, DIRECTORY_SEPARATOR);
-
-        $rootNamespace = $container->getParameter('dealroadshow_k8s.root_namespace');
-        $rootNamespace = trim($rootNamespace, '\\');
-
-        if ($relativeCodePath) {
-            $namespacePrefix = $rootNamespace.'\\'.str_replace(DIRECTORY_SEPARATOR, '\\', $relativeCodePath);
-        } else {
-            $namespacePrefix = $rootNamespace;
-        }
-
-        $container->setParameter('dealroadshow_k8s.namespace_prefix', $namespacePrefix);
     }
 
     private function getSrcDir(ContainerBuilder $container): string
     {
         return $container->getParameter('kernel.project_dir').DIRECTORY_SEPARATOR.'src';
+    }
+
+    private function createExceptionForSrcDir(string $paramName, string $srcDir): InvalidConfigurationException
+    {
+        $errMessage = <<<ERR
+        "$paramName" config value was not specified.
+        Fallback value requires %kernel.project_dir%/src dir, which was resolved 
+        to "$srcDir", but this directory does not exist. Please configure "$paramName" 
+        config value explicitly as an absolute path or use standard "src" directory
+        for your code.
+        ERR;
+        $errMessage = str_replace(PHP_EOL, ' ', $errMessage);
+
+        return new InvalidConfigurationException($errMessage);
     }
 }
