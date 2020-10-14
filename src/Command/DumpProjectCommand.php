@@ -41,6 +41,9 @@ class DumpProjectCommand extends Command
                 InputArgument::REQUIRED,
                 'Name of a project to dump'
             )
+            ->setAliases([
+                'k8s:dump:project',
+            ])
         ;
     }
 
