@@ -36,11 +36,11 @@ class ManifestGenerator
         return $fileName;
     }
 
-    protected function generateCode(ClassDetails $details, string $jobName, ContextInterface $context): string
+    protected function generateCode(ClassDetails $details, string $manifestName, ContextInterface $context): string
     {
         return $this->renderer->render(
             $context->templateName(),
-            $context->templateVariables($details, $jobName)
+            $context->templateVariables($details, $manifestName)
         );
     }
 }

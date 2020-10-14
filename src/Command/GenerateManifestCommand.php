@@ -47,11 +47,11 @@ class GenerateManifestCommand extends Command
     public function configure()
     {
         $this
-            ->setDescription('Creates a new Job skeleton')
+            ->setDescription('Creates a new Manifest skeleton')
             ->addArgument(
                 self::ARGUMENT_MANIFEST_NAME,
                 InputArgument::REQUIRED,
-                'Manifest name without type suffix (e.g. <fg=yellow>users-sync</>, but not <fg=red>users-sync-job</>)'
+                'Manifest name without type suffix (e.g. <fg=yellow>users-sync</>, but not <fg=red>users-sync</>)'
             )
             ->addArgument(
                 self::ARGUMENT_MANIFEST_TYPE,
@@ -61,7 +61,7 @@ class GenerateManifestCommand extends Command
             ->addArgument(
                 self::ARGUMENT_APP_NAME,
                 InputArgument::OPTIONAL,
-                'App name without "app" suffix (e.g. <fg=yellow>cron-jobs</>)'
+                'App name without "app" suffix (e.g. <fg=yellow>drs-cron</>)'
             )
         ;
     }
@@ -78,7 +78,7 @@ class GenerateManifestCommand extends Command
             $io->error($e->getMessage());
             $io->newLine();
 
-            return 1;
+            return self::FAILURE;
         }
 
         try {
@@ -87,7 +87,7 @@ class GenerateManifestCommand extends Command
             $io->error($e->getMessage());
             $io->newLine();
 
-            return 1;
+            return self::FAILURE;
         }
 
         $io->success(
@@ -100,7 +100,7 @@ class GenerateManifestCommand extends Command
         );
         $io->newLine();
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getApp(InputInterface $input, SymfonyStyle $io): AppInterface
@@ -114,7 +114,6 @@ class GenerateManifestCommand extends Command
             );
             $appName = $io->askQuestion($question);
         }
-
 
         if (!$this->appRegistry->has($appName)) {
             throw new InvalidArgumentException(sprintf('App "%s" does not exist', $appName));
