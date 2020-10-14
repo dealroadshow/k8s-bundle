@@ -66,10 +66,10 @@ class DealroadshowK8SExtension extends ConfigurableExtension
     {
         $codeDir = trim($config['code_dir'], DIRECTORY_SEPARATOR);
         $srcDir = $this->getSrcDir($container);
-        $codeDir = $srcDir.DIRECTORY_SEPARATOR.$codeDir;
+        $codeDir = $codeDir ? $srcDir.DIRECTORY_SEPARATOR.$codeDir : $srcDir;
         if (!file_exists($codeDir)) {
             try {
-                @mkdir($codeDir, 0777, true);
+                @mkdir($codeDir, 0700, true);
             } catch (Throwable $e) {}
         }
         $container->setParameter('dealroadshow_k8s.code_dir', $codeDir);
@@ -108,7 +108,11 @@ class DealroadshowK8SExtension extends ConfigurableExtension
         $rootNamespace = $container->getParameter('dealroadshow_k8s.root_namespace');
         $rootNamespace = trim($rootNamespace, '\\');
 
-        $namespacePrefix = $rootNamespace.'\\'.str_replace(DIRECTORY_SEPARATOR, '\\', $relativeCodePath);
+        if ($relativeCodePath) {
+            $namespacePrefix = $rootNamespace.'\\'.str_replace(DIRECTORY_SEPARATOR, '\\', $relativeCodePath);
+        } else {
+            $namespacePrefix = $rootNamespace;
+        }
 
         $container->setParameter('dealroadshow_k8s.namespace_prefix', $namespacePrefix);
     }
