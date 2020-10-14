@@ -8,7 +8,7 @@
         "symfony/dependency-injection": ">=5.1",
         "symfony/config": ">=5.1",
         "symfony/http-kernel": ">=5.1",
-        "dealroadshow/k8s-framework": ">=0.3",
+        "dealroadshow/k8s-framework": ">=0.4",
         "symfony/polyfill-php80": ">=1.18"
     },
     "license": "MIT",

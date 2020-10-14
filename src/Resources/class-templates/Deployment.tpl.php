@@ -16,16 +16,12 @@ class <?= $className; ?> extends AbstractDeployment
 
     public static function name(): string
     {
-        return '<?= $deploymentName; ?>';
+        return '<?= $manifestName; ?>';
     }
 
     public function fileNameWithoutExtension(): string
     {
         return '<?= $fileName; ?>';
-    }
-
-    public function configureMeta(MetadataConfigurator $meta): void
-    {
     }
 
     public function containers(PodContainers $containers): void

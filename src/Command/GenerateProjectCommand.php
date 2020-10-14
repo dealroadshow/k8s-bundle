@@ -2,7 +2,7 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator\ProjectGenerator;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ProjectGenerator;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

@@ -1,13 +1,10 @@
 <?php
 
-namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassGenerator;
+namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration;
 
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ProjectResolver;
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\TemplateRenderer;
 use Dealroadshow\Bundle\K8SBundle\Util\Dir;
 use RuntimeException;
-use Throwable;
 
 class ProjectGenerator
 {

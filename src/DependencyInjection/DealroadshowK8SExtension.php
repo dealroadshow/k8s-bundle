@@ -2,6 +2,8 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\Context\ContextInterface;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
 use LogicException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -55,6 +57,9 @@ class DealroadshowK8SExtension extends ConfigurableExtension
 
         $container->registerForAutoconfiguration(ResourceMakerInterface::class)
             ->addTag(ResourceMakersPass::RESOURCE_MAKER_TAG);
+
+        $container->registerForAutoconfiguration(ContextInterface::class)
+            ->addTag(ManifestGeneratorContextsPass::CONTEXT_TAG);
     }
 
     private function setupCodeDir(array $config, ContainerBuilder $container): void

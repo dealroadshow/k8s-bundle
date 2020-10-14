@@ -10,7 +10,7 @@ class <?= $className; ?> extends AbstractSecret
 {
     public static function name(): string
     {
-        return '<?= $secretName; ?>';
+        return '<?= $manifestName; ?>';
     }
 
     public function fileNameWithoutExtension(): string
@@ -26,7 +26,7 @@ class <?= $className; ?> extends AbstractSecret
     {
     }
 
-    public function binaryData(StringMap $binaryData): void
+    public function stringData(StringMap $binaryData): void
     {
     }
 }

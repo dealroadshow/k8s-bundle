@@ -5,8 +5,6 @@ namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
 use Dealroadshow\Bundle\K8SBundle\Util\Str;
 use Dealroadshow\K8S\Framework\App\AppInterface;
-use Dealroadshow\K8S\Framework\Project\ProjectInterface;
-use ReflectionObject;
 
 class ManifestResolver
 {
@@ -17,36 +15,27 @@ class ManifestResolver
         $this->namespacePrefix = trim($namespacePrefix, '\\');
     }
 
-    public function getClassDetails(AppInterface $app, string $depName, string $suffix): ClassDetails
+    /**
+     * @param AppInterface $app
+     * @param string       $manifestName
+     * @param string       $suffix
+     * @param bool         $useDedicatedDir Whether to create a dir for this manifest (like dir "Example" for "ExampleDeployment")
+     *
+     * @return ClassDetails
+     */
+    public function getClassDetails(AppInterface $app, string $manifestName, string $suffix, bool $useDedicatedDir = false): ClassDetails
     {
-        $className = $this->getClassName($depName, $suffix);
-        $namespace = $this->getNamespace($app, $depName, $suffix);
-        $dir = $this->getDir($app, $depName, $suffix);
+        $className = Str::withSuffix(Str::asClassName($manifestName), $suffix);
+        $namespace = Str::asNamespace($app).'\\Manifests';
+        $dir = Str::asDir($app).DIRECTORY_SEPARATOR.'Manifests';
         $fileName = $className.'.php';
 
+        if ($useDedicatedDir) {
+            $dirName = Str::asDirName($manifestName, $suffix);
+            $namespace .= '\\'.$dirName;
+            $dir .= DIRECTORY_SEPARATOR.$dirName;
+        }
+
         return new ClassDetails($className, $namespace, $dir, $fileName);
-    }
-
-    private function getClassName(string $depName, string $suffix): string
-    {
-        $className = Str::asClassName($depName);
-
-        return Str::withSuffix($className, $suffix);
-    }
-
-    private function getNamespace(AppInterface $app, string $depName, string $suffix): string
-    {
-        $dirName = Str::asDirName($depName, $suffix);
-        $rootNamespace = Str::asNamespace($app);
-
-        return $rootNamespace.'\\Manifests\\'.$dirName;
-    }
-
-    private function getDir(AppInterface $app, string $depName, string $suffix): string
-    {
-        $rootDir = Str::asDir($app);
-        $dirName = Str::asDirName($depName, $suffix);
-
-        return $rootDir.DIRECTORY_SEPARATOR.'Manifests'.DIRECTORY_SEPARATOR.$dirName;
     }
 }

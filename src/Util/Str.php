@@ -2,6 +2,7 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Util;
 
+use InvalidArgumentException;
 use ReflectionObject;
 
 class Str
@@ -45,5 +46,34 @@ class Str
         $reflection = new ReflectionObject($object);
 
         return dirname($reflection->getFileName());
+    }
+
+    public static function asDNSSubdomain(string $str): string
+    {
+        $camel2dash = strtolower(
+            preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $str)
+        );
+        $valid = preg_replace('/([^\w\-]|[_])+/', '', $camel2dash);
+
+        if (0 === strlen($valid)) {
+            throw new InvalidArgumentException(
+                sprintf('String "%s" cannot be converted DNS subdomain representation', $str)
+            );
+        }
+        if (253 < strlen($valid)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'String "%s" DNS subdomain representation is too long (must be less than 253 characters)',
+                    $str
+                )
+            );
+        }
+
+        return $valid;
+    }
+
+    public static function isValidDNSSubdomain(string $str): bool
+    {
+        return 253 > strlen($str) && 0 !== preg_match('/^[a-z0-9]+[a-z0-9\-.]+[a-z0-9]$/', $str);
     }
 }
