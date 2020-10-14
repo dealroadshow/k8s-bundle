@@ -20,19 +20,18 @@ use Throwable;
 
 class GenerateManifestCommand extends Command
 {
+    use ClearCacheTrait;
+
     private const ARGUMENT_APP_NAME      = 'app-name';
     private const ARGUMENT_MANIFEST_TYPE = 'manifest-type';
     private const ARGUMENT_MANIFEST_NAME = 'manifest-name';
 
-    private ManifestGenerator $generator;
     private AppRegistry $appRegistry;
+    private ManifestRegistry $manifestRegistry;
     private ContextRegistry $contextRegistry;
+    private ManifestGenerator $generator;
 
     protected static $defaultName = 'dealroadshow_k8s:generate:manifest';
-    /**
-     * @var ManifestRegistry
-     */
-    private ManifestRegistry $manifestRegistry;
 
     public function __construct(AppRegistry $appRegistry, ManifestRegistry $manifestRegistry, ContextRegistry $contextRegistry, ManifestGenerator $generator)
     {
@@ -63,6 +62,11 @@ class GenerateManifestCommand extends Command
                 InputArgument::OPTIONAL,
                 'App name without "app" suffix (e.g. <fg=yellow>drs-cron</>)'
             )
+            ->setAliases([
+                'k8s:generate:manifest',
+                'k8s:gen:manifest',
+                'k8s:gen:man',
+            ])
         ;
     }
 
@@ -83,6 +87,7 @@ class GenerateManifestCommand extends Command
 
         try {
             $fileName = $this->generator->generate($name, $context, $app);
+            $this->clearCache();
         } catch (Throwable $e) {
             $io->error($e->getMessage());
             $io->newLine();

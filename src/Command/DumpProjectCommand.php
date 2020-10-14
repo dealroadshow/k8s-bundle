@@ -2,6 +2,7 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
+use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -48,7 +49,7 @@ class DumpProjectCommand extends Command
         $io = new SymfonyStyle($input, $output);
         try {
             $project = $this->getProject($input);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $io->error($e->getMessage());
             $io->newLine();
 
@@ -57,6 +58,9 @@ class DumpProjectCommand extends Command
         $this->processor->process($project);
         $projectDir = $this->manifestsDir.DIRECTORY_SEPARATOR.$project->name();
         $this->dumper->dump($project, $projectDir);
+
+        $io->success(sprintf('Yaml manifests are saved to directory "%s"', $projectDir));
+        $io->newLine();
 
         return 0;
     }
@@ -69,7 +73,7 @@ class DumpProjectCommand extends Command
                 fn (ProjectInterface $project) => $project->name(),
                 $this->registry->all()
             );
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     'Project "%s" does not exist. Valid project names are: "%s"',
                     $projectName,

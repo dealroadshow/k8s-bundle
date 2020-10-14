@@ -3,15 +3,17 @@
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ProjectGenerator;
-use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Throwable;
 
 class GenerateProjectCommand extends Command
 {
+    use ClearCacheTrait;
+
     private const ARGUMENT_PROJECT_NAME = 'project-name';
 
     protected static $defaultName = 'dealroadshow_k8s:generate:project';
@@ -33,6 +35,10 @@ class GenerateProjectCommand extends Command
                 InputArgument::REQUIRED,
                 'Project name without "project" suffix (e.g. <fg=yellow>k8s-is-awesome</>)'
             )
+            ->setAliases([
+                'k8s:generate:project',
+                'k8s:gen:project',
+            ])
         ;
     }
 
@@ -43,7 +49,8 @@ class GenerateProjectCommand extends Command
 
         try {
             $fileName = $this->generator->generate($projectName);
-        } catch(Exception $e) {
+            $this->clearCache();
+        } catch(Throwable $e) {
             $io->error($e->getMessage());
             $io->newLine();
 

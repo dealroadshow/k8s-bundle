@@ -42,7 +42,11 @@ class DumpAppCommand extends Command
                 'output_dir',
                 InputArgument::REQUIRED,
                 'Directory where to save generated Yaml manifests'
-            );
+            )
+            ->setAliases([
+                'k8s:dump:app',
+            ])
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

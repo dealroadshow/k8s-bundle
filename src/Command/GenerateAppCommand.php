@@ -12,6 +12,8 @@ use Throwable;
 
 class GenerateAppCommand extends Command
 {
+    use ClearCacheTrait;
+
     private const ARGUMENT_PROJECT_NAME = 'project-name';
     private const ARGUMENT_APP_NAME     = 'app-name';
 
@@ -38,6 +40,10 @@ class GenerateAppCommand extends Command
                 InputArgument::REQUIRED,
                 'App name without "app" suffix (e.g. <fg=yellow>cron-jobs</>)'
             )
+            ->setAliases([
+                'k8s:generate:app',
+                'k8s:gen:app',
+            ])
         ;
     }
 
@@ -49,6 +55,7 @@ class GenerateAppCommand extends Command
 
         try {
             $fileName = $this->generator->generate($projectName, $appName);
+            $this->clearCache();
         } catch (Throwable $e) {
             $io->error($e->getMessage());
             $io->newLine();
