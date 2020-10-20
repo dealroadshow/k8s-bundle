@@ -4,6 +4,7 @@ namespace Dealroadshow\Bundle\K8SBundle;
 
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ProjectsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -20,6 +21,7 @@ class DealroadshowK8SBundle extends Bundle
         $container
             ->addCompilerPass(new AppsPass())
             ->addCompilerPass(new ManifestGeneratorContextsPass())
+            ->addCompilerPass(new MiddlewarePass())
             ->addCompilerPass(new ManifestsPass())
             ->addCompilerPass(new ProjectsPass())
             ->addCompilerPass(new ResourceMakersPass())
