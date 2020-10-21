@@ -1,5 +1,5 @@
 {
-    "name": "dealroadshow/k8s-bundle-dev",
+    "name": "dealroadshow/k8s-bundle",
     "description": "Integrates Dealroadshow K8S framework with Symfony 5",
     "type": "library",
     "license": "MIT",
