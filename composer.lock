@@ -4,15 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "50e0a9868afb000821a71f8483fde9c4",
+    "content-hash": "1515d97c2f96d76604fa9c7f79f655b1",
     "packages": [
         {
-            "name": "dealroadshow/k8s-framework-dev",
-            "version": "dev-middleware",
+            "name": "dealroadshow/k8s-framework",
+            "version": "v0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dealroadshow/k8s-framework.git",
+                "reference": "2a637b24116216ff39fadb9f1f96237bfc577dfc"
+            },
             "dist": {
-                "type": "path",
-                "url": "../../k8s/k8s-framework",
-                "reference": "c2e95848826aad50fd937f5925551d80ae0e0375"
+                "type": "zip",
+                "url": "https://api.github.com/repos/dealroadshow/k8s-framework/zipball/2a637b24116216ff39fadb9f1f96237bfc577dfc",
+                "reference": "2a637b24116216ff39fadb9f1f96237bfc577dfc",
+                "shasum": ""
             },
             "require": {
                 "dealroadshow/k8s-resources": "^1.16 || ^1.17 || ^1.18 || ^1.19",
@@ -27,6 +33,7 @@
                     "Dealroadshow\\K8S\\Framework\\": "src/"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -34,12 +41,14 @@
                 {
                     "name": "Petr Buchin",
                     "email": "petrbuchyn@gmail.com"
+                },
+                {
+                    "name": "Bogdan Pasichnyk",
+                    "email": "pasechnikbs@gmail.com"
                 }
             ],
             "description": "Define Kubernetes manifests in PHP",
-            "transport-options": {
-                "relative": true
-            }
+            "time": "2020-10-14T11:23:39+00:00"
         },
         {
             "name": "dealroadshow/k8s-resources",
@@ -846,16 +855,16 @@
         },
         {
             "name": "symfony/http-client-contracts",
-            "version": "v2.3.1",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client-contracts.git",
-                "reference": "41db680a15018f9c1d4b23516059633ce280ca33"
+                "reference": "3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/41db680a15018f9c1d4b23516059633ce280ca33",
-                "reference": "41db680a15018f9c1d4b23516059633ce280ca33",
+                "url": "https://api.github.com/repos/symfony/http-client-contracts/zipball/3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3",
+                "reference": "3a5d0fe7908daaa23e3dbf4cee3ba4bfbb19fdd3",
                 "shasum": ""
             },
             "require": {
@@ -866,9 +875,8 @@
             },
             "type": "library",
             "extra": {
-                "branch-version": "2.3",
                 "branch-alias": {
-                    "dev-main": "2.3-dev"
+                    "dev-master": "2.2-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -918,7 +926,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-14T17:08:19+00:00"
+            "time": "2020-09-07T11:33:47+00:00"
         },
         {
             "name": "symfony/http-foundation",
@@ -1909,9 +1917,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "dealroadshow/k8s-framework-dev": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
