@@ -2,10 +2,14 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
+use Dealroadshow\K8S\Framework\App\AppInterface;
+use Dealroadshow\K8S\Framework\Core\ManifestProcessor;
+use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
 use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Dealroadshow\K8S\Framework\App\AppProcessor;
@@ -38,6 +42,12 @@ class DumpAppCommand extends Command
                 InputArgument::REQUIRED,
                 'Name of app to synthetize'
             )
+            ->addOption(
+                'tag',
+                't',
+                InputOption::VALUE_REQUIRED,
+                'Filter manifests by tag'
+            )
             ->addArgument(
                 'output_dir',
                 InputArgument::REQUIRED,
@@ -60,17 +70,18 @@ class DumpAppCommand extends Command
             $io->error($e->getMessage());
             $io->newLine();
 
-            return 1;
+            return self::FAILURE;
         }
 
+        $tag = $input->getOption('tag');
         $app = $this->registry->get($appName);
-        $this->appProcessor->process($app);
+        $this->appProcessor->process($app, $tag);
         $this->dumper->dump($app, $outputDir);
 
         $io->success(sprintf('Yaml manifests are saved to directory "%s"', $outputDir));
         $io->newLine();
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getValidAppName(InputInterface $input): string
