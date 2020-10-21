@@ -13,19 +13,13 @@
             "email": "pasechnikbs@gmail.com"
         }
     ],
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../../k8s/k8s-framework"
-        }
-    ],
     "require": {
         "php": ">=7.4",
         "symfony/console": ">=5.1",
         "symfony/dependency-injection": ">=5.1",
         "symfony/config": ">=5.1",
         "symfony/http-kernel": ">=5.1",
-        "dealroadshow/k8s-framework-dev": "dev-middleware",
+        "dealroadshow/k8s-framework": ">=0.5",
         "symfony/polyfill-php80": ">=1.18"
     },
     "minimum-stability": "dev",
