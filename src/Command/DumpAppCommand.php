@@ -2,9 +2,6 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
-use Dealroadshow\K8S\Framework\App\AppInterface;
-use Dealroadshow\K8S\Framework\Core\ManifestProcessor;
-use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
 use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
