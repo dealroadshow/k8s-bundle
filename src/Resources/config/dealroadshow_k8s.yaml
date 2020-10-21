@@ -3,7 +3,6 @@ services:
         autowire: true
         autoconfigure: true
 
-    Dealroadshow\K8S\Framework\Core\Container\ContainerMaker: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodTemplateSpecProcessor: ~
     Dealroadshow\K8S\Framework\Core\Job\JobSpecProcessor: ~
@@ -53,7 +52,11 @@ services:
 
     Dealroadshow\K8S\Framework\Core\ManifestProcessor:
         arguments:
-          - !tagged_iterator {tag: 'dealroadshow_k8s.resource_maker'}
+          - !tagged_iterator { tag: 'dealroadshow_k8s.resource_maker' }
+
+    Dealroadshow\K8S\Framework\Core\Container\ContainerMaker:
+        arguments:
+          - !tagged_iterator { tag: 'dealroadshow_k8s.container_image_middleware', default_priority_method: 'priority' }
 
     Dealroadshow\K8S\Framework\Registry\AppRegistry:
         arguments:
