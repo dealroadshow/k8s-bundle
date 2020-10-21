@@ -56,7 +56,7 @@ services:
 
     Dealroadshow\K8S\Framework\Core\Container\ContainerMaker:
         arguments:
-          - !tagged_iterator { tag: 'dealroadshow_k8s.container_image_middleware' }
+          - !tagged_iterator { tag: 'dealroadshow_k8s.container_image_middleware', default_priority_method: 'priority' }
 
     Dealroadshow\K8S\Framework\Registry\AppRegistry:
         arguments:
