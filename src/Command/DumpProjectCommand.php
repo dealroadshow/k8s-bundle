@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Dealroadshow\K8S\Framework\Dumper\ProjectDumper;
@@ -41,6 +42,11 @@ class DumpProjectCommand extends Command
                 InputArgument::REQUIRED,
                 'Name of a project to dump'
             )
+            ->addArgument(
+                'output_dir',
+                InputArgument::REQUIRED,
+                'Directory where to save generated Yaml manifests'
+            )
             ->setAliases([
                 'k8s:dump:project',
             ])
@@ -52,20 +58,20 @@ class DumpProjectCommand extends Command
         $io = new SymfonyStyle($input, $output);
         try {
             $project = $this->getProject($input);
+            $outputDir = $this->getValidOutputDir($input);
         } catch (InvalidArgumentException $e) {
             $io->error($e->getMessage());
             $io->newLine();
 
-            return 1;
+            return self::FAILURE;
         }
         $this->processor->process($project);
-        $projectDir = $this->manifestsDir.DIRECTORY_SEPARATOR.$project->name();
-        $this->dumper->dump($project, $projectDir);
+        $this->dumper->dump($project, $outputDir);
 
-        $io->success(sprintf('Yaml manifests are saved to directory "%s"', $projectDir));
+        $io->success(sprintf('Yaml manifests are saved to directory "%s"', $outputDir));
         $io->newLine();
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getProject(InputInterface $input): ProjectInterface
@@ -86,5 +92,19 @@ class DumpProjectCommand extends Command
         }
 
         return $this->registry->get($projectName);
+    }
+
+    private function getValidOutputDir(InputInterface $input): string
+    {
+        $outputDir = $input->getArgument('output_dir');
+        $outputDir = realpath($outputDir);
+        if (!file_exists($outputDir)) {
+            throw new InvalidArgumentException(sprintf('Output dir "%s" does not exist', $outputDir));
+        }
+        if (!is_dir($outputDir)) {
+            throw new InvalidArgumentException(sprintf('Output path "%s" is not a directory', $outputDir));
+        }
+
+        return $outputDir;
     }
 }

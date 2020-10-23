@@ -2,7 +2,8 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
-use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\Context\ContextInterface;
+use Dealroadshow\K8S\Framework\Dumper;
+use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
 use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
@@ -37,6 +38,8 @@ class DealroadshowK8SExtension extends ConfigurableExtension
         $this->setupManifestsDir($config, $container);
         $container->setParameter('dealroadshow_k8s.class_templates_dir', __DIR__.'/../Resources/class-templates');
         $container->setParameter('dealroadshow_k8s.namespace_prefix', $config['namespace_prefix']);
+        $container->setParameter('dealroadshow_k8s.filter.tags.include', $config['filter']['tags']['include']);
+        $container->setParameter('dealroadshow_k8s.filter.tags.exclude', $config['filter']['tags']['exclude']);
     }
 
     public function getAlias()
@@ -58,7 +61,7 @@ class DealroadshowK8SExtension extends ConfigurableExtension
         $container->registerForAutoconfiguration(ResourceMakerInterface::class)
             ->addTag(ResourceMakersPass::RESOURCE_MAKER_TAG);
 
-        $container->registerForAutoconfiguration(ContextInterface::class)
+        $container->registerForAutoconfiguration(ManifestGenerator\Context\ContextInterface::class)
             ->addTag(ManifestGeneratorContextsPass::CONTEXT_TAG);
 
         $container->registerForAutoconfiguration(ContainerImageMiddlewareInterface::class)

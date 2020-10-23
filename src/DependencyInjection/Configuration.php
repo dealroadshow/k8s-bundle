@@ -17,6 +17,20 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('code_dir')->defaultNull()->end()
                 ->scalarNode('namespace_prefix')->defaultValue('App\\K8S\\')->end()
                 ->scalarNode('manifests_dir')->defaultNull()->end()
+                ->arrayNode('filter')
+                    ->children()
+                        ->arrayNode('tags')
+                            ->children()
+                                ->arrayNode('include')
+                                    ->scalarPrototype()->end()
+                                ->end()
+                                ->arrayNode('exclude')
+                                    ->scalarPrototype()->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

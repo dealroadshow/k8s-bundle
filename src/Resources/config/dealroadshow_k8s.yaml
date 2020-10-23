@@ -21,7 +21,7 @@ services:
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
     Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'
-
+    Dealroadshow\K8S\Framework\Dumper\Context\ContextInterface: '@Dealroadshow\K8S\Framework\Dumper\Context\Context'
 
     Dealroadshow\Bundle\K8SBundle\:
         resource: '../../../src/'
@@ -41,6 +41,11 @@ services:
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ManifestResolver:
         arguments:
           - '%dealroadshow_k8s.namespace_prefix%'
+
+    Dealroadshow\K8S\Framework\Dumper\Context\Context:
+        arguments:
+            $includeTags: '%dealroadshow_k8s.filter.tags.include%'
+            $excludeTags: '%dealroadshow_k8s.filter.tags.exclude%'
 
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppResolver:
       arguments:
