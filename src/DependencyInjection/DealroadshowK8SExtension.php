@@ -38,8 +38,8 @@ class DealroadshowK8SExtension extends ConfigurableExtension
         $this->setupManifestsDir($config, $container);
         $container->setParameter('dealroadshow_k8s.class_templates_dir', __DIR__.'/../Resources/class-templates');
         $container->setParameter('dealroadshow_k8s.namespace_prefix', $config['namespace_prefix']);
-        $container->setParameter('dealroadshow_k8s.filter.tags.include', $config['filter']['tags']['include']);
-        $container->setParameter('dealroadshow_k8s.filter.tags.exclude', $config['filter']['tags']['exclude']);
+        $container->setParameter('dealroadshow_k8s.filter.tags.include', $config['manifests']['filter']['byTags']['include']);
+        $container->setParameter('dealroadshow_k8s.filter.tags.exclude', $config['manifests']['filter']['byTags']['exclude']);
     }
 
     public function getAlias()
