@@ -50,6 +50,8 @@ services:
     Dealroadshow\Bundle\K8SBundle\Command\DumpProjectCommand:
         arguments:
             $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
+        tags:
+          - { name: 'console.command', command: 'k8s:dump:project' }
 
     Dealroadshow\K8S\Framework\Core\ManifestProcessor:
         arguments:
@@ -71,4 +73,22 @@ services:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.manifest_generator.context' }
 
+    Dealroadshow\Bundle\K8SBundle\Command\GenerateManifestCommand:
+        tags:
+          - { name: 'console.command', command: 'k8s:generate:manifest' }
+          - { name: 'console.command', command: 'k8s:gen:manifest' }
+          - { name: 'console.command', command: 'k8s:gen:man' }
 
+    Dealroadshow\Bundle\K8SBundle\Command\GenerateProjectCommand:
+        tags:
+          - { name: 'console.command', command: 'k8s:generate:project' }
+          - { name: 'console.command', command: 'k8s:gen:project' }
+
+    Dealroadshow\Bundle\K8SBundle\Command\GenerateAppCommand:
+        tags:
+          - { name: 'console.command', command: 'k8s:generate:app' }
+          - { name: 'console.command', command: 'k8s:gen:app' }
+
+    Dealroadshow\Bundle\K8SBundle\Command\DumpAppCommand:
+        tags:
+          - { name: 'console.command', command: 'k8s:dump:app' }
