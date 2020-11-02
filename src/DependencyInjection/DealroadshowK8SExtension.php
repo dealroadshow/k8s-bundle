@@ -4,6 +4,8 @@ namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\Context\ContextInterface;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
+use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -58,6 +60,9 @@ class DealroadshowK8SExtension extends ConfigurableExtension
 
         $container->registerForAutoconfiguration(ContextInterface::class)
             ->addTag(ManifestGeneratorContextsPass::CONTEXT_TAG);
+
+        $container->registerForAutoconfiguration(ContainerImageMiddlewareInterface::class)
+            ->addTag(MiddlewarePass::CONTAINER_IMAGE_TAG);
     }
 
     private function setupCodeDir(array $config, ContainerBuilder $container): void
