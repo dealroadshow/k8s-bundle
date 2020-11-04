@@ -8,7 +8,7 @@ use Dealroadshow\K8S\Framework\Core\Ingress\Configurator\IngressRulesConfigurato
 
 class <?= $className; ?> extends AbstractIngress
 {
-    public static function name(): string
+    public function name(): string
     {
         return '<?= $manifestName; ?>';
     }

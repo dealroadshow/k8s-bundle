@@ -9,7 +9,7 @@ use Dealroadshow\K8S\Framework\Core\Service\Configurator\ServiceTypeConfigurator
 
 class <?= $className; ?> extends AbstractService
 {
-    public static function name(): string
+    public function name(): string
     {
         return '<?= $manifestName; ?>';
     }
