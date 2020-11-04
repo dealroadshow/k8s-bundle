@@ -83,8 +83,7 @@ class DumpAppCommand extends Command
             throw new InvalidArgumentException(sprintf('Project "%s" does not exist', $projectName));
         }
         $app = $this->getApp($project, $appName);
-        $app->setProject($project);
-        $this->appProcessor->process($app);
+        $this->appProcessor->process($app, $project);
         $this->dumper->dump($app, $outputDir);
 
         $io->success(sprintf('Yaml manifests are saved to directory "%s"', $outputDir));
