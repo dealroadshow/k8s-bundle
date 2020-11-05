@@ -8,7 +8,7 @@ use Dealroadshow\K8S\Framework\Core\MetadataConfigurator;
 
 class <?= $className; ?> extends AbstractConfigMap
 {
-    public static function name(): string
+    public static function shortName(): string
     {
         return '<?= $manifestName; ?>';
     }

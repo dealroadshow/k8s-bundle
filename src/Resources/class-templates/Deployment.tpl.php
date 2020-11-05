@@ -14,7 +14,7 @@ class <?= $className; ?> extends AbstractDeployment
     {
     }
 
-    public static function name(): string
+    public static function shortName(): string
     {
         return '<?= $manifestName; ?>';
     }
