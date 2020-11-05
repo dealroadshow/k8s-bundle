@@ -9,7 +9,7 @@ use Dealroadshow\K8S\Framework\Core\Pod\Volume\VolumesConfigurator;
 
 class <?= $className; ?> extends AbstractJob
 {
-    public function name(): string
+    public static function name(): string
     {
         return '<?= $manifestName; ?>';
     }

@@ -60,7 +60,7 @@ class NginxDeployment extends AbstractDeployment
     {
     }
 
-    public function name(): string
+    public static function name(): string
     {
         return 'nginx';
     }
@@ -108,7 +108,7 @@ class NginxDeployment extends AbstractDeployment
         ;
     }
 
-    public function name(): string
+    public static function name(): string
     {
         return 'nginx';
     }

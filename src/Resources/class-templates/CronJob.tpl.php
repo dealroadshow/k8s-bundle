@@ -8,7 +8,7 @@ use Dealroadshow\K8S\Framework\Core\Job\JobInterface;
 
 class <?= $className; ?> extends AbstractCronJob
 {
-    public function name(): string
+    public static function name(): string
     {
         return '<?= $manifestName; ?>';
     }
