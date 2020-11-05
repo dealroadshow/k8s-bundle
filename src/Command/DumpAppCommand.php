@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Dealroadshow\K8S\Framework\App\AppProcessor;
@@ -60,7 +61,7 @@ class DumpAppCommand extends Command
             $io->error($e->getMessage());
             $io->newLine();
 
-            return 1;
+            return self::FAILURE;
         }
 
         $app = $this->registry->get($appName);
@@ -70,7 +71,7 @@ class DumpAppCommand extends Command
         $io->success(sprintf('Yaml manifests are saved to directory "%s"', $outputDir));
         $io->newLine();
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getValidAppName(InputInterface $input): string

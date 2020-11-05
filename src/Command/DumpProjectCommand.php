@@ -56,7 +56,7 @@ class DumpProjectCommand extends Command
             $io->error($e->getMessage());
             $io->newLine();
 
-            return 1;
+            return self::FAILURE;
         }
         $this->processor->process($project);
         $projectDir = $this->manifestsDir.DIRECTORY_SEPARATOR.$project->name();
@@ -65,7 +65,7 @@ class DumpProjectCommand extends Command
         $io->success(sprintf('Yaml manifests are saved to directory "%s"', $projectDir));
         $io->newLine();
 
-        return 0;
+        return self::SUCCESS;
     }
 
     private function getProject(InputInterface $input): ProjectInterface
