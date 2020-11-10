@@ -8,7 +8,7 @@ use Dealroadshow\K8S\Framework\Core\Secret\AbstractSecret;
 
 class <?= $className; ?> extends AbstractSecret
 {
-    public static function name(): string
+    public static function shortName(): string
     {
         return '<?= $manifestName; ?>';
     }
