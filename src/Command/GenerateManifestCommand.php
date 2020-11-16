@@ -178,7 +178,7 @@ class GenerateManifestCommand extends Command
         $manifest = $this->manifestRegistry->query()
             ->app($app)
             ->instancesOf($context->parentInterface())
-            ->name($name)
+            ->shortName($name)
             ->getFirstResult();
 
         if (null !== $manifest) {
