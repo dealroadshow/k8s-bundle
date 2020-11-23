@@ -4,31 +4,19 @@ namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppResolver;
 use Dealroadshow\Bundle\K8SBundle\Util\Dir;
-use Dealroadshow\K8S\Framework\Project\ProjectInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
-use Dealroadshow\K8S\Framework\Registry\ProjectRegistry;
 use InvalidArgumentException;
 
 class AppGenerator
 {
-    private ProjectRegistry $projectRegistry;
-    private AppRegistry $appRegistry;
-    private AppResolver $resolver;
-    private TemplateRenderer $renderer;
-
-    public function __construct(ProjectRegistry $projectRegistry, AppRegistry $appRegistry, AppResolver $resolver, TemplateRenderer $renderer)
+    public function __construct(private AppRegistry $appRegistry, private AppResolver $resolver, private TemplateRenderer $renderer)
     {
-        $this->projectRegistry = $projectRegistry;
-        $this->appRegistry = $appRegistry;
-        $this->resolver = $resolver;
-        $this->renderer = $renderer;
     }
 
-    public function generate(string $projectName, string $appName): string
+    public function generate(string $appName): string
     {
         $this->ensureAppNameIsValid($appName);
-        $project = $this->getProject($projectName);
-        $details = $this->resolver->getClassDetails($project, $appName);
+        $details = $this->resolver->getClassDetails($appName);
         $appDir = $details->directory();
 
         Dir::create($appDir);
@@ -48,11 +36,6 @@ class AppGenerator
             'className' => $details->className(),
             'appName' => $appName,
         ]);
-    }
-
-    private function getProject(string $projectName): ProjectInterface
-    {
-        return $this->projectRegistry->get($projectName);
     }
 
     private function ensureAppNameIsValid(string $appName): void

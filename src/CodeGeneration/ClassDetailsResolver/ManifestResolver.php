@@ -8,9 +8,7 @@ use Dealroadshow\K8S\Framework\App\AppInterface;
 
 class ManifestResolver
 {
-    private string $namespacePrefix;
-
-    public function __construct(string $namespacePrefix)
+    public function __construct(private string $namespacePrefix)
     {
         $this->namespacePrefix = trim($namespacePrefix, '\\');
     }

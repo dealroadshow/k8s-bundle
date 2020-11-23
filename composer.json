@@ -19,8 +19,9 @@
         "symfony/dependency-injection": ">=5.1",
         "symfony/config": ">=5.1",
         "symfony/http-kernel": ">=5.1",
-        "dealroadshow/k8s-framework": ">=0.5",
-        "symfony/polyfill-php80": ">=1.18"
+        "dealroadshow/k8s-framework": "dev-master",
+        "symfony/polyfill-php80": ">=1.18",
+        "symfony/options-resolver": "^5.1"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

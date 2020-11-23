@@ -2,8 +2,10 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
+use RuntimeException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 trait ClearCacheTrait
 {
@@ -12,6 +14,7 @@ trait ClearCacheTrait
         $command = $this->getApplication()->find('cache:clear');
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
+        $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
         $returnCode = $command->execute($input, $output);
 
         if (self::SUCCESS !== $returnCode) {
