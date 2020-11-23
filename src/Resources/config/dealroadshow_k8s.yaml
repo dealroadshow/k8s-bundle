@@ -79,3 +79,9 @@ services:
     Dealroadshow\Bundle\K8SBundle\Command\DumpAppCommand:
         tags:
           - { name: 'console.command', command: 'k8s:dump:app' }
+
+    Dealroadshow\Bundle\K8SBundle\Command\DumpAllCommand:
+        arguments:
+            $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
+        tags:
+          - { name: 'console.command', command: 'k8s:dump:all' }

@@ -12,22 +12,14 @@ composer require dealroadshow/k8s-bundle
 
 ## Basic usage
 
-Start by generating your project:
+Let's generate your first Kubernetes App (you may think of App like of Helm chart):
 
 ```bash
-bin/console dealroadshow_k8s:generate:project example
+bin/console k8s:generate:app example
 ```
 
-This will create `src/K8S/Example` directory and `App\K8S\Example\ExampleProject` PHP class.
-
-Now you may generate your first Kubernetes App (you may think of App like of Helm chart):
-
-```bash
-bin/console dealroadshow_k8s:generate:app example main
-```
-
-This command will create `src/K8S/Example/Apps/Main` directory and
-`App\K8S\Example\Apps\Main\MainApp` PHP class.
+This command will create `src/K8S/Example` directory and
+`App\K8S\Example\ExampleApp` PHP class.
 
 App is an abstraction, which exists in order to group together some Kubernetes manifests,
 like Deployments, CronJobs or ConfigMaps.
@@ -36,27 +28,27 @@ Now that we have a project and an app, we can start to define our Kubernetes man
 Let's start by creating a deployment:
 
 ```bash
-bin/console dealroadshow_k8s:generate:deployment example main nginx
+bin/console k8s:generate:manifest nginx deployment example
 ```
 
 After executing this command you'll see a new class 
-`App\K8S\Example\Apps\Main\Nginx\NginxDeployment`.
+`App\K8S\Example\Manifests\Nginx\NginxDeployment`.
 
 This new class may look like follows:
 
 ```php
 <?php
 
-namespace App\K8S\Example\Apps\Main\Nginx;
+namespace App\K8S\Example\Manifests\Nginx;
 
 use Dealroadshow\K8S\Framework\Core\Deployment\AbstractDeployment;
-use Dealroadshow\K8S\Framework\Core\LabelSelector\LabelSelectorConfigurator;
+use Dealroadshow\K8S\Framework\Core\LabelSelector\SelectorConfigurator;
 use Dealroadshow\K8S\Framework\Core\MetadataConfigurator;
 use Dealroadshow\K8S\Framework\Core\Pod\Containers\PodContainers;
 
 class NginxDeployment extends AbstractDeployment
 {
-    public function labelSelector(LabelSelectorConfigurator $selector): void
+    public function selector(SelectorConfigurator $selector): void
     {
     }
 
@@ -70,10 +62,6 @@ class NginxDeployment extends AbstractDeployment
         return 'nginx.deployment';
     }
 
-    public function configureMeta(MetadataConfigurator $meta): void
-    {
-    }
-
     public function containers(PodContainers $containers): void
     {
     }
@@ -85,7 +73,7 @@ Let's start by implementing some of existing methods and some others, from basic
 ```php
 <?php
 
-namespace App\K8S\Example\Apps\Main\Nginx;
+namespace App\K8S\Example\Nginx;
 
 use Dealroadshow\K8S\Framework\Core\Container\AbstractContainer;
 use Dealroadshow\K8S\Framework\Core\Container\Env\EnvConfigurator;
@@ -94,13 +82,13 @@ use Dealroadshow\K8S\Framework\Core\Deployment\AbstractDeployment;
 use Dealroadshow\K8S\Framework\Core\Container\Resources\CPU;
 use Dealroadshow\K8S\Framework\Core\Container\Resources\Memory;
 use Dealroadshow\K8S\Framework\Core\Container\Resources\ResourcesConfigurator;
-use Dealroadshow\K8S\Framework\Core\LabelSelector\LabelSelectorConfigurator;
+use Dealroadshow\K8S\Framework\Core\LabelSelector\SelectorConfigurator;
 use Dealroadshow\K8S\Framework\Core\MetadataConfigurator;
 use Dealroadshow\K8S\Framework\Core\Pod\Containers\PodContainers;
 
 class NginxDeployment extends AbstractDeployment
 {
-    public function labelSelector(LabelSelectorConfigurator $selector): void
+    public function selector(SelectorConfigurator $selector): void
     {
         $selector
             ->addLabel('app', 'example-app')
@@ -116,10 +104,6 @@ class NginxDeployment extends AbstractDeployment
     public function fileNameWithoutExtension(): string
     {
         return 'nginx.deployment';
-    }
-
-    public function configureMeta(MetadataConfigurator $meta): void
-    {
     }
 
     public function containers(PodContainers $containers): void
@@ -162,7 +146,7 @@ class NginxDeployment extends AbstractDeployment
 We've defined a basic deployment, and we can generate Yaml manifest from it:
 
 ```bash
-bin/console dealroadshow_k8s:dump:project example-project
+bin/console k8s:dump:all
 ```
 
 Now you can see your Yaml manifest in `Resources/k8s-manifests` directory
