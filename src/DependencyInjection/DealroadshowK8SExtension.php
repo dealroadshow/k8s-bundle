@@ -2,11 +2,11 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
-use Dealroadshow\K8S\Framework\Dumper;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
 use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
+use Exception;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -15,16 +15,20 @@ use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ResourceMakersPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
-use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ProjectsPass;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
-use Dealroadshow\K8S\Framework\Project\ProjectInterface;
 use Dealroadshow\K8S\Framework\ResourceMaker\ResourceMakerInterface;
 use Throwable;
 
 class DealroadshowK8SExtension extends ConfigurableExtension
 {
-    protected function loadInternal(array $config, ContainerBuilder $container)
+    /**
+     * @param array            $mergedConfig
+     * @param ContainerBuilder $container
+     *
+     * @throws Exception
+     */
+    protected function loadInternal(array $mergedConfig, ContainerBuilder $container)
     {
         $this->setupAutoconfiguration($container);
 
@@ -34,24 +38,33 @@ class DealroadshowK8SExtension extends ConfigurableExtension
         );
         $loader->load('dealroadshow_k8s.yaml');
 
-        $this->setupCodeDir($config, $container);
-        $this->setupManifestsDir($config, $container);
-        $container->setParameter('dealroadshow_k8s.class_templates_dir', __DIR__.'/../Resources/class-templates');
-        $container->setParameter('dealroadshow_k8s.namespace_prefix', $config['namespace_prefix']);
-        $container->setParameter('dealroadshow_k8s.filter.tags.include', $config['manifests']['filter']['byTags']['include']);
-        $container->setParameter('dealroadshow_k8s.filter.tags.exclude', $config['manifests']['filter']['byTags']['exclude']);
+        $this->setupCodeDir($mergedConfig, $container);
+        $this->setupManifestsDir($mergedConfig, $container);
+        $container->setParameter(
+            'dealroadshow_k8s.class_templates_dir',
+            __DIR__.'/../Resources/class-templates'
+        );
+        $container->setParameter(
+            'dealroadshow_k8s.namespace_prefix',
+            $mergedConfig['namespace_prefix']
+        );
+        $container->setParameter(
+            'dealroadshow_k8s.filter.tags.include',
+            $mergedConfig['manifests']['filter']['byTags']['include']
+        );
+        $container->setParameter(
+            'dealroadshow_k8s.filter.tags.exclude',
+            $mergedConfig['manifests']['filter']['byTags']['exclude']
+        );
     }
 
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'dealroadshow_k8s';
     }
 
     private function setupAutoconfiguration(ContainerBuilder $container): void
     {
-        $container->registerForAutoconfiguration(ProjectInterface::class)
-            ->addTag(ProjectsPass::PROJECT_TAG);
-
         $container->registerForAutoconfiguration(AppInterface::class)
             ->addTag(AppsPass::APP_TAG);
 
@@ -81,7 +94,7 @@ class DealroadshowK8SExtension extends ConfigurableExtension
         if (!file_exists($codeDir)) {
             try {
                 @mkdir($codeDir, 0700, true);
-            } catch (Throwable $e) {}
+            } catch (Throwable) {}
         }
         $container->setParameter('dealroadshow_k8s.code_dir', $codeDir);
     }

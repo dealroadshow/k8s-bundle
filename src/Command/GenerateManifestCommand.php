@@ -26,21 +26,15 @@ class GenerateManifestCommand extends Command
     private const ARGUMENT_MANIFEST_TYPE = 'manifest-type';
     private const ARGUMENT_MANIFEST_NAME = 'manifest-name';
 
-    private AppRegistry $appRegistry;
-    private ManifestRegistry $manifestRegistry;
-    private ContextRegistry $contextRegistry;
-    private ManifestGenerator $generator;
-
     protected static $defaultName = 'dealroadshow_k8s:generate:manifest';
 
-    public function __construct(AppRegistry $appRegistry, ManifestRegistry $manifestRegistry, ContextRegistry $contextRegistry, ManifestGenerator $generator)
-    {
-        $this->appRegistry = $appRegistry;
-        $this->manifestRegistry = $manifestRegistry;
-        $this->contextRegistry = $contextRegistry;
-        $this->generator = $generator;
-
-        parent::__construct(null);
+    public function __construct(
+        private AppRegistry $appRegistry,
+        private ManifestRegistry $manifestRegistry,
+        private ContextRegistry $contextRegistry,
+        private ManifestGenerator $generator
+    ) {
+        parent::__construct();
     }
 
     public function configure()
@@ -50,7 +44,7 @@ class GenerateManifestCommand extends Command
             ->addArgument(
                 self::ARGUMENT_MANIFEST_NAME,
                 InputArgument::REQUIRED,
-                'Manifest name without type suffix (e.g. <fg=yellow>users-sync</>, but not <fg=red>users-sync</>)'
+                'Manifest short name without type suffix (e.g. <fg=yellow>users-sync</>)'
             )
             ->addArgument(
                 self::ARGUMENT_MANIFEST_TYPE,
@@ -70,7 +64,7 @@ class GenerateManifestCommand extends Command
         ;
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -178,7 +172,7 @@ class GenerateManifestCommand extends Command
         $manifest = $this->manifestRegistry->query()
             ->app($app)
             ->instancesOf($context->parentInterface())
-            ->name($name)
+            ->shortName($name)
             ->getFirstResult();
 
         if (null !== $manifest) {
