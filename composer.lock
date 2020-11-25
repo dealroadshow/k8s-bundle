@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb0605b739ddd54579080ed3d7e318b0",
+    "content-hash": "e37740014ff9ca3f27312dfde2945d70",
     "packages": [
         {
             "name": "dealroadshow/k8s-framework",
-            "version": "v0.7.0",
+            "version": "v0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dealroadshow/k8s-framework.git",
-                "reference": "1da697ba57e9dc40ddc604157006ad0003a203cf"
+                "reference": "f044f454bc44e8d1f304ebef4eaadf2933cfc59d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dealroadshow/k8s-framework/zipball/1da697ba57e9dc40ddc604157006ad0003a203cf",
-                "reference": "1da697ba57e9dc40ddc604157006ad0003a203cf",
+                "url": "https://api.github.com/repos/dealroadshow/k8s-framework/zipball/f044f454bc44e8d1f304ebef4eaadf2933cfc59d",
+                "reference": "f044f454bc44e8d1f304ebef4eaadf2933cfc59d",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +48,7 @@
                 }
             ],
             "description": "Define Kubernetes manifests in PHP",
-            "time": "2020-11-05T13:31:58+00:00"
+            "time": "2020-11-23T14:04:29+00:00"
         },
         {
             "name": "dealroadshow/k8s-resources",
@@ -1077,6 +1077,71 @@
                 }
             ],
             "time": "2020-10-28T05:55:23+00:00"
+        },
+        {
+            "name": "symfony/options-resolver",
+            "version": "v5.1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/options-resolver.git",
+                "reference": "c6a02905e4ffc7a1498e8ee019db2b477cd1cc02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/c6a02905e4ffc7a1498e8ee019db2b477cd1cc02",
+                "reference": "c6a02905e4ffc7a1498e8ee019db2b477cd1cc02",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "symfony/deprecation-contracts": "^2.1",
+                "symfony/polyfill-php80": "^1.15"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\OptionsResolver\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony OptionsResolver Component",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "config",
+                "configuration",
+                "options"
+            ],
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-24T12:01:57+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",

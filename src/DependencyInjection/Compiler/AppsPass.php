@@ -14,12 +14,5 @@ class AppsPass implements CompilerPassInterface
     {
         $container->registerForAutoconfiguration(AppInterface::class)
             ->addTag(self::APP_TAG);
-
-        $env = $container->getParameter('kernel.environment');
-        $ids = $container->findTaggedServiceIds(self::APP_TAG);
-        foreach ($ids as $id => $tags) {
-            $definition = $container->getDefinition($id);
-            $definition->addMethodCall('setEnv', [$env]);
-        }
     }
 }

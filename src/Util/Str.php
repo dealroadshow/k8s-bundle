@@ -14,6 +14,11 @@ class Str
         return preg_replace('/[\s\-_]+/', '', $str);
     }
 
+    public static function camelCased(string $str): string
+    {
+        return lcfirst(static::asClassName($str));
+    }
+
     public static function withoutSuffix(string $str, string $suffix): string
     {
         return str_ends_with($str, $suffix)

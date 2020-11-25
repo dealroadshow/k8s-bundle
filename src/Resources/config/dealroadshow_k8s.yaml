@@ -7,12 +7,10 @@ services:
     Dealroadshow\K8S\Framework\Core\Pod\PodTemplateSpecProcessor: ~
     Dealroadshow\K8S\Framework\Core\Job\JobSpecProcessor: ~
     Dealroadshow\K8S\Framework\Dumper\AppDumper: ~
-    Dealroadshow\K8S\Framework\Dumper\ProjectDumper: ~
     Dealroadshow\K8S\Framework\Renderer\YamlRenderer: ~
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper: ~
     Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper: ~
     Dealroadshow\K8S\Framework\App\AppProcessor: ~
-    Dealroadshow\K8S\Framework\Project\ProjectProcessor: ~
     Dealroadshow\K8S\Framework\ResourceMaker\ConfigMapMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\DeploymentMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\SecretMaker: ~
@@ -33,11 +31,6 @@ services:
         arguments:
           - '%dealroadshow_k8s.class_templates_dir%'
 
-    Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ProjectResolver:
-        arguments:
-          - '%dealroadshow_k8s.code_dir%'
-          - '%dealroadshow_k8s.namespace_prefix%'
-
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\ManifestResolver:
         arguments:
           - '%dealroadshow_k8s.namespace_prefix%'
@@ -49,13 +42,8 @@ services:
 
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppResolver:
       arguments:
+        - '%dealroadshow_k8s.code_dir%'
         - '%dealroadshow_k8s.namespace_prefix%'
-
-    Dealroadshow\Bundle\K8SBundle\Command\DumpProjectCommand:
-        arguments:
-            $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
-        tags:
-          - { name: 'console.command', command: 'k8s:dump:project' }
 
     Dealroadshow\K8S\Framework\Core\ManifestProcessor:
         arguments:
@@ -73,10 +61,6 @@ services:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.manifest' }
 
-    Dealroadshow\K8S\Framework\Registry\ProjectRegistry:
-        arguments:
-          - !tagged_iterator { tag: 'dealroadshow_k8s.project' }
-
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ContextRegistry:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.manifest_generator.context' }
@@ -87,11 +71,6 @@ services:
           - { name: 'console.command', command: 'k8s:gen:manifest' }
           - { name: 'console.command', command: 'k8s:gen:man' }
 
-    Dealroadshow\Bundle\K8SBundle\Command\GenerateProjectCommand:
-        tags:
-          - { name: 'console.command', command: 'k8s:generate:project' }
-          - { name: 'console.command', command: 'k8s:gen:project' }
-
     Dealroadshow\Bundle\K8SBundle\Command\GenerateAppCommand:
         tags:
           - { name: 'console.command', command: 'k8s:generate:app' }
@@ -100,3 +79,9 @@ services:
     Dealroadshow\Bundle\K8SBundle\Command\DumpAppCommand:
         tags:
           - { name: 'console.command', command: 'k8s:dump:app' }
+
+    Dealroadshow\Bundle\K8SBundle\Command\DumpAllCommand:
+        arguments:
+            $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
+        tags:
+          - { name: 'console.command', command: 'k8s:dump:all' }

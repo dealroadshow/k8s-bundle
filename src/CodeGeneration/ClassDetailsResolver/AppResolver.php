@@ -4,26 +4,22 @@ namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
 use Dealroadshow\Bundle\K8SBundle\Util\Str;
-use Dealroadshow\K8S\Framework\Project\ProjectInterface;
-use ReflectionObject;
 
 class AppResolver
 {
     private const SUFFIX_APP = 'App';
     private const APPS_DIR_NAME = 'Apps';
 
-    private string $namespacePrefix;
-
-    public function __construct(string $namespacePrefix)
+    public function __construct(private string $codeDir, private string $namespacePrefix)
     {
         $this->namespacePrefix = trim($namespacePrefix, '\\');
     }
 
-    public function getClassDetails(ProjectInterface $project, string $appName): ClassDetails
+    public function getClassDetails(string $appName): ClassDetails
     {
         $className = $this->getClassName($appName);
-        $namespace = $this->getNamespace($project, $appName);
-        $dir = $this->getDir($project, $appName);
+        $namespace = $this->getNamespace($appName);
+        $dir = $this->getDir($appName);
         $fileName = $className.'.php';
 
         return new ClassDetails($className, $namespace, $dir, $fileName);
@@ -35,19 +31,18 @@ class AppResolver
         return Str::withSuffix($className,self::SUFFIX_APP);
     }
 
-    private function getNamespace(ProjectInterface $project, string $appName): string
+    private function getNamespace(string $appName): string
     {
-        $rootNamespace = Str::asNamespace($project);
         $dirName = Str::asDirName($appName, self::SUFFIX_APP);
 
-        return $rootNamespace.'\\'.self::APPS_DIR_NAME.'\\'.$dirName;
+        return $this->namespacePrefix.'\\'.self::APPS_DIR_NAME.'\\'.$dirName;
     }
 
-    private function getDir(ProjectInterface $project, string $appName): string
+    private function getDir(string $appName): string
     {
-        $projectDir = Str::asDir($project);
         $dirName = Str::asDirName($appName, self::SUFFIX_APP);
+        $ds = DIRECTORY_SEPARATOR;
 
-        return $projectDir.DIRECTORY_SEPARATOR.self::APPS_DIR_NAME.DIRECTORY_SEPARATOR.$dirName;
+        return $this->codeDir.$ds.self::APPS_DIR_NAME.$ds.$dirName;
     }
 }
