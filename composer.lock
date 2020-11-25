@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e37740014ff9ca3f27312dfde2945d70",
+    "content-hash": "f9167a0396d346b1935823744cf2155d",
     "packages": [
         {
             "name": "dealroadshow/k8s-framework",
-            "version": "v0.8.0",
+            "version": "v0.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dealroadshow/k8s-framework.git",
-                "reference": "f044f454bc44e8d1f304ebef4eaadf2933cfc59d"
+                "reference": "9166f29f567af9fbde960530b31a00134cdf54ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dealroadshow/k8s-framework/zipball/f044f454bc44e8d1f304ebef4eaadf2933cfc59d",
-                "reference": "f044f454bc44e8d1f304ebef4eaadf2933cfc59d",
+                "url": "https://api.github.com/repos/dealroadshow/k8s-framework/zipball/9166f29f567af9fbde960530b31a00134cdf54ac",
+                "reference": "9166f29f567af9fbde960530b31a00134cdf54ac",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +48,7 @@
                 }
             ],
             "description": "Define Kubernetes manifests in PHP",
-            "time": "2020-11-23T14:04:29+00:00"
+            "time": "2020-11-25T15:36:59+00:00"
         },
         {
             "name": "dealroadshow/k8s-resources",
