@@ -16,6 +16,8 @@ services:
     Dealroadshow\K8S\Framework\ResourceMaker\SecretMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\JobMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\CronJobMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\IngressMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\ServiceMaker: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
     Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'
