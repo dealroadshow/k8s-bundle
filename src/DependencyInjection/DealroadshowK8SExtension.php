@@ -78,7 +78,7 @@ class DealroadshowK8SExtension extends ConfigurableExtension
             ->addTag(ManifestGeneratorContextsPass::CONTEXT_TAG);
 
         $container->registerForAutoconfiguration(ContainerImageMiddlewareInterface::class)
-            ->addTag(MiddlewarePass::CONTAINER_IMAGE_TAG);
+            ->addTag(MiddlewarePass::IMAGE_MIDDLEWARE_TAG);
     }
 
     private function setupCodeDir(array $config, ContainerBuilder $container): void

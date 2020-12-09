@@ -18,6 +18,7 @@ services:
     Dealroadshow\K8S\Framework\ResourceMaker\CronJobMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\IngressMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\ServiceMaker: ~
+    Dealroadshow\K8S\Framework\Proxy\ManifestProxyFactory: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
     Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'
@@ -53,7 +54,7 @@ services:
 
     Dealroadshow\K8S\Framework\Core\Container\ContainerMaker:
         arguments:
-          - !tagged_iterator { tag: 'dealroadshow_k8s.container_image_middleware', default_priority_method: 'priority' }
+          - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.container_image', default_priority_method: 'priority' }
 
     Dealroadshow\K8S\Framework\Registry\AppRegistry:
         arguments:
@@ -66,6 +67,10 @@ services:
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ContextRegistry:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.manifest_generator.context' }
+
+    Dealroadshow\K8S\Framework\Middleware\ManifestMiddlewareService:
+        arguments:
+          - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.manifest_method', default_priority_method: 'priority' }
 
     Dealroadshow\Bundle\K8SBundle\Command\GenerateManifestCommand:
         tags:
