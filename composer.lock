@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/dealroadshow/k8s-framework.git",
-                "reference": "eedd248211f33c68e559473516820c346c9d1672"
+                "reference": "09e418ed1dade985f89a4efdde14620b13909938"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dealroadshow/k8s-framework/zipball/eedd248211f33c68e559473516820c346c9d1672",
-                "reference": "eedd248211f33c68e559473516820c346c9d1672",
+                "url": "https://api.github.com/repos/dealroadshow/k8s-framework/zipball/09e418ed1dade985f89a4efdde14620b13909938",
+                "reference": "09e418ed1dade985f89a4efdde14620b13909938",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "issues": "https://github.com/dealroadshow/k8s-framework/issues",
                 "source": "https://github.com/dealroadshow/k8s-framework/tree/manifest-method-middlewares"
             },
-            "time": "2020-12-09T16:48:09+00:00"
+            "time": "2020-12-09T17:41:40+00:00"
         },
         {
             "name": "dealroadshow/k8s-resources",

@@ -62,7 +62,7 @@ services:
 
     Dealroadshow\K8S\Framework\Registry\ManifestRegistry:
         arguments:
-          - !tagged_iterator { tag: 'dealroadshow_k8s.manifest' }
+            $manifests: !tagged_iterator { tag: 'dealroadshow_k8s.manifest' }
 
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ContextRegistry:
         arguments:
