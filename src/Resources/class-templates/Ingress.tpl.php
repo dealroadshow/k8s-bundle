@@ -8,17 +8,12 @@ use Dealroadshow\K8S\Framework\Core\Ingress\Configurator\IngressRulesConfigurato
 
 class <?= $className; ?> extends AbstractIngress
 {
+    public function rules(IngressRulesConfigurator $rules, IngressBackendFactory $factory): void
+    {
+    }
+
     public static function shortName(): string
     {
         return '<?= $manifestName; ?>';
-    }
-
-    public function fileNameWithoutExtension(): string
-    {
-        return '<?= $fileName; ?>';
-    }
-
-    public function rules(IngressRulesConfigurator $rules, IngressBackendFactory $factory): void
-    {
     }
 }

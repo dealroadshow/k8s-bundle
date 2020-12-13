@@ -2,6 +2,7 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
+use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -15,7 +16,16 @@ trait ClearCacheTrait
         $input = new ArrayInput([]);
         $output = new BufferedOutput();
         $output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
-        $returnCode = $command->execute($input, $output);
+
+        try {
+            $returnCode = $command->execute($input, $output);
+        } catch (InvalidArgumentException $e) {
+            // Some bug in Symfony when 'cache:clear' command is called programmatically
+            if ('The "no-warmup" option does not exist.' !== $e->getMessage()) {
+                throw $e;
+            }
+            $returnCode = 0;
+        }
 
         if (self::SUCCESS !== $returnCode) {
             throw new RuntimeException(

@@ -6,8 +6,13 @@ use Dealroadshow\K8S\Framework\App\AbstractApp;
 
 class <?= $className; ?> extends AbstractApp
 {
-    public function name(): string
+    public static function name(): string
     {
         return '<?= $appName; ?>';
+    }
+
+    public function manifestConfig(string $shortName): array
+    {
+        return [];
     }
 }

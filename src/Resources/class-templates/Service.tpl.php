@@ -9,16 +9,6 @@ use Dealroadshow\K8S\Framework\Core\Service\Configurator\ServiceTypeConfigurator
 
 class <?= $className; ?> extends AbstractService
 {
-    public static function shortName(): string
-    {
-        return '<?= $manifestName; ?>';
-    }
-
-    public function fileNameWithoutExtension(): string
-    {
-        return '<?= $fileName; ?>';
-    }
-
     public function ports(ServicePortsConfigurator $ports): void
     {
     }
@@ -29,5 +19,10 @@ class <?= $className; ?> extends AbstractService
 
     public function type(ServiceTypeConfigurator $type): void
     {
+    }
+
+    public static function shortName(): string
+    {
+        return '<?= $manifestName; ?>';
     }
 }

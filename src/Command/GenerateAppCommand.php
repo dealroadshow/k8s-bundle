@@ -14,7 +14,7 @@ class GenerateAppCommand extends Command
 {
     use ClearCacheTrait;
 
-    private const ARGUMENT_APP_NAME     = 'app-name';
+    private const ARGUMENT_APP_NAME = 'app-name';
 
     protected static $defaultName = 'dealroadshow_k8s:generate:app';
 
