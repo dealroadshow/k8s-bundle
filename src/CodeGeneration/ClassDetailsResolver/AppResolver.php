@@ -8,7 +8,6 @@ use Dealroadshow\K8S\Framework\Util\Str;
 class AppResolver
 {
     private const SUFFIX_APP = 'App';
-    private const APPS_DIR_NAME = 'Apps';
 
     public function __construct(private string $codeDir, private string $namespacePrefix)
     {
@@ -35,14 +34,13 @@ class AppResolver
     {
         $dirName = Str::asDirName($appName, self::SUFFIX_APP);
 
-        return $this->namespacePrefix.'\\'.self::APPS_DIR_NAME.'\\'.$dirName;
+        return $this->namespacePrefix.'\\'.$dirName;
     }
 
     private function getDir(string $appName): string
     {
         $dirName = Str::asDirName($appName, self::SUFFIX_APP);
-        $ds = DIRECTORY_SEPARATOR;
 
-        return $this->codeDir.$ds.self::APPS_DIR_NAME.$ds.$dirName;
+        return $this->codeDir.DIRECTORY_SEPARATOR.$dirName;
     }
 }
