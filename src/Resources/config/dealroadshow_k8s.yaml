@@ -7,6 +7,7 @@ services:
     Dealroadshow\K8S\Framework\Core\Pod\PodTemplateSpecProcessor: ~
     Dealroadshow\K8S\Framework\Core\Job\JobSpecProcessor: ~
     Dealroadshow\K8S\Framework\Dumper\AppDumper: ~
+    Dealroadshow\Bundle\K8SBundle\EnvManagement\EnvAwareContainerMaker: ~
     Dealroadshow\K8S\Framework\Renderer\YamlRenderer: ~
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper: ~
     Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper: ~
@@ -23,6 +24,7 @@ services:
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
     Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'
     Dealroadshow\K8S\Framework\Dumper\Context\ContextInterface: '@Dealroadshow\K8S\Framework\Dumper\Context\Context'
+    Dealroadshow\K8S\Framework\Core\Container\ContainerMakerInterface: '@Dealroadshow\Bundle\K8SBundle\EnvManagement\EnvAwareContainerMaker'
 
     Dealroadshow\Bundle\K8SBundle\:
         resource: '../../../src/'
