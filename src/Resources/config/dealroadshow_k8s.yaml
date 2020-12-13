@@ -7,7 +7,6 @@ services:
     Dealroadshow\K8S\Framework\Core\Pod\PodTemplateSpecProcessor: ~
     Dealroadshow\K8S\Framework\Core\Job\JobSpecProcessor: ~
     Dealroadshow\K8S\Framework\Dumper\AppDumper: ~
-    Dealroadshow\Bundle\K8SBundle\EnvManagement\EnvAwareContainerMaker: ~
     Dealroadshow\K8S\Framework\Renderer\YamlRenderer: ~
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper: ~
     Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper: ~
@@ -57,6 +56,10 @@ services:
     Dealroadshow\K8S\Framework\Core\Container\ContainerMaker:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.container_image', default_priority_method: 'priority' }
+
+    Dealroadshow\Bundle\K8SBundle\EnvManagement\EnvAwareContainerMaker:
+        arguments:
+            $env: '%kernel.environment%'
 
     Dealroadshow\K8S\Framework\Registry\AppRegistry:
         arguments:
