@@ -21,6 +21,7 @@ class AppGenerator
 
         Dir::create($appDir);
         Dir::create($appDir.DIRECTORY_SEPARATOR.'Manifests');
+        Dir::create($appDir.DIRECTORY_SEPARATOR.'Resources');
 
         $code = $this->generateCode($details, $appName);
         $fileName = $details->fullFilePath();

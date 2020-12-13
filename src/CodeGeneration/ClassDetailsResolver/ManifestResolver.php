@@ -3,8 +3,8 @@
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
-use Dealroadshow\Bundle\K8SBundle\Util\Str;
 use Dealroadshow\K8S\Framework\App\AppInterface;
+use Dealroadshow\K8S\Framework\Util\Str;
 
 class ManifestResolver
 {
