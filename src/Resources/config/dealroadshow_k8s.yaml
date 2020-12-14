@@ -18,6 +18,8 @@ services:
     Dealroadshow\K8S\Framework\ResourceMaker\CronJobMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\IngressMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\ServiceMaker: ~
+    Dealroadshow\K8S\Framework\Registry\AppRegistry: ~
+    Dealroadshow\K8S\Framework\Registry\ManifestRegistry: ~
     Dealroadshow\K8S\Framework\Proxy\ManifestProxyFactory: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
@@ -60,14 +62,6 @@ services:
     Dealroadshow\Bundle\K8SBundle\EnvManagement\EnvAwareContainerMaker:
         arguments:
             $env: '%kernel.environment%'
-
-    Dealroadshow\K8S\Framework\Registry\AppRegistry:
-        arguments:
-          - !tagged_iterator { tag: 'dealroadshow_k8s.app' }
-
-    Dealroadshow\K8S\Framework\Registry\ManifestRegistry:
-        arguments:
-            $manifests: !tagged_iterator { tag: 'dealroadshow_k8s.manifest' }
 
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ContextRegistry:
         arguments:
