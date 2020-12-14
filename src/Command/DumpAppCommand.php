@@ -2,7 +2,6 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
-use Dealroadshow\K8S\Framework\App\AppInterface;
 use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,7 +14,7 @@ use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 
 class DumpAppCommand extends Command
 {
-    private const ARGUMENT_APP_NAME = 'app_name';
+    private const ARGUMENT_APP_ALIAS  = 'app_alias';
     private const ARGUMENT_OUTPUT_DIR = 'output_dir';
 
     protected static $defaultName = 'dealroadshow_k8s:dump:app';
@@ -33,9 +32,9 @@ class DumpAppCommand extends Command
         $this
             ->setDescription('Processes app and dumps Yaml manifests to output dir.')
             ->addArgument(
-                self::ARGUMENT_APP_NAME,
+                self::ARGUMENT_APP_ALIAS,
                 InputArgument::REQUIRED,
-                'Name of app to synthetize'
+                'Alias (name) of app to synthetize'
             )
             ->addArgument(
                 self::ARGUMENT_OUTPUT_DIR,
@@ -52,8 +51,11 @@ class DumpAppCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        $appAlias = $input->getArgument(self::ARGUMENT_APP_ALIAS);
         try {
-            $app = $this->getApp($input);
+            if (!$this->appRegistry->has($appAlias)) {
+                throw new InvalidArgumentException(sprintf('App "%s" does not exist', $appAlias));
+            }
             $outputDir = $this->getValidOutputDir($input);
         } catch (InvalidArgumentException $e) {
             $io->error($e->getMessage());
@@ -62,22 +64,14 @@ class DumpAppCommand extends Command
             return self::FAILURE;
         }
 
-        $this->appProcessor->process($app);
+        $this->appProcessor->process($appAlias);
+        $app = $this->appRegistry->get($appAlias);
         $this->dumper->dump($app, $outputDir);
 
         $io->success(sprintf('Yaml manifests are saved to directory "%s"', $outputDir));
         $io->newLine();
 
         return self::SUCCESS;
-    }
-
-    private function getApp(string $appName): AppInterface
-    {
-        if (!$this->appRegistry->has($appName)) {
-            throw new InvalidArgumentException(sprintf('App "%s" does not exist', $appName));
-        }
-
-        return $this->appRegistry->get($appName);
     }
 
     private function getValidOutputDir(InputInterface $input): string

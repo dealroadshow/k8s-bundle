@@ -34,10 +34,10 @@ class DumpAllCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        foreach ($this->registry->names() as $name) {
-            $app = $this->registry->get($name);
-            $this->processor->process($app);
-            $dir = $this->manifestsDir.$app::name();
+        foreach ($this->registry->aliases() as $alias) {
+            $app = $this->registry->get($alias);
+            $this->processor->process($alias);
+            $dir = $this->manifestsDir.$alias;
             $this->dumper->dump($app, $dir);
         }
 
