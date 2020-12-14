@@ -19,9 +19,9 @@ class DealroadshowK8SBundle extends Bundle
         parent::build($container);
 
         $container
-            ->addCompilerPass(pass: new AppsPass(), priority: 128)
-            ->addCompilerPass(pass: new EnabledAppsPass(), priority: 64)
-            ->addCompilerPass(pass: new ManifestsPass(), priority: 32)
+            ->addCompilerPass(new AppsPass())
+            ->addCompilerPass(pass: new EnabledAppsPass(), priority: -8)
+            ->addCompilerPass(pass: new ManifestsPass(), priority: -16)
             ->addCompilerPass(new ManifestGeneratorContextsPass())
             ->addCompilerPass(new MiddlewarePass())
             ->addCompilerPass(new ResourceMakersPass())

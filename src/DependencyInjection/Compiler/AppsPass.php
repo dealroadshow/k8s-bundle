@@ -159,7 +159,7 @@ class AppsPass implements CompilerPassInterface
         $id = 'dealroadshow_k8s.apps.'.Str::underscored($alias);
         $container->setDefinition($id, $newDefinition);
 
-        $this->registryDefinition->addMethodCall('add', [new Reference($id)]);
+        $this->registryDefinition->addMethodCall('add', [$alias, new Reference($id)]);
     }
 
     private function clearAppClassesDefinitions(ContainerBuilder $container): void

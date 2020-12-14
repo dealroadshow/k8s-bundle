@@ -65,7 +65,7 @@ class ManifestsPass implements CompilerPassInterface
                         Str::underscored($manifestKind)
                     );
                     $container->setDefinition($newId, $dedicatedManifestDefinition);
-                    $registryDefinition->addMethodCall($alias, [new Reference($newId)]);
+                    $registryDefinition->addMethodCall('add', [$alias, new Reference($newId)]);
                 }
             }
         }
