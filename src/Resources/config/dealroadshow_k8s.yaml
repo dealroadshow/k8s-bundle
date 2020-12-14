@@ -10,7 +10,6 @@ services:
     Dealroadshow\K8S\Framework\Renderer\YamlRenderer: ~
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper: ~
     Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper: ~
-    Dealroadshow\K8S\Framework\App\AppProcessor: ~
     Dealroadshow\K8S\Framework\ResourceMaker\ConfigMapMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\DeploymentMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\SecretMaker: ~
@@ -70,6 +69,10 @@ services:
     Dealroadshow\K8S\Framework\Middleware\ManifestMiddlewareService:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.manifest_method', default_priority_method: 'priority' }
+
+    Dealroadshow\K8S\Framework\App\AppProcessor:
+        arguments:
+            $appConfigs: '%dealroadshow_k8s.config.apps%'
 
     Dealroadshow\Bundle\K8SBundle\Command\GenerateManifestCommand:
         tags:
