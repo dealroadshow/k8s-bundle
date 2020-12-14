@@ -35,10 +35,9 @@ class DumpAllCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         foreach ($this->registry->aliases() as $alias) {
-            $app = $this->registry->get($alias);
             $this->processor->process($alias);
-            $dir = $this->manifestsDir.$alias;
-            $this->dumper->dump($app, $dir);
+            $dir = $this->manifestsDir.DIRECTORY_SEPARATOR.$alias;
+            $this->dumper->dump($alias, $dir);
         }
 
         $io->success(sprintf('Manifests saved to directory "%s"', $this->manifestsDir));

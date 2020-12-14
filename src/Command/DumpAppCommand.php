@@ -65,8 +65,7 @@ class DumpAppCommand extends Command
         }
 
         $this->appProcessor->process($appAlias);
-        $app = $this->appRegistry->get($appAlias);
-        $this->dumper->dump($app, $outputDir);
+        $this->dumper->dump($appAlias, $outputDir);
 
         $io->success(sprintf('Yaml manifests are saved to directory "%s"', $outputDir));
         $io->newLine();
