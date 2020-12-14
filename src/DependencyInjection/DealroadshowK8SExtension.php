@@ -12,51 +12,64 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ResourceMakersPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\ResourceMaker\ResourceMakerInterface;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Throwable;
 
-class DealroadshowK8SExtension extends ConfigurableExtension
+class DealroadshowK8SExtension extends Extension
 {
     /**
-     * @param array            $mergedConfig
+     * @param array            $configs
      * @param ContainerBuilder $container
      *
      * @throws Exception
      */
-    protected function loadInternal(array $mergedConfig, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
-        $this->setupAutoconfiguration($container);
-
         $loader = new YamlFileLoader(
             $container,
             new FileLocator(__DIR__.'/../Resources/config')
         );
         $loader->load('dealroadshow_k8s.yaml');
 
-        $this->setupCodeDir($mergedConfig, $container);
-        $this->setupManifestsDir($mergedConfig, $container);
-        $container->setParameter(
-            'dealroadshow_k8s.class_templates_dir',
-            __DIR__.'/../Resources/class-templates'
+        $appsConfigs = array_column($configs, 'apps');
+        if (2 > count($appsConfigs)) {
+            $appsConfigs[] = []; // array_replace_recursive will have enough arguments
+        }
+        // We use ArrayNode::ignoreExtraKeys() for app configs in Configuration class,
+        // therefore Symfony will not merge app configs properly - thus we need to do this ourselves
+        $configs[0]['apps'] = array_replace_recursive(...$appsConfigs);
+
+        $this->loadInternal(
+            $this->processConfiguration($this->getConfiguration($configs, $container), $configs),
+            $container
         );
-        $container->setParameter(
-            'dealroadshow_k8s.namespace_prefix',
-            $mergedConfig['namespace_prefix']
-        );
-        $container->setParameter(
-            'dealroadshow_k8s.filter.tags.include',
-            $mergedConfig['manifests']['filter']['byTags']['include']
-        );
-        $container->setParameter(
-            'dealroadshow_k8s.filter.tags.exclude',
-            $mergedConfig['manifests']['filter']['byTags']['exclude']
-        );
+    }
+
+    /**
+     * @param array            $config
+     * @param ContainerBuilder $container
+     *
+     * @throws Exception
+     */
+    private function loadInternal(array $config, ContainerBuilder $container)
+    {
+        $this->setupAutoconfiguration($container);
+
+        $this
+            ->setupCodeDir($config, $container)
+            ->setupManifestsDir($config, $container)
+            ->setupFilters($config, $container)
+            ->setupTemplatesDir($container)
+            ->setupNamespacePrefix($config['namespace_prefix'], $container)
+        ;
+
+        $container->setParameter('dealroadshow_k8s.config.apps', $config['apps']);
     }
 
     public function getAlias(): string
@@ -85,7 +98,38 @@ class DealroadshowK8SExtension extends ConfigurableExtension
             ->addTag(MiddlewarePass::MANIFEST_MIDDLEWARE_TAG);
     }
 
-    private function setupCodeDir(array $config, ContainerBuilder $container): void
+    private function setupTemplatesDir(ContainerBuilder $container): static
+    {
+        $container->setParameter(
+            'dealroadshow_k8s.class_templates_dir',
+            __DIR__.'/../Resources/class-templates'
+        );
+
+        return $this;
+    }
+
+    private function setupNamespacePrefix(string $prefix, ContainerBuilder $container): static
+    {
+        $container->setParameter('dealroadshow_k8s.namespace_prefix', $prefix);
+
+        return $this;
+    }
+
+    private function setupFilters(array $config, ContainerBuilder $container): static
+    {
+        $container->setParameter(
+            'dealroadshow_k8s.filter.tags.include',
+            $config['filterManifests']['byTags']['include']
+        );
+        $container->setParameter(
+            'dealroadshow_k8s.filter.tags.exclude',
+            $config['filterManifests']['byTags']['exclude']
+        );
+
+        return $this;
+    }
+
+    private function setupCodeDir(array $config, ContainerBuilder $container): static
     {
         $codeDir = $config['code_dir'] ?? null;
         if (null === $codeDir) {
@@ -101,9 +145,11 @@ class DealroadshowK8SExtension extends ConfigurableExtension
             } catch (Throwable) {}
         }
         $container->setParameter('dealroadshow_k8s.code_dir', $codeDir);
+
+        return $this;
     }
 
-    private function setupManifestsDir(array $config, ContainerBuilder $container): void
+    private function setupManifestsDir(array $config, ContainerBuilder $container): static
     {
         $manifestsDir = $config['manifests_dir'] ?? null;
         if (null === $manifestsDir) {
@@ -120,6 +166,8 @@ class DealroadshowK8SExtension extends ConfigurableExtension
             @mkdir($manifestsDir, 0777, true);
         }
         $container->setParameter('dealroadshow_k8s.manifests_dir', $manifestsDir);
+
+        return $this;
     }
 
     private function getSrcDir(ContainerBuilder $container): string
