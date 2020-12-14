@@ -148,6 +148,14 @@ class AppsPass implements CompilerPassInterface
 
     private function createNewDefinition(string $class, string $alias, ContainerBuilder $container): void
     {
+        if (str_contains($alias, '-')) {
+            throw new InvalidConfigurationException(
+                sprintf(
+                    'App aliases must use underscores ("_") instead of dashes ("-") to follow the convention.'
+                )
+            );
+        }
+
         $appDefinition = $container->getDefinition($class);
         $config = $this->appsConfig[$alias] ?? ['enabled' => true];
         if (!$config['enabled']) {
