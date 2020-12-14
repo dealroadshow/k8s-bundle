@@ -22,7 +22,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('namespace_prefix')->defaultValue('App\\K8S\\')->end()
                 ->scalarNode('manifests_dir')->defaultNull()->end()
                 ->arrayNode('apps')
-                    ->addDefaultsIfNotSet()
                     ->useAttributeAsKey('alias')
                     ->arrayPrototype()
                         ->ignoreExtraKeys()
