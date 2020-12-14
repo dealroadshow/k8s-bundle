@@ -92,7 +92,7 @@ class AppsPass implements CompilerPassInterface
                 continue;
             }
 
-            $this->createNewDefinition($class, $alias, $container);
+            $this->createNewDefinition($className, $alias, $container);
         }
     }
 

@@ -43,7 +43,7 @@ class DealroadshowK8SExtension extends Extension
         }
         // We use ArrayNode::ignoreExtraKeys() for app configs in Configuration class,
         // therefore Symfony will not merge app configs properly - thus we need to do this ourselves
-        $configs[0]['apps'] = array_replace_recursive(...$appsConfigs);
+        $configs[count($configs) - 1]['apps'] = array_replace_recursive(...$appsConfigs);
 
         $this->loadInternal(
             $this->processConfiguration($this->getConfiguration($configs, $container), $configs),
