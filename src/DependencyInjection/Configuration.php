@@ -5,6 +5,8 @@ namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 use Closure;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use ReflectionClass;
+use ReflectionException;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
@@ -18,26 +20,10 @@ class Configuration implements ConfigurationInterface
 
         $root
             ->children()
+                ->append(self::appsNode())
                 ->scalarNode('code_dir')->defaultNull()->end()
                 ->scalarNode('namespace_prefix')->defaultValue('App\\K8S\\')->end()
                 ->scalarNode('manifests_dir')->defaultNull()->end()
-                ->arrayNode('apps')
-                    ->useAttributeAsKey('alias')
-                    ->arrayPrototype()
-                        ->ignoreExtraKeys()
-                        ->canBeDisabled()
-                        ->children()
-                            ->scalarNode('class')
-                                ->cannotBeEmpty()
-                                ->cannotBeOverwritten()
-                                ->beforeNormalization()
-                                    ->ifString()
-                                    ->then(Closure::fromCallable([$this, 'validClassName']))
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
                 ->arrayNode('filterManifests')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -59,7 +45,38 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    private function validClassName(string $class): string
+    public static function appsNode(): ArrayNodeDefinition
+    {
+        $treeBuilder = new TreeBuilder('apps');
+        $node = $treeBuilder->getRootNode();
+
+        $node
+            ->useAttributeAsKey('alias')
+            ->arrayPrototype()
+                ->ignoreExtraKeys()
+                ->canBeDisabled()
+                ->children()
+                    ->scalarNode('class')
+                        ->cannotBeEmpty()
+                        ->cannotBeOverwritten()
+                        ->beforeNormalization()
+                            ->ifString()
+                            ->then(Closure::fromCallable([static::class, 'validClassName']))
+                        ->end()
+                    ->end()
+                ->end()
+            ->end();
+
+        return $node;
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return string
+     * @throws ReflectionException
+     */
+    private static function validClassName(string $class): string
     {
         if (!class_exists($class)) {
             throw new InvalidConfigurationException(
