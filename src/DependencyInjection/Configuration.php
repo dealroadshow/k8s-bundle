@@ -53,7 +53,7 @@ class Configuration implements ConfigurationInterface
         $node
             ->useAttributeAsKey('alias')
             ->arrayPrototype()
-                ->ignoreExtraKeys()
+                ->ignoreExtraKeys(false)
                 ->canBeDisabled()
                 ->children()
                     ->scalarNode('class')
