@@ -76,21 +76,21 @@ services:
 
     Dealroadshow\Bundle\K8SBundle\Command\GenerateManifestCommand:
         tags:
-          - { name: 'console.command', command: 'k8s:generate:manifest' }
-          - { name: 'console.command', command: 'k8s:gen:manifest' }
-          - { name: 'console.command', command: 'k8s:gen:man' }
+          - { name: 'console.command', alias: 'k8s:generate:manifest' }
+          - { name: 'console.command', alias: 'k8s:gen:manifest' }
+          - { name: 'console.command', alias: 'k8s:gen:man' }
 
     Dealroadshow\Bundle\K8SBundle\Command\GenerateAppCommand:
         tags:
-          - { name: 'console.command', command: 'k8s:generate:app' }
-          - { name: 'console.command', command: 'k8s:gen:app' }
+          - { name: 'console.command', alias: 'k8s:generate:app' }
+          - { name: 'console.command', alias: 'k8s:gen:app' }
 
     Dealroadshow\Bundle\K8SBundle\Command\DumpAppCommand:
         tags:
-          - { name: 'console.command', command: 'k8s:dump:app' }
+          - { name: 'console.command', alias: 'k8s:dump:app' }
 
     Dealroadshow\Bundle\K8SBundle\Command\DumpAllCommand:
         arguments:
             $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
         tags:
-          - { name: 'console.command', command: 'k8s:dump:all' }
+          - { name: 'console.command', alias: 'k8s:dump:all' }

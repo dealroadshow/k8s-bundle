@@ -5,7 +5,6 @@ namespace Dealroadshow\Bundle\K8SBundle\Command;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\Context\ContextInterface;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ContextRegistry;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ManifestGenerator;
-use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
 use Dealroadshow\K8S\Framework\Util\Str;
@@ -51,11 +50,6 @@ class GenerateManifestCommand extends Command
                 InputArgument::OPTIONAL,
                 'Manifest type (e.g. <fg=yellow>deployment</> or <fg=yellow>config-map</>)'
             )
-            ->addArgument(
-                self::ARGUMENT_APP_NAME,
-                InputArgument::OPTIONAL,
-                'App name without "app" suffix (e.g. <fg=yellow>drs-cron</>)'
-            )
             ->setAliases([
                 'k8s:generate:manifest',
                 'k8s:gen:manifest',
@@ -70,7 +64,8 @@ class GenerateManifestCommand extends Command
 
         try {
             $context = $this->getContext($input, $io);
-            $app = $this->getApp($input, $io);
+            $appAlias = $this->getAppAlias($io);
+            $app = $this->appRegistry->get($appAlias);
             $name = $this->getManifestName($input, $context, $app);
         } catch (InvalidArgumentException $e) {
             $io->error($e->getMessage());
@@ -102,23 +97,19 @@ class GenerateManifestCommand extends Command
         return self::SUCCESS;
     }
 
-    private function getApp(InputInterface $input, SymfonyStyle $io): AppInterface
+    private function getAppAlias(SymfonyStyle $io): string
     {
-        $appName = $input->getArgument(self::ARGUMENT_APP_NAME);
+        $question = new ChoiceQuestion(
+            'Please choose an app, for which you want to generate new manifest class',
+            $this->appRegistry->classes()
+        );
+        $appClass = $io->askQuestion($question);
 
-        if (null === $appName) {
-            $question = new ChoiceQuestion(
-                'Please choose a name of app where you want to generate new manifest class',
-                $this->appRegistry->names()
-            );
-            $appName = $io->askQuestion($question);
+        foreach ($this->appRegistry->allAppsByClass($appClass) as $alias => $app) {
+            return $alias;
         }
 
-        if (!$this->appRegistry->has($appName)) {
-            throw new InvalidArgumentException(sprintf('App "%s" does not exist', $appName));
-        }
-
-        return $this->appRegistry->get($appName);
+        throw new InvalidArgumentException(sprintf('App with "%s" does not exist', $appClass));
     }
 
     private function getContext(InputInterface $input, SymfonyStyle $io): ContextInterface
@@ -152,7 +143,7 @@ class GenerateManifestCommand extends Command
         return $this->contextRegistry->get($kind);
     }
 
-    private function getManifestName(InputInterface $input, ContextInterface $context, AppInterface $app): string
+    private function getManifestName(InputInterface $input, ContextInterface $context, string $appAlias): string
     {
         $name = $input->getArgument(self::ARGUMENT_MANIFEST_NAME);
         if (!Str::isValidDNSSubdomain($name)) {
@@ -169,8 +160,7 @@ class GenerateManifestCommand extends Command
             );
         }
 
-        $manifest = $this->manifestRegistry->query()
-            ->app($app)
+        $manifest = $this->manifestRegistry->query($appAlias)
             ->instancesOf($context->parentInterface())
             ->shortName($name)
             ->getFirstResult();
