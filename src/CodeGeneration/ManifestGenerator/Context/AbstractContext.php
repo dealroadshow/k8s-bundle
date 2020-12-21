@@ -14,7 +14,7 @@ abstract class AbstractContext implements ContextInterface
 
     public function createDedicatedDir(): bool
     {
-        return true;
+        return false;
     }
 
     public function parentInterface(): string
@@ -23,7 +23,7 @@ abstract class AbstractContext implements ContextInterface
 
         try {
             $reflection = new ReflectionClass($interfaceName);
-        } catch (ReflectionException $e) {
+        } catch (ReflectionException) {
             throw new LogicException(
                 sprintf(
                     'Class "%s", returned by %s::interfaceName(), does not exist',

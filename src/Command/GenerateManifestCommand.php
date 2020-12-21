@@ -122,10 +122,7 @@ class GenerateManifestCommand extends Command
         );
 
         if (null === $typeName) {
-            $question = new ChoiceQuestion(
-                'Please choose a manifest type',
-                $supportedTypes
-            );
+            $question = new ChoiceQuestion('Please choose a manifest type', $supportedTypes);
             $typeName = $io->askQuestion($question);
         }
 
