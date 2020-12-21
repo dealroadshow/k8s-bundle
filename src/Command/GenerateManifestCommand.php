@@ -109,7 +109,7 @@ class GenerateManifestCommand extends Command
             return $alias;
         }
 
-        throw new InvalidArgumentException(sprintf('App with "%s" does not exist', $appClass));
+        throw new InvalidArgumentException(sprintf('App for class name "%s" does not exist', $appClass));
     }
 
     private function getContext(InputInterface $input, SymfonyStyle $io): ContextInterface
