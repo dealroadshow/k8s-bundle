@@ -101,7 +101,7 @@ class GenerateManifestCommand extends Command
     {
         $question = new ChoiceQuestion(
             'Please choose an app, for which you want to generate new manifest class',
-            $this->appRegistry->classes()
+            array_values($this->appRegistry->classes())
         );
         $appClass = $io->askQuestion($question);
 
