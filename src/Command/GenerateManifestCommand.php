@@ -66,7 +66,7 @@ class GenerateManifestCommand extends Command
             $context = $this->getContext($input, $io);
             $appAlias = $this->getAppAlias($io);
             $app = $this->appRegistry->get($appAlias);
-            $name = $this->getManifestName($input, $context, $app);
+            $name = $this->getManifestName($input, $context, $appAlias);
         } catch (InvalidArgumentException $e) {
             $io->error($e->getMessage());
             $io->newLine();
