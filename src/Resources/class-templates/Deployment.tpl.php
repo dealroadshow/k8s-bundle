@@ -9,7 +9,7 @@ use Dealroadshow\K8S\Framework\Core\Pod\Volume\VolumesConfigurator;
 
 class <?= $className; ?> extends AbstractDeployment
 {
-    public function selector(LabelSelectorConfigurator $selector): void
+    public function selector(SelectorConfigurator $selector): void
     {
     }
 
