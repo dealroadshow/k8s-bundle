@@ -24,8 +24,8 @@ class ManifestResolver
     public function getClassDetails(AppInterface $app, string $manifestName, string $suffix, bool $useDedicatedDir = false): ClassDetails
     {
         $className = Str::withSuffix(Str::asClassName($manifestName), $suffix);
-        $namespace = Str::asNamespace($app).'\\Manifests';
-        $dir = Str::asDir($app).DIRECTORY_SEPARATOR.'Manifests';
+        $namespace = Str::asNamespace($app).'\\Manifest';
+        $dir = Str::asDir($app).DIRECTORY_SEPARATOR.'Manifest';
         $fileName = $className.'.php';
 
         if ($useDedicatedDir) {
