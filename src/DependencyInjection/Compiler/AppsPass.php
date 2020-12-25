@@ -46,7 +46,11 @@ class AppsPass implements CompilerPassInterface
         $this->createClassNameToAliasMap();
         $this->registerByConfig($container);
         $this->registerByNames($container);
-        $this->clearAppClassesDefinitions($container);
+    }
+
+    public static function appDefinitionId(string $appAlias): string
+    {
+        return 'dealroadshow_k8s.apps.'.Str::underscored($appAlias);
     }
 
     private function registerByConfig(ContainerBuilder $container): void
@@ -164,16 +168,9 @@ class AppsPass implements CompilerPassInterface
 
         $newDefinition = clone $appDefinition;
         $newDefinition->addTag(self::APP_TAG, ['alias' => $alias]);
-        $id = 'dealroadshow_k8s.apps.'.Str::underscored($alias);
+        $id = static::appDefinitionId($alias);
         $container->setDefinition($id, $newDefinition);
 
         $this->registryDefinition->addMethodCall('add', [$alias, new Reference($id)]);
-    }
-
-    private function clearAppClassesDefinitions(ContainerBuilder $container): void
-    {
-        foreach ($this->appClasses as $className => $class) {
-            $container->removeDefinition($className);
-        }
     }
 }

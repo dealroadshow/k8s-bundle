@@ -2,6 +2,8 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
+use Dealroadshow\K8S\Framework\App\AppInterface;
+use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
 use Dealroadshow\K8S\Framework\Util\Str;
@@ -11,6 +13,7 @@ use ReflectionException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\TypedReference;
 
 class ManifestsPass implements CompilerPassInterface
 {
@@ -66,8 +69,72 @@ class ManifestsPass implements CompilerPassInterface
                     );
                     $container->setDefinition($newId, $dedicatedManifestDefinition);
                     $registryDefinition->addMethodCall('add', [$alias, new Reference($newId)]);
+
+                    $this->autowireContainerClasses($container, $newId, $alias);
                 }
             }
+        }
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string           $manifestDefinitionId
+     * @param string           $appAlias
+     *
+     * @throws ReflectionException
+     */
+    private function autowireContainerClasses(ContainerBuilder $container, string $manifestDefinitionId, string $appAlias)
+    {
+        $manifestDefinition = $container->getDefinition($manifestDefinitionId);
+        foreach ($manifestDefinition->getArguments() as $name => $argument) {
+            if (!$argument instanceof TypedReference) {
+                continue;
+            }
+            $type = $argument->getType();
+            if (!class_exists($type)) {
+                continue;
+            }
+            $class = new ReflectionClass($type);
+            if (!$class->implementsInterface(ContainerInterface::class)) {
+                continue;
+            }
+            $containerDefinition = $container->getDefinition($class->getName());
+            $newDefinition = clone $containerDefinition;
+            $id = $manifestDefinitionId.'.containers.'.$name;
+            $container->setDefinition($id, $newDefinition);
+            $manifestDefinition->replaceArgument($name, new Reference($id));
+            $this->autowireContainerClass($container, $id, $appAlias);
+        }
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string           $containerDefinitionId
+     * @param string           $appAlias
+     *
+     * @throws ReflectionException
+     */
+    private function autowireContainerClass(ContainerBuilder $container, string $containerDefinitionId, string $appAlias)
+    {
+        $containerDefinition = $container->getDefinition($containerDefinitionId);
+        $appDefinitionId = AppsPass::appDefinitionId($appAlias);
+        $appDefinition = $container->getDefinition($appDefinitionId);
+        foreach ($containerDefinition->getArguments() as $name => $argument) {
+            if (!$argument instanceof TypedReference) {
+                continue;
+            }
+            $type = $argument->getType();
+            if (!class_exists($type)) {
+                continue;
+            }
+            $class = new ReflectionClass($type);
+            if (!$class->implementsInterface(AppInterface::class)) {
+                continue;
+            }
+            if ($class->getName() !== $appDefinition->getClass()) {
+                continue;
+            }
+            $containerDefinition->replaceArgument($name, new Reference($appDefinitionId));
         }
     }
 
@@ -77,6 +144,11 @@ class ManifestsPass implements CompilerPassInterface
         foreach ($container->findTaggedServiceIds(AppsPass::APP_TAG) as $id => $tags) {
             $definition = $container->getDefinition($id);
             $className = $definition->getClass();
+
+            // Default (autowired) app services will be removed later in RemoveAutowiredAppsPass
+            if ($id === $definition->getClass()) {
+                continue;
+            }
 
             $alias = null;
             foreach ($tags as $tag) {
