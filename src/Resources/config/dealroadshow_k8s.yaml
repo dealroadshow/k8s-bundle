@@ -62,10 +62,6 @@ services:
         arguments:
             $env: '%kernel.environment%'
 
-    Dealroadshow\Bundle\K8SBundle\Middleware\EnvAwareReplicasMiddleware:
-        arguments:
-            $env: '%kernel.environment%'
-
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ContextRegistry:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.manifest_generator.context' }
@@ -73,6 +69,10 @@ services:
     Dealroadshow\K8S\Framework\Middleware\ManifestMiddlewareService:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.manifest_method', default_priority_method: 'priority' }
+
+    Dealroadshow\K8S\Framework\Middleware\AbstractEnvAwareMethodMiddleware:
+        arguments:
+            $env: '%kernel.environment%'
 
     Dealroadshow\K8S\Framework\App\AppProcessor:
         arguments:
