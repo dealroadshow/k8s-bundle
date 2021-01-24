@@ -62,6 +62,10 @@ services:
         arguments:
             $env: '%kernel.environment%'
 
+    Dealroadshow\Bundle\K8SBundle\Middleware\EnvAwareReplicasMiddleware:
+        arguments:
+            $env: '%kernel.environment%'
+
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ContextRegistry:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.manifest_generator.context' }
