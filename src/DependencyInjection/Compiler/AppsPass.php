@@ -154,9 +154,7 @@ class AppsPass implements CompilerPassInterface
     {
         if (str_contains($alias, '-')) {
             throw new InvalidConfigurationException(
-                sprintf(
-                    'App aliases must use underscores ("_") instead of dashes ("-") to follow the convention.'
-                )
+                'App aliases must use underscores ("_") instead of dashes ("-") to follow the convention.'
             );
         }
 

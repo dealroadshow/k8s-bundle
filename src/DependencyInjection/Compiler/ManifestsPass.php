@@ -49,6 +49,7 @@ class ManifestsPass implements CompilerPassInterface
                     )
                 );
             }
+
             $manifestShortName = $manifestClass->getMethod('shortName')->invoke(null);
             $manifestKind = $manifestClass->getMethod('kind')->invoke(null);
 
