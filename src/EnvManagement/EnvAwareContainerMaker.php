@@ -31,6 +31,10 @@ class EnvAwareContainerMaker implements ContainerMakerInterface
     public function make(ContainerInterface $builder, VolumeList $volumes, AppInterface $app): Container
     {
         $container = $this->maker->make($builder, $volumes, $app);
+        $resources = new ResourcesConfigurator($container->resources());
+        if ($builder instanceof EnvAwareContainerInterface) {
+            $builder->resourcesForEnv('default')?->apply($resources);
+        }
 
         $envSpecificResourcesMethod = 'resources'.Str::asClassName($this->env);
         $class = new ReflectionObject($builder);
@@ -44,7 +48,6 @@ class EnvAwareContainerMaker implements ContainerMakerInterface
             return $this->applyCallbacks($builder, $container);
         }
 
-        $resources = new ResourcesConfigurator($container->resources());
         $method->invoke($builder, $resources);
 
         return $this->applyCallbacks($builder, $container);
