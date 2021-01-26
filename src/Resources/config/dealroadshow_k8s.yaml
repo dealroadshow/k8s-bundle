@@ -74,6 +74,10 @@ services:
         arguments:
             $env: '%kernel.environment%'
 
+    Dealroadshow\Bundle\K8SBundle\Middleware\ManifestMethodWrappersMiddleware:
+        arguments:
+            $env: '%kernel.environment%'
+
     Dealroadshow\K8S\Framework\App\AppProcessor:
         arguments:
             $appConfigs: '%dealroadshow_k8s.config.apps%'
