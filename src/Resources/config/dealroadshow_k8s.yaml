@@ -2,6 +2,8 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+        bind:
+            $env: '%kernel.environment%'
 
     Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodTemplateSpecProcessor: ~
@@ -70,7 +72,7 @@ services:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.manifest_method', default_priority_method: 'priority' }
 
-    Dealroadshow\K8S\Framework\Middleware\AbstractEnvAwareMethodMiddleware:
+    Dealroadshow\K8S\Framework\Middleware\EnvAwareReplicasMiddleware:
         arguments:
             $env: '%kernel.environment%'
 
