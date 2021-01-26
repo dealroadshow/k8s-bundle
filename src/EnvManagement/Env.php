@@ -19,7 +19,7 @@ class Env
 
     private static Closure|null $getEnvClosure = null;
 
-    public static function getVar(string $name): mixed
+    public static function var(string $name): mixed
     {
         $closure = self::getClosure();
 
