@@ -43,6 +43,8 @@ class DealroadshowK8SBundle extends Bundle
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
-        DIContainerRegistry::set($container);
+        if (null !== $container) {
+            DIContainerRegistry::set($container);
+        }
     }
 }
