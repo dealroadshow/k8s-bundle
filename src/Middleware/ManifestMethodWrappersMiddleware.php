@@ -62,6 +62,9 @@ class ManifestMethodWrappersMiddleware extends AbstractManifestMiddleware
     {
         $class = new ReflectionObject($manifest);
         foreach ($class->getMethods() as $method) {
+            if ($method->getName() === $methodName) {
+                continue;
+            }
             $attributes = AttributesUtil::getFunctionAttributes($method, $attributeClass, true);
             if (0 === count($attributes)) {
                 continue;
