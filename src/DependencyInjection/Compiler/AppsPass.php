@@ -152,9 +152,12 @@ class AppsPass implements CompilerPassInterface
 
     private function createNewDefinition(string $class, string $alias, ContainerBuilder $container): void
     {
-        if (str_contains($alias, '-')) {
+        if (!Str::isValidDNSSubdomain($alias)) {
             throw new InvalidConfigurationException(
-                'App aliases must use underscores ("_") instead of dashes ("-") to follow the convention.'
+                sprintf(
+                    'App alias "%s" must be a valid DNS subdomain name.',
+                    $alias
+                )
             );
         }
 
