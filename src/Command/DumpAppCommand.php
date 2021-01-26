@@ -77,9 +77,10 @@ class DumpAppCommand extends Command
     {
         $outputDir = $input->getArgument(self::ARGUMENT_OUTPUT_DIR);
         $outputDir = realpath($outputDir);
-        if (!file_exists($outputDir)) {
+        if (!file_exists(realpath($outputDir))) {
             throw new InvalidArgumentException(sprintf('Output dir "%s" does not exist', $outputDir));
         }
+        $outputDir = realpath($outputDir);
         if (!is_dir($outputDir)) {
             throw new InvalidArgumentException(sprintf('Output path "%s" is not a directory', $outputDir));
         }
