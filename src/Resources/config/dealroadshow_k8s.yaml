@@ -2,8 +2,6 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
-        bind:
-            $env: '%kernel.environment%'
 
     Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodTemplateSpecProcessor: ~
