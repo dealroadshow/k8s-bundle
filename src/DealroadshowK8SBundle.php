@@ -8,8 +8,10 @@ use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGenerator
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\RemoveAutowiredAppsPass;
+use Dealroadshow\Bundle\K8SBundle\EnvManagement\DIContainerRegistry;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ResourceMakersPass;
@@ -36,5 +38,11 @@ class DealroadshowK8SBundle extends Bundle
     public function getContainerExtension(): DealroadshowK8SExtension
     {
         return new DealroadshowK8SExtension();
+    }
+
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+        DIContainerRegistry::set($container);
     }
 }
