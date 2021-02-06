@@ -76,7 +76,6 @@ class DumpAppCommand extends Command
     private function getValidOutputDir(InputInterface $input): string
     {
         $outputDir = $input->getArgument(self::ARGUMENT_OUTPUT_DIR);
-        $outputDir = realpath($outputDir);
         if (!file_exists(realpath($outputDir))) {
             throw new InvalidArgumentException(sprintf('Output dir "%s" does not exist', $outputDir));
         }
