@@ -22,7 +22,7 @@ class SetAppConfigPass implements CompilerPassInterface
             }
             $alias = $this->getAppAlias($id, $tags);
             $appConfig = $appConfigs[$alias] ?? [];
-            $appDefinition->addMethodCall('setConfig', $appConfig);
+            $appDefinition->addMethodCall('setConfig', [$appConfig]);
         }
     }
 }
