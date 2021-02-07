@@ -3,6 +3,7 @@ services:
         autowire: true
         autoconfigure: true
 
+    Dealroadshow\K8S\Framework\App\AppProcessor: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
     Dealroadshow\K8S\Framework\Core\ManifestManager: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodTemplateSpecProcessor: ~
@@ -79,10 +80,6 @@ services:
     Dealroadshow\Bundle\K8SBundle\Middleware\ManifestMethodWrappersMiddleware:
         arguments:
             $env: '%kernel.environment%'
-
-    Dealroadshow\K8S\Framework\App\AppProcessor:
-        arguments:
-            $appConfigs: '%dealroadshow_k8s.config.apps%'
 
     Dealroadshow\Bundle\K8SBundle\Command\GenerateManifestCommand:
         tags:
