@@ -8,6 +8,7 @@ use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGenerator
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\RemoveAutowiredAppsPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\SetAppConfigPass;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\DIContainerRegistry;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -27,6 +28,7 @@ class DealroadshowK8SBundle extends Bundle
             ->addCompilerPass(new AppsPass())
             ->addCompilerPass(pass: new EnabledAppsPass(), priority: -8)
             ->addCompilerPass(pass: new EnabledManifestsPass(), priority: -8)
+            ->addCompilerPass(pass: new SetAppConfigPass(), type: PassConfig::TYPE_OPTIMIZE, priority: -8)
             ->addCompilerPass(pass: new ManifestsPass(), type: PassConfig::TYPE_OPTIMIZE, priority: -16)
             ->addCompilerPass(new ManifestGeneratorContextsPass())
             ->addCompilerPass(new MiddlewarePass())

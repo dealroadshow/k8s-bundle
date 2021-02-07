@@ -2,6 +2,7 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\GetAppAliasTrait;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
@@ -17,6 +18,8 @@ use Symfony\Component\DependencyInjection\TypedReference;
 
 class ManifestsPass implements CompilerPassInterface
 {
+    use GetAppAliasTrait;
+
     const MANIFEST_TAG = 'dealroadshow_k8s.manifest';
 
     private array $appReflectionsCache = [];
@@ -147,26 +150,11 @@ class ManifestsPass implements CompilerPassInterface
             $className = $definition->getClass();
 
             // Default (autowired) app services will be removed later in RemoveAutowiredAppsPass
-            if ($id === $definition->getClass()) {
+            if ($id === $className) {
                 continue;
             }
 
-            $alias = null;
-            foreach ($tags as $tag) {
-                if (array_key_exists('alias', $tag)) {
-                    $alias = $tag['alias'];
-                    break;
-                }
-            }
-            if (null === $alias) {
-                throw new LogicException(
-                    sprintf(
-                        '"%s" tag on app service "%s" does not have "alias" attribute.',
-                        AppsPass::APP_TAG,
-                        $id
-                    )
-                );
-            }
+            $alias = $this->getAppAlias($id, $tags);
 
             $map[$className][] = $alias;
         }
