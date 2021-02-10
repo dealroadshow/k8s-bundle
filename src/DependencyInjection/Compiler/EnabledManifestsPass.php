@@ -8,7 +8,7 @@ use ReflectionException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class EnabledAppsPass implements CompilerPassInterface
+class EnabledManifestsPass implements CompilerPassInterface
 {
     use EnabledForEnvTrait;
 
@@ -19,7 +19,7 @@ class EnabledAppsPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $ids = $container->findTaggedServiceIds(AppsPass::APP_TAG);
+        $ids = $container->findTaggedServiceIds(ManifestsPass::MANIFEST_TAG);
         $env = $container->getParameter('kernel.environment');
         foreach ($ids as $id => $tags) {
             $definition = $container->getDefinition($id);

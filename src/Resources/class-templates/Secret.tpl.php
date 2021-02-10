@@ -7,7 +7,7 @@ use Dealroadshow\K8S\Framework\Core\Secret\AbstractSecret;
 
 class <?= $className; ?> extends AbstractSecret
 {
-    public function stringData(StringMap $binaryData): void
+    public function stringData(StringMap $stringData): void
     {
     }
 

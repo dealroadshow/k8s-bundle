@@ -7,12 +7,12 @@ use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\Context\Conte
 class ContextRegistry
 {
     /**
-     * @var array<string, ContextInterface>|ContextInterface[]|iterable
+     * @var ContextInterface[]
      */
     private array $contexts;
 
     /**
-     * @param array<string, ContextInterface>|ContextInterface[]|iterable $contexts
+     * @param ContextInterface[] $contexts
      */
     public function __construct(iterable $contexts)
     {
@@ -33,7 +33,7 @@ class ContextRegistry
     }
 
     /**
-     * @return array<string, ContextInterface>|ContextInterface[]|iterable
+     * @return ContextInterface[]
      */
     public function all(): array
     {

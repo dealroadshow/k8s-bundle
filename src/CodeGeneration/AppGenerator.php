@@ -20,7 +20,8 @@ class AppGenerator
         $appDir = $details->directory();
 
         Dir::create($appDir);
-        Dir::create($appDir.DIRECTORY_SEPARATOR.'Manifests');
+        Dir::create($appDir.DIRECTORY_SEPARATOR.'Manifest');
+        Dir::create($appDir.DIRECTORY_SEPARATOR.'Container');
         Dir::create($appDir.DIRECTORY_SEPARATOR.'Resources');
 
         $code = $this->generateCode($details, $appName);

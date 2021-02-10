@@ -3,14 +3,15 @@ services:
         autowire: true
         autoconfigure: true
 
+    Dealroadshow\K8S\Framework\App\AppProcessor: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
+    Dealroadshow\K8S\Framework\Core\ManifestManager: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodTemplateSpecProcessor: ~
     Dealroadshow\K8S\Framework\Core\Job\JobSpecProcessor: ~
     Dealroadshow\K8S\Framework\Dumper\AppDumper: ~
     Dealroadshow\K8S\Framework\Renderer\YamlRenderer: ~
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper: ~
     Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper: ~
-    Dealroadshow\K8S\Framework\App\AppProcessor: ~
     Dealroadshow\K8S\Framework\ResourceMaker\ConfigMapMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\DeploymentMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\SecretMaker: ~
@@ -18,6 +19,9 @@ services:
     Dealroadshow\K8S\Framework\ResourceMaker\CronJobMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\IngressMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\ServiceMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\PriorityClassMaker: ~
+    Dealroadshow\K8S\Framework\Registry\AppRegistry: ~
+    Dealroadshow\K8S\Framework\Registry\ManifestRegistry: ~
     Dealroadshow\K8S\Framework\Proxy\ManifestProxyFactory: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
@@ -55,19 +59,11 @@ services:
 
     Dealroadshow\K8S\Framework\Core\Container\ContainerMaker:
         arguments:
-          - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.container_image', default_priority_method: 'priority' }
+            $middlewares: !tagged_iterator { tag: 'dealroadshow_k8s.middleware.container_image', default_priority_method: 'priority' }
 
     Dealroadshow\Bundle\K8SBundle\EnvManagement\EnvAwareContainerMaker:
         arguments:
             $env: '%kernel.environment%'
-
-    Dealroadshow\K8S\Framework\Registry\AppRegistry:
-        arguments:
-          - !tagged_iterator { tag: 'dealroadshow_k8s.app' }
-
-    Dealroadshow\K8S\Framework\Registry\ManifestRegistry:
-        arguments:
-            $manifests: !tagged_iterator { tag: 'dealroadshow_k8s.manifest' }
 
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ContextRegistry:
         arguments:
@@ -77,23 +73,36 @@ services:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.manifest_method', default_priority_method: 'priority' }
 
+    Dealroadshow\K8S\Framework\Middleware\EnvAwareReplicasMiddleware:
+        arguments:
+            $env: '%kernel.environment%'
+
+    Dealroadshow\Bundle\K8SBundle\Middleware\ManifestMethodWrappersMiddleware:
+        arguments:
+            $env: '%kernel.environment%'
+
     Dealroadshow\Bundle\K8SBundle\Command\GenerateManifestCommand:
         tags:
+          - { name: 'console.command', command: 'dealroadshow_k8s:generate:manifest' }
           - { name: 'console.command', command: 'k8s:generate:manifest' }
           - { name: 'console.command', command: 'k8s:gen:manifest' }
           - { name: 'console.command', command: 'k8s:gen:man' }
 
     Dealroadshow\Bundle\K8SBundle\Command\GenerateAppCommand:
         tags:
+          - { name: 'console.command', command: 'dealroadshow_k8s:generate:app' }
           - { name: 'console.command', command: 'k8s:generate:app' }
           - { name: 'console.command', command: 'k8s:gen:app' }
 
     Dealroadshow\Bundle\K8SBundle\Command\DumpAppCommand:
         tags:
+          - { name: 'console.command', command: 'dealroadshow_k8s:dump:app' }
           - { name: 'console.command', command: 'k8s:dump:app' }
 
     Dealroadshow\Bundle\K8SBundle\Command\DumpAllCommand:
         arguments:
             $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
         tags:
+          - { name: 'console.command', command: 'dealroadshow_k8s:dump:all' }
+          - { name: 'console.command', command: 'k8s:dump:all' }
           - { name: 'console.command', command: 'k8s:dump:all' }
