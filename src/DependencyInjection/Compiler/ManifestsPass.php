@@ -58,7 +58,7 @@ class ManifestsPass implements CompilerPassInterface
 
             foreach ($classNameToAliasesMap as $className => $aliases) {
                 $appClass = $this->getAppReflection($className);
-                if (!str_starts_with($manifestDefinition->getClass(), $appClass->getNamespaceName())) {
+                if (!str_starts_with($manifestDefinition->getClass(), $appClass->getNamespaceName().'\\')) {
                     // We need to find an app class, which "owns" this manifest
                     continue;
                 }
