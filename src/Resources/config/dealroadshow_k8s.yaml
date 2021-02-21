@@ -25,6 +25,7 @@ services:
     Dealroadshow\K8S\Framework\Registry\AppRegistry: ~
     Dealroadshow\K8S\Framework\Registry\ManifestRegistry: ~
     Dealroadshow\K8S\Framework\Proxy\ManifestProxyFactory: ~
+    Dealroadshow\K8S\Framework\Util\ManifestAppFinder: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
     Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'
