@@ -20,7 +20,7 @@ abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubs
     {
         $class = new ReflectionObject($event->manifest());
         $methodName = $event->methodName();
-        if ($event->methodName() !== $methodName || !$class->hasMethod($methodName)) {
+        if ($this->methodName() !== $methodName || !$class->hasMethod($methodName)) {
             return;
         }
         if (!$this->supports($event)) {
