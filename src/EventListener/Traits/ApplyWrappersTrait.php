@@ -1,55 +1,18 @@
 <?php
 
-namespace Dealroadshow\Bundle\K8SBundle\Middleware;
+namespace Dealroadshow\Bundle\K8SBundle\EventListener\Traits;
 
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\AfterMethod;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\BeforeMethod;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
-use Dealroadshow\K8S\Framework\Middleware\AbstractManifestMiddleware;
 use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
 use LogicException;
 use ReflectionException;
 use ReflectionObject;
 
-class ManifestMethodWrappersMiddleware extends AbstractManifestMiddleware
+trait ApplyWrappersTrait
 {
-    public function __construct(private string $env)
-    {
-    }
-
-    /**
-     * @param ManifestInterface $manifest
-     * @param string            $methodName
-     * @param array             $params
-     * @param mixed             $returnValue
-     *
-     * @throws ReflectionException
-     */
-    public function beforeMethodCall(ManifestInterface $manifest, string $methodName, array $params, mixed &$returnValue)
-    {
-        $this->applyWrappers($manifest, $methodName, $params, BeforeMethod::class);
-    }
-
-    /**
-     * @param ManifestInterface $manifest
-     * @param string            $methodName
-     * @param array             $params
-     * @param mixed             $returnedValue
-     * @param mixed             $returnValue
-     *
-     * @throws ReflectionException
-     */
-    public function afterMethodCall(ManifestInterface $manifest, string $methodName, array $params, mixed $returnedValue, mixed &$returnValue)
-    {
-        $this->applyWrappers($manifest, $methodName, $params, AfterMethod::class);
-    }
-
-    public function supports(ManifestInterface $manifest, string $methodName, array $params): bool
-    {
-        return true;
-    }
-
     /**
      * @param ManifestInterface $manifest
      * @param string            $methodName
@@ -58,7 +21,7 @@ class ManifestMethodWrappersMiddleware extends AbstractManifestMiddleware
      *
      * @throws ReflectionException
      */
-    private function applyWrappers(ManifestInterface $manifest, string $methodName, array $params, string $attributeClass)
+    private function applyWrappers(ManifestInterface $manifest, string $methodName, array $params, string $attributeClass): void
     {
         $class = new ReflectionObject($manifest);
         foreach ($class->getMethods() as $method) {
