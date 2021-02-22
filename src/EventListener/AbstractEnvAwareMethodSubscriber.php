@@ -7,9 +7,8 @@ use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
 use Dealroadshow\K8S\Framework\Util\Str;
 use LogicException;
 use ReflectionObject;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-abstract class AbstractEnvAwareMethodSubscriber implements EventSubscriberInterface
+abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubscriber
 {
     abstract protected function methodName(): string;
 
@@ -17,7 +16,7 @@ abstract class AbstractEnvAwareMethodSubscriber implements EventSubscriberInterf
     {
     }
 
-    public function afterMethod(ManifestMethodCalledEvent $event): void
+    protected function afterMethod(ManifestMethodCalledEvent $event): void
     {
         $class = new ReflectionObject($event->manifest());
         $methodName = $event->methodName();
@@ -62,13 +61,6 @@ abstract class AbstractEnvAwareMethodSubscriber implements EventSubscriberInterf
 
     protected function supports(ManifestMethodCalledEvent $event): bool
     {
-        return true;
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            ManifestMethodCalledEvent::NAME => 'afterMethod',
-        ];
+        return $event->methodName() === $this->methodName();
     }
 }
