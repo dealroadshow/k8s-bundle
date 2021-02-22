@@ -4,8 +4,10 @@ namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
 use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
 use Dealroadshow\K8S\Framework\Middleware\ManifestMethodMiddlewareInterface;
+use Dealroadshow\K8S\Framework\Middleware\ManifestMiddlewareService;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 class MiddlewarePass implements CompilerPassInterface
 {
