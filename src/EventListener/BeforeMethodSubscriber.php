@@ -11,6 +11,10 @@ class BeforeMethodSubscriber extends AbstractMethodSubscriber
 {
     use ApplyWrappersTrait;
 
+    public function __construct(private string $env)
+    {
+    }
+
     protected function supports(ManifestMethodEvent $event): bool
     {
         return true;

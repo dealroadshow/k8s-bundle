@@ -11,6 +11,10 @@ class AfterMethodSubscriber extends AbstractMethodResultSubscriber
 {
     use ApplyWrappersTrait;
 
+    public function __construct(private string $env)
+    {
+    }
+
     protected function supports(ManifestMethodCalledEvent $event): bool
     {
         return true;
