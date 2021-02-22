@@ -95,7 +95,7 @@ class DealroadshowK8SExtension extends Extension
             ->addTag(MiddlewarePass::IMAGE_MIDDLEWARE_TAG);
 
         $container->registerForAutoconfiguration(ManifestMethodMiddlewareInterface::class)
-            ->addTag(MiddlewarePass::MANIFEST_MIDDLEWARE_TAG);
+            ->addTag(MiddlewarePass::MANIFEST_PREFIX_MIDDLEWARE_TAG);
     }
 
     private function setupTemplatesDir(ContainerBuilder $container): static
