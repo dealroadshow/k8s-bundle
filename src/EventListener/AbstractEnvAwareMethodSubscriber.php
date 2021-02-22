@@ -56,7 +56,7 @@ abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubs
 
     protected function replacesReturnValue(): bool
     {
-        return false;
+        return true;
     }
 
     protected function supports(ManifestMethodCalledEvent $event): bool
