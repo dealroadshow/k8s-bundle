@@ -7,8 +7,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 abstract class AbstractMethodSubscriber implements EventSubscriberInterface
 {
-    abstract protected function supports(ManifestMethodEvent $event);
-    abstract protected function beforeMethod(ManifestMethodEvent $event);
+    abstract protected function supports(ManifestMethodEvent $event): bool;
+    abstract protected function beforeMethod(ManifestMethodEvent $event): void;
 
     public function handleEvent(ManifestMethodEvent $event)
     {
