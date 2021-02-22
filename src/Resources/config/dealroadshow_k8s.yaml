@@ -2,9 +2,12 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+        bind:
+            $env: '%kernel.environment%'
 
     Dealroadshow\K8S\Framework\App\AppProcessor: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
+    Dealroadshow\Bundle\K8SBundle\EnvManagement\EnvAwareContainerMaker: ~
     Dealroadshow\K8S\Framework\Core\ManifestManager: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodTemplateSpecProcessor: ~
     Dealroadshow\K8S\Framework\Core\Job\JobSpecProcessor: ~
@@ -26,6 +29,11 @@ services:
     Dealroadshow\K8S\Framework\Registry\ManifestRegistry: ~
     Dealroadshow\K8S\Framework\Proxy\ManifestProxyFactory: ~
     Dealroadshow\K8S\Framework\Util\ManifestAppFinder: ~
+    Dealroadshow\Bundle\K8SBundle\EventListener\AfterMethodSubscriber: ~
+    Dealroadshow\Bundle\K8SBundle\EventListener\BeforeMethodSubscriber: ~
+    Dealroadshow\Bundle\K8SBundle\EventListener\ContainersMethodSubscriber: ~
+    Dealroadshow\Bundle\K8SBundle\EventListener\ReplicasMethodSubscriber: ~
+    Dealroadshow\Bundle\K8SBundle\EventListener\ResourcesMethodSubscriber: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
     Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'
@@ -64,25 +72,14 @@ services:
         arguments:
             $middlewares: !tagged_iterator { tag: 'dealroadshow_k8s.middleware.container_image', default_priority_method: 'priority' }
 
-    Dealroadshow\Bundle\K8SBundle\EnvManagement\EnvAwareContainerMaker:
-        arguments:
-            $env: '%kernel.environment%'
-
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ContextRegistry:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.manifest_generator.context' }
 
     Dealroadshow\K8S\Framework\Middleware\ManifestMiddlewareService:
         arguments:
-          - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.manifest_method', default_priority_method: 'priority' }
-
-    Dealroadshow\K8S\Framework\Middleware\EnvAwareReplicasMiddleware:
-        arguments:
-            $env: '%kernel.environment%'
-
-    Dealroadshow\Bundle\K8SBundle\Middleware\ManifestMethodWrappersMiddleware:
-        arguments:
-            $env: '%kernel.environment%'
+          - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.prefix', default_priority_method: 'priority' }
+          - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.suffix', default_priority_method: 'priority' }
 
     Dealroadshow\Bundle\K8SBundle\Command\GenerateManifestCommand:
         tags:
