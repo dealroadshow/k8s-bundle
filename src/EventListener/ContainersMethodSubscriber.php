@@ -5,6 +5,7 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodCalledEvent;
 use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
+use Dealroadshow\K8S\Framework\Core\Pod\PodSpecInterface;
 use ReflectionObject;
 
 /**
@@ -19,7 +20,9 @@ class ContainersMethodSubscriber extends AbstractMethodResultSubscriber
 
     protected function supports(ManifestMethodCalledEvent $event): bool
     {
-        return $event->manifest() instanceof ContainerInterface && self::METHOD_NAME === $event->methodName();
+        return $event->manifest() instanceof ContainerInterface
+               && $event->manifest() instanceof PodSpecInterface
+               && self::METHOD_NAME === $event->methodName();
     }
 
     protected function afterMethod(ManifestMethodCalledEvent $event): void
