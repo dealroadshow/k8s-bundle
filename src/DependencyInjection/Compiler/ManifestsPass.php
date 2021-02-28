@@ -72,6 +72,10 @@ class ManifestsPass implements CompilerPassInterface
                         Str::underscored($manifestKind)
                     );
                     $container->setDefinition($newId, $dedicatedManifestDefinition);
+
+                    $appRef = new Reference(AppsPass::appDefinitionId($alias));
+                    $dedicatedManifestDefinition->addMethodCall('setApp', [$appRef]);
+
                     $registryDefinition->addMethodCall('add', [$alias, new Reference($newId)]);
 
                     $this->autowireContainerClasses($container, $newId, $alias);
