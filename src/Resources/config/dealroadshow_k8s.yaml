@@ -39,6 +39,7 @@ services:
     Dealroadshow\Bundle\K8SBundle\EventListener\ContainersMethodSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\ReplicasMethodSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\ResourcesMethodSubscriber: ~
+    Dealroadshow\Bundle\K8SBundle\Util\EnvCheckSumCalculator: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
     Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'
