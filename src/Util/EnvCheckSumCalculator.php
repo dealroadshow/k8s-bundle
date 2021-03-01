@@ -34,11 +34,13 @@ class EnvCheckSumCalculator
             $yaml = file_get_contents($filename);
             $data = Yaml::parse($yaml);
             $name = $data['metadata']['name'];
-            $nameToManifestMap[$name] = $data;
-            $nameToFilenameMap[$name] = $filename;
+            $kind = $data['kind'];
+            $mapKey = $name.':'.$kind;
+            $nameToManifestMap[$mapKey] = $data;
+            $nameToFilenameMap[$mapKey] = $filename;
         }
 
-        foreach ($nameToManifestMap as $name => $data) {
+        foreach ($nameToManifestMap as $key => $data) {
             if (!in_array($data['kind'], self::WORKLOAD_KINDS)) {
                 continue;
             }
@@ -47,7 +49,7 @@ class EnvCheckSumCalculator
             $checkSum = $this->checksum($envSources, $nameToManifestMap);
             $this->setAnnotation($data, $checkSum);
             $yaml = $this->renderer->render($data);
-            $filename = $nameToFilenameMap[$name];
+            $filename = $nameToFilenameMap[$key];
 
             file_put_contents($filename, $yaml);
         }
@@ -146,30 +148,34 @@ class EnvCheckSumCalculator
             $valueFrom = $var['valueFrom'];
             if (array_key_exists('configMapKeyRef', $valueFrom)) {
                 $key = 'configMapKeyRef';
+                $kind = ConfigMap::KIND;
             } elseif (array_key_exists('secretKeyRef', $valueFrom)) {
                 $key = 'secretKeyRef';
+                $kind = Secret::KIND;
             } else {
                 continue;
             }
 
             $sourceName = $valueFrom[$key]['name'];
 
-            // we use keys instead of values for algorithmic efectiveness
-            $envSources[$sourceName] = null;
+            // we use keys instead of values for algorithmic effectiveness
+            $envSources[$sourceName.':'.$kind] = null;
         }
 
         $envFrom = $container['envFrom'] ?? [];
         foreach ($envFrom as $envSource) {
             if (array_key_exists('configMapRef', $envSource)) {
                 $key = 'configMapRef';
+                $kind = ConfigMap::KIND;
             } elseif (array_key_exists('secretRef', $envSource)) {
                 $key = 'secretRef';
+                $kind = Secret::KIND;
             } else {
                 continue;
             }
 
             $sourceName = $envSource[$key]['name'];
-            $envSources[$sourceName] = null;
+            $envSources[$sourceName.':'.$kind] = null;
         }
 
         return $envSources;
