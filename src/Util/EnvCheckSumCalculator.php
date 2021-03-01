@@ -95,17 +95,21 @@ class EnvCheckSumCalculator
         foreach ($envSources as $source) {
             if (!array_key_exists($source, $manifests)) {
                 throw new LogicException(
-                    'One of containers uses "%s" as an env source, but no manifest with such name was found',
-                    $source
+                    sprintf(
+                        'One of containers uses "%s" as an env source, but no manifest with such name was found',
+                        $source
+                    )
                 );
             }
 
             $manifestData = $manifests[$source];
             if (!in_array($manifestData['kind'], [Secret::KIND, ConfigMap::KIND])) {
                 throw new LogicException(
-                    'One of containers uses "%s" as an env source, and corresponding manifest must be a ConfigMap or Secret, but is of kind "%s"',
-                    $source,
-                    $manifestData['kind']
+                    sprintf(
+                        'One of containers uses "%s" as an env source, and corresponding manifest must be a ConfigMap or Secret, but is of kind "%s"',
+                        $source,
+                        $manifestData['kind']
+                    )
                 );
             }
 
