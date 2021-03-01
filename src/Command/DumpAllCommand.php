@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Filesystem;
 
 class DumpAllCommand extends Command
 {
@@ -44,7 +45,8 @@ class DumpAllCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $recreateOutputDir = $input->getOption(self::OPTION_RECREATE_DIR);
         if ($recreateOutputDir && file_exists($this->manifestsDir) && is_dir($this->manifestsDir)) {
-            rmdir($this->manifestsDir);
+            $fs = new Filesystem();
+            $fs->remove([$this->manifestsDir]);
         }
 
         foreach ($this->registry->aliases() as $alias) {
