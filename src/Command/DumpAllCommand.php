@@ -15,6 +15,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class DumpAllCommand extends Command
 {
     private const OPTION_RECREATE_DIR = 'recreate-output-dir';
+    private const OPTION_PRINT_MANIFESTS = 'print';
 
     protected static $defaultName = 'dealroadshow_k8s:dump:all';
 
@@ -24,6 +25,7 @@ class DumpAllCommand extends Command
         private AppDumper $dumper,
         private string $manifestsDir
     ) {
+        $this->manifestsDir = rtrim($this->manifestsDir, '/');
         parent::__construct();
     }
 
@@ -36,6 +38,12 @@ class DumpAllCommand extends Command
                 'R',
                 InputOption::VALUE_NONE,
                 'If specified, output directory will be deleted and recreated',
+            )
+            ->addOption(
+                self::OPTION_PRINT_MANIFESTS,
+                'P',
+                InputOption::VALUE_NONE,
+                'If specified, all manifests files will also be printed to stdout',
             )
         ;
     }
@@ -55,9 +63,24 @@ class DumpAllCommand extends Command
             $this->dumper->dump($alias, $dir);
         }
 
+        $printManifests = $input->getOption(self::OPTION_PRINT_MANIFESTS);
+        if ($printManifests) {
+            $this->printManifests();
+        }
+
+        $io = $io->getErrorStyle();
         $io->success(sprintf('Manifests saved to directory "%s"', $this->manifestsDir));
         $io->newLine();
 
         return self::SUCCESS;
+    }
+
+    private function printManifests(): void
+    {
+        $filenames = glob(sprintf('%s/*/**.yaml', $this->manifestsDir));
+        foreach ($filenames as $filename) {
+            $fullPath = $this->manifestsDir.DIRECTORY_SEPARATOR.$filename;
+            echo file_get_contents($fullPath), PHP_EOL, '---', PHP_EOL;
+        }
     }
 }
