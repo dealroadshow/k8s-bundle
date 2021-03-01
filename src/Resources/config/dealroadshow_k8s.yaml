@@ -1,9 +1,14 @@
+parameters:
+    dealroadshow_k8s.annotation_domain: 'dealroadshow.com'
+
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         bind:
             $env: '%kernel.environment%'
+            $annotationDomain: '%dealroadshow_k8s.annotation_domain%'
+            $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
 
     Dealroadshow\K8S\Framework\App\AppProcessor: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
@@ -100,8 +105,6 @@ services:
           - { name: 'console.command', command: 'k8s:dump:app' }
 
     Dealroadshow\Bundle\K8SBundle\Command\DumpAllCommand:
-        arguments:
-            $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
         tags:
           - { name: 'console.command', command: 'dealroadshow_k8s:dump:all' }
           - { name: 'console.command', command: 'k8s:dump:all' }

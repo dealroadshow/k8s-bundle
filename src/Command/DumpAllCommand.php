@@ -2,6 +2,7 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
+use Dealroadshow\Bundle\K8SBundle\Util\EnvCheckSumCalculator;
 use Dealroadshow\K8S\Framework\App\AppProcessor;
 use Dealroadshow\K8S\Framework\Dumper\AppDumper;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
@@ -23,7 +24,8 @@ class DumpAllCommand extends Command
         private AppRegistry $registry,
         private AppProcessor $processor,
         private AppDumper $dumper,
-        private string $manifestsDir
+        private string $manifestsDir,
+        private EnvCheckSumCalculator $checkSumCalculator
     ) {
         $this->manifestsDir = rtrim($this->manifestsDir, '/');
         parent::__construct();
@@ -62,6 +64,7 @@ class DumpAllCommand extends Command
             $dir = $this->manifestsDir.DIRECTORY_SEPARATOR.$alias;
             $this->dumper->dump($alias, $dir);
         }
+        $this->checkSumCalculator->calculateChecksums();
 
         $printManifests = $input->getOption(self::OPTION_PRINT_MANIFESTS);
         if ($printManifests) {
