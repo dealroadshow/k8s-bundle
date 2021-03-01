@@ -35,7 +35,6 @@ class DumpAllCommand extends Command
                 'R',
                 InputOption::VALUE_NONE,
                 'If specified, output directory will be deleted and recreated',
-                false
             )
         ;
     }
