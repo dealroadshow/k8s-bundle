@@ -79,8 +79,7 @@ class DumpAllCommand extends Command
     {
         $filenames = glob(sprintf('%s/*/**.yaml', $this->manifestsDir));
         foreach ($filenames as $filename) {
-            $fullPath = $this->manifestsDir.DIRECTORY_SEPARATOR.$filename;
-            echo file_get_contents($fullPath), PHP_EOL, '---', PHP_EOL;
+            echo file_get_contents($filename), PHP_EOL, '---', PHP_EOL;
         }
     }
 }
