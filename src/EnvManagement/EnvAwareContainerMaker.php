@@ -8,8 +8,8 @@ use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
 use Dealroadshow\K8S\Framework\Core\Container\ContainerMaker;
 use Dealroadshow\K8S\Framework\Core\Container\ContainerMakerInterface;
-use Dealroadshow\K8S\Framework\Core\Container\Resources\ContainerResourcesInterface;
 use Dealroadshow\K8S\Framework\Core\Container\Resources\ResourcesConfigurator;
+use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
 use Dealroadshow\K8S\Framework\Util\Str;
 use ReflectionException;
 use ReflectionObject;
@@ -33,19 +33,19 @@ class EnvAwareContainerMaker implements ContainerMakerInterface
         $container = $this->maker->make($manifest, $volumes, $app);
         $resources = new ResourcesConfigurator($container->resources());
 
-        $envSpecificResourcesMethod = 'resources'.Str::asClassName($this->env);
         $class = new ReflectionObject($manifest);
-        if (!$class->hasMethod($envSpecificResourcesMethod)) {
+        $resourcesMethod = $class->getMethod('resources');
+        $envSpecificResourcesMethodName = 'resources'.Str::asClassName($this->env);
+        if (!$class->hasMethod($envSpecificResourcesMethodName)) {
             return $container;
         }
 
-        $method = $class->getMethod($envSpecificResourcesMethod);
-        $params = $method->getParameters();
-        if (1 !== count($params) || !$params[0]->hasType() || ContainerResourcesInterface::class !== $params[0]->getType()) {
+        $envSpecificResourcesMethod = $class->getMethod($envSpecificResourcesMethodName);
+        if (!ReflectionUtil::sameSignature($resourcesMethod, $envSpecificResourcesMethod)) {
             return $container;
         }
 
-        $method->invoke($manifest, $resources);
+        $envSpecificResourcesMethod->invoke($manifest, $resources);
 
         return $container;
     }
