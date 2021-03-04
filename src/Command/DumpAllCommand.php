@@ -80,7 +80,10 @@ class DumpAllCommand extends Command
 
     private function printManifests(): void
     {
-        $filenames = glob(sprintf('%s/*/**.yaml', $this->manifestsDir));
+        $filenames = array_merge(
+            glob(sprintf('%s/*/**.yaml', $this->manifestsDir)),
+            glob(sprintf('%s/*.yaml', $this->manifestsDir))
+        );
         foreach ($filenames as $filename) {
             echo file_get_contents($filename), PHP_EOL, '---', PHP_EOL;
         }

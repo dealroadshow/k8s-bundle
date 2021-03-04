@@ -116,7 +116,10 @@ class DumpAppCommand extends Command
 
     private function printManifests(string $outputDir): void
     {
-        $filenames = glob(sprintf('%s/*/**.yaml', $outputDir));
+        $filenames = array_merge(
+            glob(sprintf('%s/*/**.yaml', $outputDir)),
+            glob(sprintf('%s/*.yaml', $outputDir))
+        );
         foreach ($filenames as $filename) {
             echo file_get_contents($filename), PHP_EOL, '---', PHP_EOL;
         }
