@@ -12,12 +12,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Dealroadshow\K8S\Framework\App\AppProcessor;
 use Dealroadshow\K8S\Framework\Dumper\AppDumper;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
+use Symfony\Component\Filesystem\Filesystem;
 
 class DumpAppCommand extends Command
 {
     private const ARGUMENT_APP_ALIAS  = 'app_alias';
     private const ARGUMENT_OUTPUT_DIR = 'output_dir';
     private const OPTION_PRINT_MANIFESTS = 'print';
+    private const OPTION_RECREATE_DIR = 'recreate-output-dir';
 
     protected static $defaultName = 'dealroadshow_k8s:dump:app';
 
@@ -42,6 +44,12 @@ class DumpAppCommand extends Command
                 self::ARGUMENT_OUTPUT_DIR,
                 InputArgument::REQUIRED,
                 'Directory where to save generated Yaml manifests'
+            )
+            ->addOption(
+                self::OPTION_RECREATE_DIR,
+                'R',
+                InputOption::VALUE_NONE,
+                'If specified, output directory will be deleted and recreated',
             )
             ->addOption(
                 self::OPTION_PRINT_MANIFESTS,
@@ -70,6 +78,12 @@ class DumpAppCommand extends Command
             $io->newLine();
 
             return self::FAILURE;
+        }
+
+        $recreateOutputDir = $input->getOption(self::OPTION_RECREATE_DIR);
+        if ($recreateOutputDir && file_exists($outputDir) && is_dir($outputDir)) {
+            $fs = new Filesystem();
+            $fs->remove([$outputDir]);
         }
 
         $this->appProcessor->process($appAlias);
