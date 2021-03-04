@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Dealroadshow\K8S\Framework\App\AppProcessor;
@@ -16,6 +17,7 @@ class DumpAppCommand extends Command
 {
     private const ARGUMENT_APP_ALIAS  = 'app_alias';
     private const ARGUMENT_OUTPUT_DIR = 'output_dir';
+    private const OPTION_PRINT_MANIFESTS = 'print';
 
     protected static $defaultName = 'dealroadshow_k8s:dump:app';
 
@@ -40,6 +42,12 @@ class DumpAppCommand extends Command
                 self::ARGUMENT_OUTPUT_DIR,
                 InputArgument::REQUIRED,
                 'Directory where to save generated Yaml manifests'
+            )
+            ->addOption(
+                self::OPTION_PRINT_MANIFESTS,
+                'P',
+                InputOption::VALUE_NONE,
+                'If specified, all manifests files will also be printed to stdout',
             )
             ->setAliases([
                 'k8s:dump:app',
@@ -67,6 +75,11 @@ class DumpAppCommand extends Command
         $this->appProcessor->process($appAlias);
         $this->dumper->dump($appAlias, $outputDir);
 
+        $printManifests = $input->getOption(self::OPTION_PRINT_MANIFESTS);
+        if ($printManifests) {
+            $this->printManifests($outputDir);
+        }
+
         $io->success(sprintf('Yaml manifests are saved to directory "%s"', $outputDir));
         $io->newLine();
 
@@ -85,5 +98,13 @@ class DumpAppCommand extends Command
         }
 
         return $outputDir;
+    }
+
+    private function printManifests(string $outputDir): void
+    {
+        $filenames = glob(sprintf('%s/*/**.yaml', $outputDir));
+        foreach ($filenames as $filename) {
+            echo file_get_contents($filename), PHP_EOL, '---', PHP_EOL;
+        }
     }
 }
