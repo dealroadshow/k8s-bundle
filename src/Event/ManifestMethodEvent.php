@@ -15,7 +15,7 @@ class ManifestMethodEvent extends Event
     {
     }
 
-    public function proxy(): ManifestInterface
+    public function manifest(): ManifestInterface
     {
         return $this->proxy;
     }
