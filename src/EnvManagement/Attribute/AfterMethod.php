@@ -7,8 +7,11 @@ use Attribute;
 #[Attribute(Attribute::TARGET_METHOD)]
 class AfterMethod
 {
-    public function __construct(private string $methodName, private array $forEnvs)
+    public function __construct(private string $methodName, private array $forEnvs = [], private array $exceptEnvs = [])
     {
+        if (!empty($this->forEnvs) && !empty($this->exceptEnvs)) {
+            throw new \LogicException('Only one of forEnvs and exceptEnvs must be supplied');
+        }
     }
 
     public function methodName(): string
@@ -19,8 +22,16 @@ class AfterMethod
     /**
      * @return string[]
      */
-    public function envs(): array
+    public function enabledForEnvs(): array
     {
         return $this->forEnvs;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function disabledForEnvs(): array
+    {
+        return $this->exceptEnvs;
     }
 }

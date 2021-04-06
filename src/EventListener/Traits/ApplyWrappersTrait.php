@@ -37,7 +37,7 @@ trait ApplyWrappersTrait
             foreach ($attributes as $attribute) {
                 /** @var BeforeMethod|AfterMethod $attr */
                 $attr = $attribute->newInstance();
-                if (!in_array($this->env, $attr->envs())) {
+                if (!static::shouldApply($this->env, $attr->enabledForEnvs(), $attr->disabledForEnvs())) {
                     continue;
                 }
                 if ($methodName === $attr->methodName()) {
@@ -74,5 +74,15 @@ trait ApplyWrappersTrait
 
             $method->invoke($manifest, ...$params);
         }
+    }
+
+    private static function shouldApply(string $env, array $enabledForEnvs, array $disabledForEnvs): bool
+    {
+        if (!empty($enabledForEnvs) && !empty($disabledForEnvs)) {
+            throw new \LogicException('Only one of enabledForEnvs and disabledForEnvs can be specified');
+        }
+
+        return (!empty($enabledForEnvs) && in_array($env, $enabledForEnvs))
+            || (!empty($disabledForEnvs && !in_array($env, $disabledForEnvs)));
     }
 }
