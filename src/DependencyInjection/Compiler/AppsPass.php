@@ -2,6 +2,7 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\EnabledForEnvTrait;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Util\Str;
@@ -16,6 +17,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AppsPass implements CompilerPassInterface
 {
+    use EnabledForEnvTrait;
+
     const APP_TAG = 'dealroadshow_k8s.app';
 
     private array $aliasToClassNamesMap;
@@ -106,7 +109,7 @@ class AppsPass implements CompilerPassInterface
     private function createClassNameToAliasMap(): void
     {
         $this->classNameToAliasMap = [];
-        foreach ($this->appClasses as $className => $class) {
+        foreach ($this->appClasses as $class) {
             $alias = $class->getMethod('name')->invoke(null);
             $this->classNameToAliasMap[$class->getName()] = $alias;
         }
@@ -118,7 +121,7 @@ class AppsPass implements CompilerPassInterface
     private function createAliasToClassNamesMap(): void
     {
         $this->aliasToClassNamesMap = [];
-        foreach ($this->appClasses as $className => $class) {
+        foreach ($this->appClasses as $class) {
             $alias = $class->getMethod('name')->invoke(null);
             $this->aliasToClassNamesMap[$alias][] = $class->getName();
         }
@@ -146,7 +149,9 @@ class AppsPass implements CompilerPassInterface
                     )
                 );
             }
-            $this->appClasses[$class->getName()] = $class;
+            if ($this->enabledForCurrentEnv($class, $container->getParameter('kernel.environment'))) {
+                $this->appClasses[$class->getName()] = $class;
+            }
         }
     }
 
