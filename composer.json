@@ -13,6 +13,12 @@
             "email": "pasechnikbs@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/petr-buchin/ProxyManager"
+        }
+    ],
     "require": {
         "php": "^8.0",
         "symfony/console": "5.2.*",
