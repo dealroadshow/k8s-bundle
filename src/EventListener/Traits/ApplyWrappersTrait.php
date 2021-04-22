@@ -19,10 +19,11 @@ trait ApplyWrappersTrait
      * @param string            $methodName
      * @param array             $params
      * @param string            $attributeClass
+     * @param mixed             $returnValue
      *
      * @throws ReflectionException
      */
-    private function applyWrappers(ManifestInterface $manifest, string $methodName, array $params, string $attributeClass): void
+    private function applyWrappers(ManifestInterface $manifest, string $methodName, array $params, string $attributeClass, mixed & $returnValue): void
     {
         $class = new ReflectionObject($manifest);
         if ($class->implementsInterface(AccessInterceptorInterface::class)) {
@@ -38,6 +39,7 @@ trait ApplyWrappersTrait
             }
 
             $isWrapper = false;
+            $replacesReturnValue = false;
             foreach ($attributes as $attribute) {
                 /** @var BeforeMethod|AfterMethod $attr */
                 $attr = $attribute->newInstance();
@@ -46,6 +48,8 @@ trait ApplyWrappersTrait
                 }
                 if ($methodName === $attr->methodName()) {
                     $isWrapper = true;
+                    $replacesReturnValue = $attr->replacesReturnValue();
+                    break;
                 }
             }
             if (!$isWrapper) {
@@ -76,7 +80,10 @@ trait ApplyWrappersTrait
                 );
             }
 
-            $method->invoke($manifest, ...$params);
+            $result = $method->invoke($manifest, ...$params);
+            if ($replacesReturnValue) {
+                $returnValue = $result;
+            }
         }
     }
 }
