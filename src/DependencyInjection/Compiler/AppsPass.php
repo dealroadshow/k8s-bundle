@@ -175,6 +175,7 @@ class AppsPass implements CompilerPassInterface
         $newDefinition = clone $appDefinition;
         $newDefinition->addTag(self::APP_TAG, ['alias' => $alias]);
         $id = static::appDefinitionId($alias);
+        $newDefinition->addMethodCall('setAlias', [$alias]);
         $container->setDefinition($id, $newDefinition);
 
         $this->registryDefinition->addMethodCall('add', [$alias, new Reference($id)]);
