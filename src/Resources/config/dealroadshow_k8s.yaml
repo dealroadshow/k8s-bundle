@@ -18,6 +18,7 @@ services:
     Dealroadshow\K8S\Framework\Core\Job\JobSpecProcessor: ~
     Dealroadshow\K8S\Framework\Dumper\AppDumper: ~
     Dealroadshow\K8S\Framework\Renderer\YamlRenderer: ~
+    Dealroadshow\K8S\Framework\Renderer\JsonRenderer: ~
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper: ~
     Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper: ~
     Dealroadshow\K8S\Framework\ResourceMaker\ConfigMapMaker: ~
