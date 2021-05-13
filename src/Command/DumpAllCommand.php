@@ -2,7 +2,8 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
-use Dealroadshow\Bundle\K8SBundle\Util\EnvCheckSumCalculator;
+use Dealroadshow\Bundle\K8SBundle\Event\ManifestsDumpedEvent;
+use Dealroadshow\Bundle\K8SBundle\Event\ManifestsProcessedEvent;
 use Dealroadshow\K8S\Framework\App\AppProcessor;
 use Dealroadshow\K8S\Framework\Dumper\AppDumper;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
@@ -11,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DumpAllCommand extends Command
@@ -25,7 +27,7 @@ class DumpAllCommand extends Command
         private AppProcessor $processor,
         private AppDumper $dumper,
         private string $manifestsDir,
-        private EnvCheckSumCalculator $checkSumCalculator
+        private EventDispatcherInterface $dispatcher
     ) {
         $this->manifestsDir = rtrim($this->manifestsDir, '/');
         parent::__construct();
@@ -61,10 +63,14 @@ class DumpAllCommand extends Command
 
         foreach ($this->registry->aliases() as $alias) {
             $this->processor->process($alias);
+
+            $this->dispatcher->dispatch(new ManifestsProcessedEvent(), ManifestsProcessedEvent::NAME);
+
             $dir = $this->manifestsDir.DIRECTORY_SEPARATOR.$alias;
             $this->dumper->dump($alias, $dir);
+
+            $this->dispatcher->dispatch(new ManifestsDumpedEvent(), ManifestsDumpedEvent::NAME);
         }
-        $this->checkSumCalculator->calculateChecksums();
 
         $printManifests = $input->getOption(self::OPTION_PRINT_MANIFESTS);
         if ($printManifests) {

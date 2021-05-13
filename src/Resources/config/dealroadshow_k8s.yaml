@@ -36,10 +36,8 @@ services:
     Dealroadshow\K8S\Framework\Util\ManifestAppFinder: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\AfterMethodSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\BeforeMethodSubscriber: ~
-    Dealroadshow\Bundle\K8SBundle\EventListener\ContainersMethodSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\ReplicasMethodSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\ResourcesMethodSubscriber: ~
-    Dealroadshow\Bundle\K8SBundle\Util\EnvCheckSumCalculator: ~
     Dealroadshow\K8S\Framework\Renderer\FilteringService: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
@@ -87,6 +85,10 @@ services:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.prefix', default_priority_method: 'priority' }
           - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.suffix', default_priority_method: 'priority' }
+
+    Dealroadshow\Bundle\K8SBundle\Checksum\ChecksumsService:
+        arguments:
+            $calculators: !tagged_iterator { tag: 'dealroadshow_k8s.checksum_calculator' }
 
     Dealroadshow\Bundle\K8SBundle\Command\GenerateManifestCommand:
         tags:
