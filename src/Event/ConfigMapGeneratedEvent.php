@@ -3,11 +3,12 @@
 namespace Dealroadshow\Bundle\K8SBundle\Event;
 
 use Dealroadshow\K8S\API\ConfigMap;
+use Dealroadshow\K8S\APIResourceInterface;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\ConfigMap\ConfigMapInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class ConfigMapGeneratedEvent extends Event
+class ConfigMapGeneratedEvent extends Event implements ManifestGeneratedEventInterface
 {
     const NAME = 'dealroadshow_k8s.manifest_generated.configMap';
 
@@ -18,6 +19,11 @@ class ConfigMapGeneratedEvent extends Event
     public function manifest(): ConfigMapInterface
     {
         return $this->manifest;
+    }
+
+    public function apiResource(): APIResourceInterface
+    {
+        return $this->configMap;
     }
 
     public function configMap(): ConfigMap

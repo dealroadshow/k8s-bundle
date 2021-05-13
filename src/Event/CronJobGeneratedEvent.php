@@ -3,11 +3,12 @@
 namespace Dealroadshow\Bundle\K8SBundle\Event;
 
 use Dealroadshow\K8S\API\Batch\CronJob;
+use Dealroadshow\K8S\APIResourceInterface;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\CronJob\CronJobInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class CronJobGeneratedEvent extends Event
+class CronJobGeneratedEvent extends Event implements ManifestGeneratedEventInterface
 {
     const NAME = 'dealroadshow_k8s.manifest_generated.cronJob';
 
@@ -18,6 +19,11 @@ class CronJobGeneratedEvent extends Event
     public function manifest(): CronJobInterface
     {
         return $this->manifest;
+    }
+
+    public function apiResource(): APIResourceInterface
+    {
+        return $this->cronJob;
     }
 
     public function cronJob(): CronJob

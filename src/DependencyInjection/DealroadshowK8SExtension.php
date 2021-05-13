@@ -2,11 +2,12 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
+use Dealroadshow\Bundle\K8SBundle\Checksum\Calculator\ChecksumCalculatorInterface;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ChecksumCalculatorPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
 use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
-use Dealroadshow\K8S\Framework\Middleware\ManifestMethodMiddlewareInterface;
 use Dealroadshow\K8S\Framework\Middleware\ManifestMethodPrefixMiddlewareInterface;
 use Dealroadshow\K8S\Framework\Middleware\ManifestMethodSuffixMiddlewareInterface;
 use Exception;
@@ -103,6 +104,10 @@ class DealroadshowK8SExtension extends Extension
         $container
             ->registerForAutoconfiguration(ManifestMethodSuffixMiddlewareInterface::class)
             ->addTag(MiddlewarePass::MANIFEST_SUFFIX_MIDDLEWARE_TAG);
+
+        $container
+            ->registerForAutoconfiguration(ChecksumCalculatorInterface::class)
+            ->addTag(ChecksumCalculatorPass::CHECKSUM_CALCULATOR_TAG);
     }
 
     private function setupTemplatesDir(ContainerBuilder $container): static
@@ -115,11 +120,9 @@ class DealroadshowK8SExtension extends Extension
         return $this;
     }
 
-    private function setupNamespacePrefix(string $prefix, ContainerBuilder $container): static
+    private function setupNamespacePrefix(string $prefix, ContainerBuilder $container): void
     {
         $container->setParameter('dealroadshow_k8s.namespace_prefix', $prefix);
-
-        return $this;
     }
 
     private function setupFilters(array $config, ContainerBuilder $container): static
