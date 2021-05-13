@@ -40,11 +40,9 @@ class EnvSourcesCalculator implements ChecksumCalculatorInterface
     {
         $sources = [];
         foreach ($container->envFrom()->all() as $envSource) {
-            if ($configMapRef = $envSource->configMapRef()) {
-                $name = $configMapRef->getName();
+            if (($configMapRef = $envSource->configMapRef()) && $name = $configMapRef->getName()) {
                 $kind = ConfigMap::KIND;
-            } elseif ($secretRef = $envSource->secretRef()) {
-                $name = $secretRef->getName();
+            } elseif (($secretRef = $envSource->secretRef()) && $name = $secretRef->getName()) {
                 $kind = Secret::KIND;
             } else {
                 throw new LogicException(

@@ -63,14 +63,14 @@ class DumpAllCommand extends Command
 
         foreach ($this->registry->aliases() as $alias) {
             $this->processor->process($alias);
+        }
+        $this->dispatcher->dispatch(new ManifestsProcessedEvent(), ManifestsProcessedEvent::NAME);
 
-            $this->dispatcher->dispatch(new ManifestsProcessedEvent(), ManifestsProcessedEvent::NAME);
-
+        foreach ($this->registry->aliases() as $alias) {
             $dir = $this->manifestsDir.DIRECTORY_SEPARATOR.$alias;
             $this->dumper->dump($alias, $dir);
-
-            $this->dispatcher->dispatch(new ManifestsDumpedEvent(), ManifestsDumpedEvent::NAME);
         }
+        $this->dispatcher->dispatch(new ManifestsDumpedEvent(), ManifestsDumpedEvent::NAME);
 
         $printManifests = $input->getOption(self::OPTION_PRINT_MANIFESTS);
         if ($printManifests) {
