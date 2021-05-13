@@ -10,6 +10,7 @@ use Dealroadshow\K8S\API\Batch\CronJob;
 use Dealroadshow\K8S\API\Batch\Job;
 use Dealroadshow\K8S\API\ConfigMap;
 use Dealroadshow\K8S\API\Secret;
+use Dealroadshow\K8S\Framework\Renderer\JsonRenderer;
 use LogicException;
 
 class VolumesCalculator implements ChecksumCalculatorInterface
@@ -18,8 +19,11 @@ class VolumesCalculator implements ChecksumCalculatorInterface
 
     private const ANNOTATION_NAME = 'volume-sources-checksum';
 
-    public function __construct(private PodTemplateGetter $podTemplateGetter, private APIResourceRegistry $registry)
-    {
+    public function __construct(
+        private PodTemplateGetter $podTemplateGetter,
+        private APIResourceRegistry $registry,
+        private JsonRenderer $renderer,
+    ) {
     }
 
     public function calculate(Job|CronJob|Deployment $workload): ChecksumAnnotation
