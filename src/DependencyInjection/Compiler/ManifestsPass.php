@@ -41,6 +41,7 @@ class ManifestsPass implements CompilerPassInterface
             if (!class_exists($id)) {
                 continue;
             }
+
             $manifestDefinition = $container->getDefinition($id);
             $manifestClass = new ReflectionClass($manifestDefinition->getClass());
             if (!$manifestClass->implementsInterface(ManifestInterface::class)) {
@@ -71,6 +72,17 @@ class ManifestsPass implements CompilerPassInterface
                         Str::underscored($manifestShortName),
                         Str::underscored($manifestKind)
                     );
+
+                    if ($container->hasDefinition($newId)) {
+                        throw new LogicException(
+                            sprintf(
+                                'Classes %s and %s have the same kind and same shortName, but this combination must be unique within the app boundaries',
+                                $dedicatedManifestDefinition->getClass(),
+                                $container->getDefinition($newId)->getClass()
+                            )
+                        );
+                    }
+
                     $container->setDefinition($newId, $dedicatedManifestDefinition);
 
                     $appRef = new Reference(AppsPass::appDefinitionId($alias));
