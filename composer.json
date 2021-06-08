@@ -25,7 +25,7 @@
         "symfony/dependency-injection": "5.3.*",
         "symfony/config": "5.3.*",
         "symfony/http-kernel": "5.3.*",
-        "dealroadshow/k8s-framework": "dev-changed-proxy-type",
+        "dealroadshow/k8s-framework": "dev-master",
         "symfony/event-dispatcher": "^5.3"
     },
     "minimum-stability": "dev",
