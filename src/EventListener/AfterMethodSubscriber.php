@@ -11,6 +11,8 @@ class AfterMethodSubscriber extends AbstractMethodResultSubscriber
 {
     use ApplyWrappersTrait;
 
+    private const NO_RETURN_VALUE = 'AFTER-METHOD-SUBSCRIBER-NO-RETURN-VALUE';
+
     public function __construct(private string $env)
     {
     }
@@ -27,11 +29,18 @@ class AfterMethodSubscriber extends AbstractMethodResultSubscriber
      */
     protected function afterMethod(ManifestMethodCalledEvent $event): void
     {
+        $returnValue = self::NO_RETURN_VALUE;
+
         $this->applyWrappers(
             manifest: $event->manifest(),
             methodName: $event->methodName(),
             params: $event->methodParams(),
-            attributeClass: AfterMethod::class
+            attributeClass: AfterMethod::class,
+            returnValue: $returnValue,
         );
+
+        if (self::NO_RETURN_VALUE !== $returnValue) {
+            $event->setReturnValue($returnValue);
+        }
     }
 }

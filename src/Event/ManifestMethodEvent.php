@@ -11,18 +11,13 @@ class ManifestMethodEvent extends Event
 
     private mixed $returnValue = null;
 
-    public function __construct(private ManifestInterface $proxy, private ManifestInterface $manifest, private string $methodName, private array $methodParams)
+    public function __construct(private ManifestInterface $proxy, private string $methodName, private array $methodParams)
     {
-    }
-
-    public function proxy(): ManifestInterface
-    {
-        return $this->proxy;
     }
 
     public function manifest(): ManifestInterface
     {
-        return $this->manifest;
+        return $this->proxy;
     }
 
     public function methodName(): string

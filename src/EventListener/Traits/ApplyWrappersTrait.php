@@ -8,6 +8,7 @@ use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
 use LogicException;
+use ProxyManager\Proxy\AccessInterceptorInterface;
 use ReflectionException;
 use ReflectionObject;
 
@@ -18,12 +19,16 @@ trait ApplyWrappersTrait
      * @param string            $methodName
      * @param array             $params
      * @param string            $attributeClass
+     * @param mixed             $returnValue
      *
      * @throws ReflectionException
      */
-    private function applyWrappers(ManifestInterface $manifest, string $methodName, array $params, string $attributeClass): void
+    private function applyWrappers(ManifestInterface $manifest, string $methodName, array $params, string $attributeClass, mixed & $returnValue): void
     {
         $class = new ReflectionObject($manifest);
+        if ($class->implementsInterface(AccessInterceptorInterface::class)) {
+            $class = $class->getParentClass();
+        }
         foreach ($class->getMethods() as $method) {
             if ($method->getName() === $methodName) {
                 continue;
@@ -34,6 +39,7 @@ trait ApplyWrappersTrait
             }
 
             $isWrapper = false;
+            $replacesReturnValue = false;
             foreach ($attributes as $attribute) {
                 /** @var BeforeMethod|AfterMethod $attr */
                 $attr = $attribute->newInstance();
@@ -42,6 +48,8 @@ trait ApplyWrappersTrait
                 }
                 if ($methodName === $attr->methodName()) {
                     $isWrapper = true;
+                    $replacesReturnValue = $attr->replacesReturnValue();
+                    break;
                 }
             }
             if (!$isWrapper) {
@@ -72,7 +80,10 @@ trait ApplyWrappersTrait
                 );
             }
 
-            $method->invoke($manifest, ...$params);
+            $result = $method->invoke($manifest, ...$params);
+            if ($replacesReturnValue) {
+                $returnValue = $result;
+            }
         }
     }
 }

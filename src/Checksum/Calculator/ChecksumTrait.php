@@ -17,7 +17,7 @@ trait ChecksumTrait
     {
         $mappedByNameAndKind = [];
         foreach ($sources as $source) {
-            $data = json_decode(json_encode($source), true);
+            $data = $this->renderer->renderAsArray($source);
             SortUtil::ksortRecursive($data);
             $json = json_encode($data);
 

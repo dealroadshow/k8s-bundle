@@ -11,6 +11,7 @@ use Dealroadshow\K8S\API\Batch\Job;
 use Dealroadshow\K8S\API\ConfigMap;
 use Dealroadshow\K8S\API\Secret;
 use Dealroadshow\K8S\Data\Container;
+use Dealroadshow\K8S\Framework\Renderer\JsonRenderer;
 use LogicException;
 
 class EnvSourcesCalculator implements ChecksumCalculatorInterface
@@ -19,8 +20,11 @@ class EnvSourcesCalculator implements ChecksumCalculatorInterface
 
     private const ANNOTATION_NAME = 'env-sources-checksum';
 
-    public function __construct(private PodTemplateGetter $podTemplateGetter, private APIResourceRegistry $registry)
-    {
+    public function __construct(
+        private PodTemplateGetter $podTemplateGetter,
+        private APIResourceRegistry $registry,
+        private JsonRenderer $renderer,
+    ) {
     }
 
     public function calculate(Job|CronJob|Deployment $workload): ChecksumAnnotation

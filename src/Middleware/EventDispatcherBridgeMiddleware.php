@@ -25,11 +25,10 @@ class EventDispatcherBridgeMiddleware implements ManifestMethodPrefixMiddlewareI
         return 0;
     }
 
-    public function beforeMethodCall(ManifestInterface $proxy, ManifestInterface $manifest, string $methodName, array $params, mixed &$returnValue): void
+    public function beforeMethodCall(ManifestInterface $proxy, string $methodName, array $params, mixed &$returnValue): void
     {
         $event = new ManifestMethodEvent(
             proxy: $proxy,
-            manifest: $manifest,
             methodName: $methodName,
             methodParams: $params,
         );
@@ -40,11 +39,10 @@ class EventDispatcherBridgeMiddleware implements ManifestMethodPrefixMiddlewareI
         }
     }
 
-    public function afterMethodCall(ManifestInterface $proxy, ManifestInterface $manifest, string $methodName, array $params, mixed $returnedValue, mixed &$returnValue)
+    public function afterMethodCall(ManifestInterface $proxy, string $methodName, array $params, mixed $returnedValue, mixed &$returnValue)
     {
         $event = new ManifestMethodCalledEvent(
             proxy: $proxy,
-            manifest: $manifest,
             methodName: $methodName,
             methodParams: $params,
             returnedValue: $returnedValue,
