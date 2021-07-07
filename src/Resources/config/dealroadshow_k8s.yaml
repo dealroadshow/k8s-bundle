@@ -31,6 +31,7 @@ services:
     Dealroadshow\K8S\Framework\ResourceMaker\PriorityClassMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\Prometheus\PodMonitorMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\Prometheus\ServiceMonitorMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\Prometheus\PrometheusRuleMaker: ~
     Dealroadshow\K8S\Framework\Registry\AppRegistry: ~
     Dealroadshow\K8S\Framework\Registry\ManifestRegistry: ~
     Dealroadshow\K8S\Framework\Proxy\ManifestProxyFactory: ~
