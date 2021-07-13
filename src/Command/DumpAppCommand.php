@@ -16,10 +16,10 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class DumpAppCommand extends Command
 {
-    private const ARGUMENT_APP_ALIAS  = 'app_alias';
-    private const ARGUMENT_OUTPUT_DIR = 'output_dir';
+    private const ARGUMENT_APPS_ALIASES  = 'apps-aliases';
+    private const OPTION_OUTPUT_DIR      = 'output-dir';
     private const OPTION_PRINT_MANIFESTS = 'print';
-    private const OPTION_RECREATE_DIR = 'recreate-output-dir';
+    private const OPTION_RECREATE_DIR    = 'recreate-output-dir';
 
     protected static $defaultName = 'dealroadshow_k8s:dump:app';
 
@@ -36,13 +36,14 @@ class DumpAppCommand extends Command
         $this
             ->setDescription('Processes app and dumps Yaml manifests to output dir.')
             ->addArgument(
-                self::ARGUMENT_APP_ALIAS,
-                InputArgument::REQUIRED,
-                'Alias (name) of app to synthetize'
+                self::ARGUMENT_APPS_ALIASES,
+                InputArgument::IS_ARRAY | InputArgument::REQUIRED,
+                'Aliases (names) of apps to dump, separated by space'
             )
-            ->addArgument(
-                self::ARGUMENT_OUTPUT_DIR,
-                InputArgument::REQUIRED,
+            ->addOption(
+                self::OPTION_OUTPUT_DIR,
+                'D',
+                InputOption::VALUE_REQUIRED,
                 'Directory where to save generated Yaml manifests'
             )
             ->addOption(
@@ -67,12 +68,14 @@ class DumpAppCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $appAlias = $input->getArgument(self::ARGUMENT_APP_ALIAS);
+        $appsAliases = $input->getArgument(self::ARGUMENT_APPS_ALIASES);
         try {
-            if (!$this->appRegistry->has($appAlias)) {
-                throw new InvalidArgumentException(sprintf('App "%s" does not exist', $appAlias));
-            }
             $outputDir = $this->getValidOutputDir($input);
+            foreach ($appsAliases as $appAlias) {
+                if (!$this->appRegistry->has($appAlias)) {
+                    throw new InvalidArgumentException(sprintf('App "%s" does not exist', $appAlias));
+                }
+            }
         } catch (InvalidArgumentException $e) {
             $io->error($e->getMessage());
             $io->newLine();
@@ -86,8 +89,10 @@ class DumpAppCommand extends Command
             $fs->remove([$outputDir]);
         }
 
-        $this->appProcessor->process($appAlias);
-        $this->dumper->dump($appAlias, $outputDir);
+        foreach ($appsAliases as $appAlias) {
+            $this->appProcessor->process($appAlias);
+            $this->dumper->dump($appAlias, $outputDir.DIRECTORY_SEPARATOR.$appAlias);
+        }
 
         $printManifests = $input->getOption(self::OPTION_PRINT_MANIFESTS);
         if ($printManifests) {
@@ -102,7 +107,10 @@ class DumpAppCommand extends Command
 
     private function getValidOutputDir(InputInterface $input): string
     {
-        $outputDir = $input->getArgument(self::ARGUMENT_OUTPUT_DIR);
+        $outputDir = $input->getOption(self::OPTION_OUTPUT_DIR);
+        if (null === $outputDir) {
+            throw new InvalidArgumentException('Option "--output-dir" must be specified');
+        }
         if (!file_exists(realpath($outputDir))) {
             throw new InvalidArgumentException(sprintf('Output dir "%s" does not exist', $outputDir));
         }
