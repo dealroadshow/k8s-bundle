@@ -10,6 +10,7 @@ use Dealroadshow\Bundle\K8SBundle\Event\JobGeneratedEvent;
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodCalledEvent;
 use Dealroadshow\Bundle\K8SBundle\Event\SecretGeneratedEvent;
 use Dealroadshow\Bundle\K8SBundle\Event\ServiceGeneratedEvent;
+use Dealroadshow\Bundle\K8SBundle\Event\StatefulSetGeneratedEvent;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\ConfigMap\ConfigMapInterface;
 use Dealroadshow\K8S\Framework\Core\CronJob\CronJobInterface;
@@ -18,6 +19,7 @@ use Dealroadshow\K8S\Framework\Core\Ingress\IngressInterface;
 use Dealroadshow\K8S\Framework\Core\Job\JobInterface;
 use Dealroadshow\K8S\Framework\Core\Secret\SecretInterface;
 use Dealroadshow\K8S\Framework\Core\Service\ServiceInterface;
+use Dealroadshow\K8S\Framework\Core\StatefulSet\StatefulSetInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -46,6 +48,8 @@ class ManifestEventsSubscriber implements EventSubscriberInterface
             $event = new ConfigMapGeneratedEvent($manifest, $params['configMap'], $app);
         } elseif ($methodName === 'configureSecret' && $manifest instanceof SecretInterface) {
             $event = new SecretGeneratedEvent($manifest, $params['secret'], $app);
+        } elseif ($methodName === 'configureStatefulSet' && $manifest instanceof StatefulSetInterface) {
+            $event = new StatefulSetGeneratedEvent($manifest, $params['statefulSet'], $app);
         } else {
             return;
         }

@@ -8,6 +8,7 @@ use Dealroadshow\Bundle\K8SBundle\Event\DeploymentGeneratedEvent;
 use Dealroadshow\Bundle\K8SBundle\Event\JobGeneratedEvent;
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestGeneratedEventInterface;
 use Dealroadshow\Bundle\K8SBundle\Event\SecretGeneratedEvent;
+use Dealroadshow\Bundle\K8SBundle\Event\StatefulSetGeneratedEvent;
 use Dealroadshow\Bundle\K8SBundle\Registry\APIResourceRegistry;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -19,6 +20,7 @@ class TrackAPIResourcesSubscriber implements EventSubscriberInterface
         DeploymentGeneratedEvent::NAME,
         JobGeneratedEvent::NAME,
         SecretGeneratedEvent::NAME,
+        StatefulSetGeneratedEvent::NAME,
     ];
 
     public function __construct(private APIResourceRegistry $registry)
