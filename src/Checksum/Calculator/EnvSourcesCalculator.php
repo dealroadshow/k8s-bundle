@@ -6,6 +6,7 @@ use Dealroadshow\Bundle\K8SBundle\Checksum\ChecksumAnnotation;
 use Dealroadshow\Bundle\K8SBundle\Checksum\PodTemplateGetter\PodTemplateGetter;
 use Dealroadshow\Bundle\K8SBundle\Registry\APIResourceRegistry;
 use Dealroadshow\K8S\API\Apps\Deployment;
+use Dealroadshow\K8S\API\Apps\StatefulSet;
 use Dealroadshow\K8S\API\Batch\CronJob;
 use Dealroadshow\K8S\API\Batch\Job;
 use Dealroadshow\K8S\API\ConfigMap;
@@ -27,7 +28,7 @@ class EnvSourcesCalculator implements ChecksumCalculatorInterface
     ) {
     }
 
-    public function calculate(Job|CronJob|Deployment $workload): ChecksumAnnotation
+    public function calculate(Job|CronJob|Deployment|StatefulSet $workload): ChecksumAnnotation
     {
         $containers = $this->podTemplateGetter->get($workload)->spec()->containers();
 
