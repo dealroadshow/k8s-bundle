@@ -28,6 +28,8 @@ services:
     Dealroadshow\K8S\Framework\ResourceMaker\CronJobMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\IngressMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\ServiceMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\PersistentVolumeClaimMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\StatefulSetMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\PriorityClassMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\Prometheus\PodMonitorMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\Prometheus\ServiceMonitorMaker: ~
