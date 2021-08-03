@@ -4,6 +4,7 @@ namespace Dealroadshow\Bundle\K8SBundle\Checksum;
 
 use Dealroadshow\Bundle\K8SBundle\Checksum\Calculator\ChecksumCalculatorInterface;
 use Dealroadshow\K8S\API\Apps\Deployment;
+use Dealroadshow\K8S\API\Apps\StatefulSet;
 use Dealroadshow\K8S\API\Batch\CronJob;
 use Dealroadshow\K8S\API\Batch\Job;
 
@@ -19,7 +20,7 @@ class ChecksumsService
         $this->calculators = $calculators;
     }
 
-    public function calculateChecksums(Deployment|Job|CronJob $workload)
+    public function calculateChecksums(Deployment|Job|CronJob|StatefulSet $workload)
     {
         foreach ($this->calculators as $calculator) {
             $annotation = $calculator->calculate($workload);
