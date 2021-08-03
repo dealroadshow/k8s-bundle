@@ -22,7 +22,7 @@ class PodTemplateGetter
         ];
     }
 
-    public function get(Deployment|Job|CronJob $workload): PodTemplateSpec
+    public function get(Deployment|Job|CronJob|StatefulSet $workload): PodTemplateSpec
     {
         return $this->kindsMap[$workload::KIND]->get($workload);
     }
