@@ -12,13 +12,16 @@ class PodTemplateGetter
 {
     private array $kindsMap;
 
-    public function __construct(DefaultPodTemplateGetter $defaultGetter, CronJobPodTemplateGetter $cronJobGetter)
-    {
+    public function __construct(
+        DefaultPodTemplateGetter $defaultGetter,
+        CronJobPodTemplateGetter $cronJobGetter,
+        StatefulSetPodTemplateGetter $stsGetter
+    ) {
         $this->kindsMap = [
             Deployment::KIND  => $defaultGetter,
             Job::KIND         => $defaultGetter,
             CronJob::KIND     => $cronJobGetter,
-            StatefulSet::KIND => $defaultGetter,
+            StatefulSet::KIND => $stsGetter,
         ];
     }
 
