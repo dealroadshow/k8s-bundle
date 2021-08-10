@@ -4,6 +4,7 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodCalledEvent;
 use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
+use Dealroadshow\K8S\Framework\Core\Persistence\PersistentVolumeClaimInterface;
 
 class ResourcesMethodSubscriber extends AbstractEnvAwareMethodSubscriber
 {
@@ -14,6 +15,8 @@ class ResourcesMethodSubscriber extends AbstractEnvAwareMethodSubscriber
 
     protected function supports(ManifestMethodCalledEvent $event): bool
     {
-        return $event->manifest() instanceof ContainerInterface;
+        $manifest = $event->manifest();
+
+        return $manifest instanceof ContainerInterface || $manifest instanceof PersistentVolumeClaimInterface;
     }
 }
