@@ -33,7 +33,8 @@ class DumpAppCommand extends Command
         private AppRegistry $appRegistry,
         private AppProcessor $appProcessor,
         private AppDumper $dumper,
-        private EventDispatcherInterface $dispatcher
+        private EventDispatcherInterface $dispatcher,
+        private string $manifestsDir
     ) {
         parent::__construct();
     }
@@ -135,7 +136,7 @@ class DumpAppCommand extends Command
 
     private function getValidOutputDir(InputInterface $input): string
     {
-        $outputDir = $input->getOption(self::OPTION_OUTPUT_DIR);
+        $outputDir = $input->getOption(self::OPTION_OUTPUT_DIR) ?? $this->manifestsDir;
         if (null === $outputDir) {
             throw new InvalidArgumentException('Option "--output-dir" must be specified');
         }
