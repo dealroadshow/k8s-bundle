@@ -4,6 +4,8 @@ namespace Dealroadshow\Bundle\K8SBundle\Command;
 
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestsDumpedEvent;
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestsProcessedEvent;
+use Dealroadshow\K8S\Framework\Core\ConfigMap\ConfigMapInterface;
+use Dealroadshow\K8S\Framework\Core\Secret\SecretInterface;
 use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Command\Command;
@@ -23,6 +25,7 @@ class DumpAppCommand extends Command
     private const OPTION_OUTPUT_DIR      = 'output-dir';
     private const OPTION_PRINT_MANIFESTS = 'print';
     private const OPTION_RECREATE_DIR    = 'recreate-output-dir';
+    private const OPTION_GENERATE_ENV_SOURCES = 'generate-all-env-sources';
 
     protected static $defaultName = 'dealroadshow_k8s:dump:app';
 
@@ -62,8 +65,15 @@ class DumpAppCommand extends Command
                 InputOption::VALUE_NONE,
                 'If specified, all manifests files will also be printed to stdout',
             )
+            ->addOption(
+                self::OPTION_GENERATE_ENV_SOURCES,
+                null,
+                InputOption::VALUE_NONE,
+                'If specified, ALL ConfigMaps and Secrets from all apps (not only specified) will be generated',
+            )
             ->setAliases([
                 'k8s:dump:app',
+                'k8s:dump:apps',
             ])
         ;
     }
@@ -72,10 +82,10 @@ class DumpAppCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $appsAliases = $input->getArgument(self::ARGUMENT_APPS_ALIASES);
+        $activeAppsAliases = $input->getArgument(self::ARGUMENT_APPS_ALIASES);
         try {
             $outputDir = $this->getValidOutputDir($input);
-            foreach ($appsAliases as $appAlias) {
+            foreach ($activeAppsAliases as $appAlias) {
                 if (!$this->appRegistry->has($appAlias)) {
                     throw new InvalidArgumentException(sprintf('App "%s" does not exist', $appAlias));
                 }
@@ -93,11 +103,23 @@ class DumpAppCommand extends Command
             $fs->remove([$outputDir]);
         }
 
-        foreach ($appsAliases as $appAlias) {
+        if ($input->getOption(self::OPTION_GENERATE_ENV_SOURCES)) {
+            foreach (array_diff($this->appRegistry->aliases(), $activeAppsAliases) as $appAlias) {
+                $this->appProcessor->processInstancesOf(
+                    $appAlias,
+                    [SecretInterface::class, ConfigMapInterface::class]
+                );
+            }
+        }
+
+        foreach ($activeAppsAliases as $appAlias) {
             $this->appProcessor->process($appAlias);
-            $this->dumper->dump($appAlias, $outputDir.DIRECTORY_SEPARATOR.$appAlias);
         }
         $this->dispatcher->dispatch(new ManifestsProcessedEvent(), ManifestsProcessedEvent::NAME);
+
+        foreach ($activeAppsAliases as $appAlias) {
+            $this->dumper->dump($appAlias, $outputDir.DIRECTORY_SEPARATOR.$appAlias);
+        }
         $this->dispatcher->dispatch(new ManifestsDumpedEvent(), ManifestsDumpedEvent::NAME);
 
         $printManifests = $input->getOption(self::OPTION_PRINT_MANIFESTS);

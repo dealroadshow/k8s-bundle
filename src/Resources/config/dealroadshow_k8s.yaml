@@ -112,6 +112,7 @@ services:
         tags:
           - { name: 'console.command', command: 'dealroadshow_k8s:dump:app' }
           - { name: 'console.command', command: 'k8s:dump:app' }
+          - { name: 'console.command', command: 'k8s:dump:apps' }
 
     Dealroadshow\Bundle\K8SBundle\Command\DumpAllCommand:
         tags:
