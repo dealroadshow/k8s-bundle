@@ -2,7 +2,10 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
+use Dealroadshow\Bundle\K8SBundle\Event\ManifestsDumpedEvent;
+use Dealroadshow\Bundle\K8SBundle\Event\ManifestsProcessedEvent;
 use InvalidArgumentException;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +29,8 @@ class DumpAppCommand extends Command
     public function __construct(
         private AppRegistry $appRegistry,
         private AppProcessor $appProcessor,
-        private AppDumper $dumper
+        private AppDumper $dumper,
+        private EventDispatcherInterface $dispatcher
     ) {
         parent::__construct();
     }
@@ -93,6 +97,8 @@ class DumpAppCommand extends Command
             $this->appProcessor->process($appAlias);
             $this->dumper->dump($appAlias, $outputDir.DIRECTORY_SEPARATOR.$appAlias);
         }
+        $this->dispatcher->dispatch(new ManifestsProcessedEvent(), ManifestsProcessedEvent::NAME);
+        $this->dispatcher->dispatch(new ManifestsDumpedEvent(), ManifestsDumpedEvent::NAME);
 
         $printManifests = $input->getOption(self::OPTION_PRINT_MANIFESTS);
         if ($printManifests) {
