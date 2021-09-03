@@ -117,7 +117,7 @@ class DumpAppCommand extends Command
         }
         $this->dispatcher->dispatch(new ManifestsProcessedEvent(), ManifestsProcessedEvent::NAME);
 
-        foreach ($activeAppsAliases as $appAlias) {
+        foreach ($this->appRegistry->aliases() as $appAlias) {
             $this->dumper->dump($appAlias, $outputDir.DIRECTORY_SEPARATOR.$appAlias);
         }
         $this->dispatcher->dispatch(new ManifestsDumpedEvent(), ManifestsDumpedEvent::NAME);
