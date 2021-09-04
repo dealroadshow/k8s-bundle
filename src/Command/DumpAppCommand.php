@@ -8,6 +8,7 @@ use Dealroadshow\K8S\Framework\Core\ConfigMap\ConfigMapInterface;
 use Dealroadshow\K8S\Framework\Core\Secret\SecretInterface;
 use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,6 +19,7 @@ use Dealroadshow\K8S\Framework\App\AppProcessor;
 use Dealroadshow\K8S\Framework\Dumper\AppDumper;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Symfony\Component\Filesystem\Filesystem;
+use Throwable;
 
 class DumpAppCommand extends Command
 {
@@ -141,7 +143,13 @@ class DumpAppCommand extends Command
             throw new InvalidArgumentException('Option "--output-dir" must be specified');
         }
         if (!file_exists(realpath($outputDir))) {
-            throw new InvalidArgumentException(sprintf('Output dir "%s" does not exist', $outputDir));
+            try {
+                mkdir($outputDir);
+            } catch (Throwable $error) {
+                throw new RuntimeException(
+                    sprintf('Cannot create output dir "%s": %s', $outputDir, $error->getMessage())
+                );
+            }
         }
         $outputDir = realpath($outputDir);
         if (!is_dir($outputDir)) {
