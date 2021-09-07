@@ -2,7 +2,7 @@
 
 namespace Dealroadshow\Bundle\K8SBundle\Event;
 
-use Dealroadshow\K8S\API\Extensions\Ingress;
+use Dealroadshow\K8S\API\Networking\Ingress;
 use Dealroadshow\K8S\APIResourceInterface;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\Ingress\IngressInterface;
