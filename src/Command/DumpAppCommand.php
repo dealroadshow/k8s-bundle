@@ -130,6 +130,7 @@ class DumpAppCommand extends Command
             $this->printManifests($outputDir);
         }
 
+        $io = $io->getErrorStyle();
         $io->success(sprintf('Yaml manifests are saved to directory "%s"', $outputDir));
         $io->newLine();
 
