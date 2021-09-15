@@ -106,9 +106,9 @@ class DumpAppCommand extends Command
                     If specified, ALL instances of chosen Kubernetes kinds from ALL apps (not only specified)
                     , will be generated. It may be useful, for example, when your deployments use configmaps
                     or secrets from another app, which you don't want to generate.
-                    Specifying this option like "<fg=yellow>--all-instances-of=Secret,ConfigMap</>" will result in 
-                    generation of all secrets and config maps from all apps, so that your deployments have data 
-                    they depend on.
+                    Specifying this option like "<fg=yellow>--all-instances-of=Secret -all-instances-of=ConfigMap</>" 
+                    will result in generation of all secrets and config maps from all apps, so that your deployments 
+                    have data they depend on.
                     DESCRIPTION
             )
             ->setAliases([
