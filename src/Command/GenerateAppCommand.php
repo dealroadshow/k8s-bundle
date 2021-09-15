@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\AppGenerator;
@@ -23,7 +25,7 @@ class GenerateAppCommand extends Command
         parent::__construct();
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this
             ->setDescription('Creates a new K8S App skeleton')

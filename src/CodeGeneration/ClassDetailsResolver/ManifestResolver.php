@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
@@ -14,12 +16,7 @@ class ManifestResolver
     }
 
     /**
-     * @param AppInterface $app
-     * @param string       $manifestName
-     * @param string       $suffix
-     * @param bool         $useDedicatedDir Whether to create a dir for this manifest (like dir "Example" for "ExampleDeployment")
-     *
-     * @return ClassDetails
+     * @param bool $useDedicatedDir Whether to create a dir for this manifest (like dir "Example" for "ExampleDeployment")
      */
     public function getClassDetails(AppInterface $app, string $manifestName, string $suffix, bool $useDedicatedDir = false): ClassDetails
     {

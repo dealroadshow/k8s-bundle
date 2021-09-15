@@ -1,13 +1,13 @@
-<?= "<?php\n"; ?>
+<?php echo "<?php\n"; ?>
 
-namespace <?= $namespace; ?>;
+namespace <?php echo $namespace; ?>;
 
 use Dealroadshow\K8S\Framework\Core\Service\AbstractService;
 use Dealroadshow\K8S\Data\Collection\StringMap;
 use Dealroadshow\K8S\Framework\Core\Service\Configurator\ServicePortsConfigurator;
 use Dealroadshow\K8S\Framework\Core\Service\Configurator\ServiceTypeConfigurator;
 
-class <?= $className; ?> extends AbstractService
+class <?php echo $className; ?> extends AbstractService
 {
     public function ports(ServicePortsConfigurator $ports): void
     {
@@ -23,6 +23,6 @@ class <?= $className; ?> extends AbstractService
 
     public static function shortName(): string
     {
-        return '<?= $manifestName; ?>';
+        return '<?php echo $manifestName; ?>';
     }
 }

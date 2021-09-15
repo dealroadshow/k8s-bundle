@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\Event\ConfigMapGeneratedEvent;
@@ -34,21 +36,21 @@ class ManifestEventsSubscriber implements EventSubscriberInterface
         /** @var AppInterface $app */
         $app = (fn () => $this->{'app'})->call($manifest);
 
-        if ($methodName === 'configureDeployment' && $manifest instanceof DeploymentInterface) {
+        if ('configureDeployment' === $methodName && $manifest instanceof DeploymentInterface) {
             $event = new DeploymentGeneratedEvent($manifest, $params['deployment'], $app);
-        } elseif ($methodName === 'configureService' && $manifest instanceof ServiceInterface) {
+        } elseif ('configureService' === $methodName && $manifest instanceof ServiceInterface) {
             $event = new ServiceGeneratedEvent($manifest, $params['service'], $app);
-        } elseif ($methodName === 'configureIngress' && $manifest instanceof IngressInterface) {
+        } elseif ('configureIngress' === $methodName && $manifest instanceof IngressInterface) {
             $event = new IngressGeneratedEvent($manifest, $params['ingress'], $app);
-        } elseif ($methodName === 'configureCronJob' && $manifest instanceof CronJobInterface) {
+        } elseif ('configureCronJob' === $methodName && $manifest instanceof CronJobInterface) {
             $event = new CronJobGeneratedEvent($manifest, $params['cronJob'], $app);
-        } elseif ($methodName === 'configureJob' && $manifest instanceof JobInterface) {
+        } elseif ('configureJob' === $methodName && $manifest instanceof JobInterface) {
             $event = new JobGeneratedEvent($manifest, $params['job'], $app);
-        } elseif ($methodName === 'configureConfigMap' && $manifest instanceof ConfigMapInterface) {
+        } elseif ('configureConfigMap' === $methodName && $manifest instanceof ConfigMapInterface) {
             $event = new ConfigMapGeneratedEvent($manifest, $params['configMap'], $app);
-        } elseif ($methodName === 'configureSecret' && $manifest instanceof SecretInterface) {
+        } elseif ('configureSecret' === $methodName && $manifest instanceof SecretInterface) {
             $event = new SecretGeneratedEvent($manifest, $params['secret'], $app);
-        } elseif ($methodName === 'configureStatefulSet' && $manifest instanceof StatefulSetInterface) {
+        } elseif ('configureStatefulSet' === $methodName && $manifest instanceof StatefulSetInterface) {
             $event = new StatefulSetGeneratedEvent($manifest, $params['statefulSet'], $app);
         } else {
             return;
@@ -60,7 +62,7 @@ class ManifestEventsSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            ManifestMethodCalledEvent::NAME => ['onMethodCalled', -1024]
+            ManifestMethodCalledEvent::NAME => ['onMethodCalled', -1024],
         ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\BeforeMethod;
@@ -23,8 +25,6 @@ class BeforeMethodSubscriber extends AbstractMethodSubscriber
     }
 
     /**
-     * @param ManifestMethodEvent $event
-     *
      * @throws ReflectionException
      */
     protected function beforeMethod(ManifestMethodEvent $event): void

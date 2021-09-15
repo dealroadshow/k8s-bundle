@@ -1,14 +1,14 @@
-<?= "<?php\n"; ?>
+<?php echo "<?php\n"; ?>
 
-namespace <?= $namespace; ?>;
+namespace <?php echo $namespace; ?>;
 
 use Dealroadshow\K8S\Framework\App\AbstractApp;
 
-class <?= $className; ?> extends AbstractApp
+class <?php echo $className; ?> extends AbstractApp
 {
     public static function name(): string
     {
-        return '<?= $appName; ?>';
+        return '<?php echo $appName; ?>';
     }
 
     public function manifestConfig(string $shortName): array

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\EnabledForEnvTrait;
@@ -20,7 +22,7 @@ class AppsPass implements CompilerPassInterface
 {
     use EnabledForEnvTrait;
 
-    const APP_TAG = 'dealroadshow_k8s.app';
+    public const APP_TAG = 'dealroadshow_k8s.app';
 
     private array $aliasToClassNamesMap;
     private array $classNameToAliasMap;
@@ -33,11 +35,9 @@ class AppsPass implements CompilerPassInterface
     private array $appClasses;
 
     /**
-     * @param ContainerBuilder $container
-     *
      * @throws ReflectionException
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $container->registerForAutoconfiguration(AppInterface::class)
             ->addTag(self::APP_TAG);
@@ -63,19 +63,14 @@ class AppsPass implements CompilerPassInterface
             $class = $config['class'] ?? null;
             if (null === $class) {
                 if (!array_key_exists($appAlias, $this->aliasToClassNamesMap)) {
-                    throw new InvalidConfigurationException(
-                        sprintf(
-                            'App "%s" cannot be found by name and does not specify "class" property in config.',
-                            $appAlias
-                        )
-                    );
+                    throw new InvalidConfigurationException(sprintf('App "%s" cannot be found by name and does not specify "class" property in config.', $appAlias));
                 }
                 $classNames = $this->aliasToClassNamesMap[$appAlias];
                 if (count($classNames) > 1) {
                     $messageTemplate = <<<'MESSAGE'
-                    App alias "%s" is ambiguous, since it can point to app classes "%s".
-                    Please specify "class" property for this alias explicitly.
-                    MESSAGE;
+                        App alias "%s" is ambiguous, since it can point to app classes "%s".
+                        Please specify "class" property for this alias explicitly.
+                        MESSAGE;
                     $messageTemplate = str_replace(PHP_EOL, ' ', $messageTemplate);
                     $message = sprintf(
                         $messageTemplate,
@@ -129,8 +124,6 @@ class AppsPass implements CompilerPassInterface
     }
 
     /**
-     * @param ContainerBuilder $container
-     *
      * @throws ReflectionException
      */
     private function collectAppClasses(ContainerBuilder $container): void
@@ -142,13 +135,7 @@ class AppsPass implements CompilerPassInterface
             }
             $class = new ReflectionClass($id);
             if (!$class->implementsInterface(AppInterface::class)) {
-                throw new LogicException(
-                    sprintf(
-                        'Only %s instances must be tagged with tag "%s"',
-                        AppInterface::class,
-                        self::APP_TAG
-                    )
-                );
+                throw new LogicException(sprintf('Only %s instances must be tagged with tag "%s"', AppInterface::class, self::APP_TAG));
             }
             if ($this->enabledForCurrentEnv($class, $container->getParameter('kernel.environment'))) {
                 $this->appClasses[$class->getName()] = $class;
@@ -159,12 +146,7 @@ class AppsPass implements CompilerPassInterface
     private function createNewDefinition(string $class, string $alias, ContainerBuilder $container): void
     {
         if (!Str::isValidDNSSubdomain($alias)) {
-            throw new InvalidConfigurationException(
-                sprintf(
-                    'App alias "%s" must be a valid DNS subdomain name.',
-                    $alias
-                )
-            );
+            throw new InvalidConfigurationException(sprintf('App alias "%s" must be a valid DNS subdomain name.', $alias));
         }
 
         $appDefinition = $container->getDefinition($class);

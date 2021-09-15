@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Event;
 
 use Dealroadshow\K8S\API\ConfigMap;
@@ -10,7 +12,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class ConfigMapGeneratedEvent extends Event implements ManifestGeneratedEventInterface
 {
-    const NAME = 'dealroadshow_k8s.manifest_generated.configMap';
+    public const NAME = 'dealroadshow_k8s.manifest_generated.configMap';
 
     public function __construct(private ConfigMapInterface $manifest, private ConfigMap $configMap, private AppInterface $app)
     {

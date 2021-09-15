@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodCalledEvent;
@@ -34,14 +36,7 @@ abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubs
         $originalMethod = $class->getMethod($methodName);
         $envAwareMethod = $class->getMethod($envAwareMethodName);
         if (!ReflectionUtil::sameSignature($originalMethod, $envAwareMethod)) {
-            throw new LogicException(
-                sprintf(
-                    'Class "%s" has env-aware version of method "%s": method "%s", but signatures does not match.',
-                    $class->getName(),
-                    $methodName,
-                    $envAwareMethodName
-                )
-            );
+            throw new LogicException(sprintf('Class "%s" has env-aware version of method "%s": method "%s", but signatures does not match.', $class->getName(), $methodName, $envAwareMethodName));
         }
 
         $returned = $envAwareMethod->invoke($event->manifest(), ...$event->methodParams());

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\Event\ConfigMapGeneratedEvent;
@@ -27,7 +29,7 @@ class TrackAPIResourcesSubscriber implements EventSubscriberInterface
     {
     }
 
-    public function onManifestGenerated(ManifestGeneratedEventInterface $event)
+    public function onManifestGenerated(ManifestGeneratedEventInterface $event): void
     {
         $this->registry->add($event->apiResource());
     }

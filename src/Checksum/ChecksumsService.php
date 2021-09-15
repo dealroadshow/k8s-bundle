@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Checksum;
 
 use Dealroadshow\Bundle\K8SBundle\Checksum\Calculator\ChecksumCalculatorInterface;
@@ -20,7 +22,7 @@ class ChecksumsService
         $this->calculators = $calculators;
     }
 
-    public function calculateChecksums(Deployment|Job|CronJob|StatefulSet $workload)
+    public function calculateChecksums(Deployment|Job|CronJob|StatefulSet $workload): void
     {
         foreach ($this->calculators as $calculator) {
             $annotation = $calculator->calculate($workload);

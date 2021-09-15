@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Checksum\Calculator;
 
 use Dealroadshow\Bundle\K8SBundle\Checksum\ChecksumAnnotation;
@@ -50,9 +52,7 @@ class EnvSourcesCalculator implements ChecksumCalculatorInterface
             } elseif (($secretRef = $envSource->secretRef()) && $name = $secretRef->getName()) {
                 $kind = Secret::KIND;
             } else {
-                throw new LogicException(
-                    'EnvFromSource instance must contain either "configMapRef" or "secretRef" field'
-                );
+                throw new LogicException('EnvFromSource instance must contain either "configMapRef" or "secretRef" field');
             }
 
             $source = $this->getSource($name, $kind);
@@ -87,13 +87,7 @@ class EnvSourcesCalculator implements ChecksumCalculatorInterface
     private function getSource(string $name, string $kind): ConfigMap|Secret
     {
         if (!$this->registry->has($name, $kind)) {
-            throw new LogicException(
-                sprintf(
-                    'One of manifests uses "%s" as an env source, but no %s with such name was found',
-                    $name,
-                    $kind
-                )
-            );
+            throw new LogicException(sprintf('One of manifests uses "%s" as an env source, but no %s with such name was found', $name, $kind));
         }
 
         return $this->registry->get($name, $kind);

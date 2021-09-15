@@ -1,6 +1,6 @@
-<?= "<?php\n"; ?>
+<?php echo "<?php\n"; ?>
 
-namespace <?= $namespace; ?>;
+namespace <?php echo $namespace; ?>;
 
 use Dealroadshow\K8S\Framework\Core\Container\AbstractContainer;
 use Dealroadshow\K8S\Framework\Core\Container\Image\Image;
@@ -8,14 +8,14 @@ use Dealroadshow\K8S\Framework\Core\Job\AbstractJob;
 use Dealroadshow\K8S\Framework\Core\Pod\Containers\PodContainers;
 use Dealroadshow\K8S\Framework\Core\Pod\Volume\VolumesConfigurator;
 
-class <?= $className; ?> extends AbstractJob
+class <?php echo $className; ?> extends AbstractJob
 {
     public function containers(): iterable
     {
         yield new class extends AbstractContainer {
             public function name(): string
             {
-                return '<?= $manifestName; ?>-container';
+                return '<?php echo $manifestName; ?>-container';
             }
 
             public function image(): Image
@@ -31,6 +31,6 @@ class <?= $className; ?> extends AbstractJob
 
     public static function shortName(): string
     {
-        return '<?= $manifestName; ?>';
+        return '<?php echo $manifestName; ?>';
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Checksum\Calculator;
 
 use Dealroadshow\Bundle\K8SBundle\Util\SortUtil;
@@ -10,8 +12,6 @@ trait ChecksumTrait
 {
     /**
      * @param Secret[]|ConfigMap[] $sources
-     *
-     * @return string
      */
     private function checksum(array $sources): string
     {

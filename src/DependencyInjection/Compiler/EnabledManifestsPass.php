@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\EnabledForEnvTrait;
@@ -13,11 +15,9 @@ class EnabledManifestsPass implements CompilerPassInterface
     use EnabledForEnvTrait;
 
     /**
-     * @param ContainerBuilder $container
-     *
      * @throws ReflectionException
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $ids = $container->findTaggedServiceIds(ManifestsPass::MANIFEST_TAG);
         $env = $container->getParameter('kernel.environment');

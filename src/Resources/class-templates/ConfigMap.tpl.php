@@ -1,11 +1,11 @@
-<?= "<?php\n"; ?>
+<?php echo "<?php\n"; ?>
 
-namespace <?= $namespace; ?>;
+namespace <?php echo $namespace; ?>;
 
 use Dealroadshow\K8S\Data\Collection\StringMap;
 use Dealroadshow\K8S\Framework\Core\ConfigMap\AbstractConfigMap;
 
-class <?= $className; ?> extends AbstractConfigMap
+class <?php echo $className; ?> extends AbstractConfigMap
 {
     public function data(StringMap $data): void
     {
@@ -13,6 +13,6 @@ class <?= $className; ?> extends AbstractConfigMap
 
     public static function shortName(): string
     {
-        return '<?= $manifestName; ?>';
+        return '<?php echo $manifestName; ?>';
     }
 }

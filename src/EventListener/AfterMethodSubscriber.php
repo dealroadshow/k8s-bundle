@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\AfterMethod;
@@ -23,8 +25,6 @@ class AfterMethodSubscriber extends AbstractMethodResultSubscriber
     }
 
     /**
-     * @param ManifestMethodCalledEvent $event
-     *
      * @throws ReflectionException
      */
     protected function afterMethod(ManifestMethodCalledEvent $event): void

@@ -1,35 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
 use Dealroadshow\Bundle\K8SBundle\Checksum\Calculator\ChecksumCalculatorInterface;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ChecksumCalculatorPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ResourceMakersPass;
+use Dealroadshow\K8S\Framework\App\AppInterface;
+use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
 use Dealroadshow\K8S\Framework\Middleware\ManifestMethodPrefixMiddlewareInterface;
 use Dealroadshow\K8S\Framework\Middleware\ManifestMethodSuffixMiddlewareInterface;
+use Dealroadshow\K8S\Framework\ResourceMaker\ResourceMakerInterface;
 use Exception;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
-use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ResourceMakersPass;
-use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
-use Dealroadshow\K8S\Framework\App\AppInterface;
-use Dealroadshow\K8S\Framework\Core\ManifestInterface;
-use Dealroadshow\K8S\Framework\ResourceMaker\ResourceMakerInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Throwable;
 
 class DealroadshowK8SExtension extends Extension
 {
     /**
-     * @param array            $configs
-     * @param ContainerBuilder $container
-     *
      * @throws Exception
      */
     public function load(array $configs, ContainerBuilder $container): void
@@ -55,12 +54,9 @@ class DealroadshowK8SExtension extends Extension
     }
 
     /**
-     * @param array            $config
-     * @param ContainerBuilder $container
-     *
      * @throws Exception
      */
-    private function loadInternal(array $config, ContainerBuilder $container)
+    private function loadInternal(array $config, ContainerBuilder $container): void
     {
         $this->setupAutoconfiguration($container);
 
@@ -152,7 +148,8 @@ class DealroadshowK8SExtension extends Extension
         if (!file_exists($codeDir)) {
             try {
                 @mkdir($codeDir, 0700, true);
-            } catch (Throwable) {}
+            } catch (Throwable) {
+            }
         }
         $container->setParameter('dealroadshow_k8s.code_dir', $codeDir);
 
@@ -165,10 +162,7 @@ class DealroadshowK8SExtension extends Extension
         if (null === $manifestsDir) {
             $srcDir = $this->getSrcDir($container);
             if (!file_exists($srcDir)) {
-                throw $this->createExceptionForSrcDir(
-                    'dealroadshow_k8s.manifests_dir',
-                    $srcDir
-                );
+                throw $this->createExceptionForSrcDir('dealroadshow_k8s.manifests_dir', $srcDir);
             }
             $manifestsDir = $srcDir.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'k8s-manifests';
         }
@@ -188,12 +182,12 @@ class DealroadshowK8SExtension extends Extension
     private function createExceptionForSrcDir(string $paramName, string $srcDir): InvalidConfigurationException
     {
         $errMessage = <<<ERR
-        "$paramName" config value was not specified.
-        Fallback value requires %kernel.project_dir%/src dir, which was resolved 
-        to "$srcDir", but this directory does not exist. Please configure "$paramName" 
-        config value explicitly as an absolute path or use standard "src" directory
-        for your code.
-        ERR;
+            "$paramName" config value was not specified.
+            Fallback value requires %kernel.project_dir%/src dir, which was resolved 
+            to "$srcDir", but this directory does not exist. Please configure "$paramName" 
+            config value explicitly as an absolute path or use standard "src" directory
+            for your code.
+            ERR;
         $errMessage = str_replace(PHP_EOL, ' ', $errMessage);
 
         return new InvalidConfigurationException($errMessage);

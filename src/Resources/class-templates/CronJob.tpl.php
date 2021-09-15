@@ -1,12 +1,12 @@
-<?= "<?php\n"; ?>
+<?php echo "<?php\n"; ?>
 
-namespace <?= $namespace; ?>;
+namespace <?php echo $namespace; ?>;
 
 use BadMethodCallException;
 use Dealroadshow\K8S\Framework\Core\CronJob\AbstractCronJob;
 use Dealroadshow\K8S\Framework\Core\Job\JobInterface;
 
-class <?= $className; ?> extends AbstractCronJob
+class <?php echo $className; ?> extends AbstractCronJob
 {
     public function job(): JobInterface
     {
@@ -20,6 +20,6 @@ class <?= $className; ?> extends AbstractCronJob
 
     public static function shortName(): string
     {
-        return '<?= $manifestName; ?>';
+        return '<?php echo $manifestName; ?>';
     }
 }

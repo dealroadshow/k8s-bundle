@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
 use Closure;
@@ -71,24 +73,17 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * @param string $class
-     *
-     * @return string
      * @throws ReflectionException
      */
     private static function validClassName(string $class): string
     {
         if (!class_exists($class)) {
-            throw new InvalidConfigurationException(
-                sprintf('Class "%s" does not exist', $class)
-            );
+            throw new InvalidConfigurationException(sprintf('Class "%s" does not exist', $class));
         }
 
         $reflection = new ReflectionClass($class);
         if (!$reflection->implementsInterface(AppInterface::class)) {
-            throw new InvalidConfigurationException(
-                sprintf('App  class "%s" must implement AppInterface', $class)
-            );
+            throw new InvalidConfigurationException(sprintf('App  class "%s" must implement AppInterface', $class));
         }
 
         return $class;

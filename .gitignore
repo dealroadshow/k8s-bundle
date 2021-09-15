@@ -1,2 +1,4 @@
 /vendor/
 composer.lock
+/tools/php-cs-fixer/vendor/
+.php-cs-fixer.cache

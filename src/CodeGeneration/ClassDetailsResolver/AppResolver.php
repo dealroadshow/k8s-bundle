@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
@@ -27,7 +29,8 @@ class AppResolver
     private function getClassName(string $appName): string
     {
         $className = Str::asClassName($appName);
-        return Str::withSuffix($className,self::SUFFIX_APP);
+
+        return Str::withSuffix($className, self::SUFFIX_APP);
     }
 
     private function getNamespace(string $appName): string

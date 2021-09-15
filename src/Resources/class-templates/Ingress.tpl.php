@@ -1,12 +1,12 @@
-<?= "<?php\n"; ?>
+<?php echo "<?php\n"; ?>
 
-namespace <?= $namespace; ?>;
+namespace <?php echo $namespace; ?>;
 
 use Dealroadshow\K8S\Framework\Core\Ingress\AbstractIngress;
 use Dealroadshow\K8S\Framework\Core\Ingress\Configurator\IngressBackendFactory;
 use Dealroadshow\K8S\Framework\Core\Ingress\Configurator\IngressRulesConfigurator;
 
-class <?= $className; ?> extends AbstractIngress
+class <?php echo $className; ?> extends AbstractIngress
 {
     public function rules(IngressRulesConfigurator $rules, IngressBackendFactory $factory): void
     {
@@ -14,6 +14,6 @@ class <?= $className; ?> extends AbstractIngress
 
     public static function shortName(): string
     {
-        return '<?= $manifestName; ?>';
+        return '<?php echo $manifestName; ?>';
     }
 }

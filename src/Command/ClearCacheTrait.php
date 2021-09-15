@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
 use InvalidArgumentException;
@@ -28,12 +30,7 @@ trait ClearCacheTrait
         }
 
         if (self::SUCCESS !== $returnCode) {
-            throw new RuntimeException(
-                sprintf(
-                    'Command was not able to clear cache: "cache:clear" failed: %s',
-                    $output->fetch()
-                )
-            );
+            throw new RuntimeException(sprintf('Command was not able to clear cache: "cache:clear" failed: %s', $output->fetch()));
         }
     }
 }

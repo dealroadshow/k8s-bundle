@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestsDumpedEvent;
@@ -33,7 +35,7 @@ class DumpAllCommand extends Command
         parent::__construct();
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this
             ->setDescription('Dumps all apps and their manifests to Yaml files')

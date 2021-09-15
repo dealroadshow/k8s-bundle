@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\EventListener\Traits;
 
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\AfterMethod;
@@ -15,15 +17,9 @@ use ReflectionObject;
 trait ApplyWrappersTrait
 {
     /**
-     * @param ManifestInterface $manifest
-     * @param string            $methodName
-     * @param array             $params
-     * @param string            $attributeClass
-     * @param mixed             $returnValue
-     *
      * @throws ReflectionException
      */
-    private function applyWrappers(ManifestInterface $manifest, string $methodName, array $params, string $attributeClass, mixed & $returnValue): void
+    private function applyWrappers(ManifestInterface $manifest, string $methodName, array $params, string $attributeClass, mixed &$returnValue): void
     {
         $class = new ReflectionObject($manifest);
         if ($class->implementsInterface(AccessInterceptorInterface::class)) {
@@ -57,27 +53,12 @@ trait ApplyWrappersTrait
             }
 
             if (!$method->isPublic()) {
-                throw new LogicException(
-                    sprintf(
-                        'Method "%s::%s()" uses attribute "%s" and therefore must be public',
-                        $class->getName(),
-                        $method->getName(),
-                        $attributeClass
-                    )
-                );
+                throw new LogicException(sprintf('Method "%s::%s()" uses attribute "%s" and therefore must be public', $class->getName(), $method->getName(), $attributeClass));
             }
 
             $originalMethod = $class->getMethod($methodName);
             if (!ReflectionUtil::sameSignature($originalMethod, $method)) {
-                throw new LogicException(
-                    sprintf(
-                        'Method "%s::%s()" uses attribute "%s" to wrap method "%s()", but has another signature',
-                        $class->getName(),
-                        $method->getName(),
-                        $attributeClass,
-                        $methodName
-                    )
-                );
+                throw new LogicException(sprintf('Method "%s::%s()" uses attribute "%s" to wrap method "%s()", but has another signature', $class->getName(), $method->getName(), $attributeClass, $methodName));
             }
 
             $result = $method->invoke($manifest, ...$params);

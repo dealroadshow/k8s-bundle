@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\GetAppAliasTrait;
@@ -20,13 +22,11 @@ class ManifestsPass implements CompilerPassInterface
 {
     use GetAppAliasTrait;
 
-    const MANIFEST_TAG = 'dealroadshow_k8s.manifest';
+    public const MANIFEST_TAG = 'dealroadshow_k8s.manifest';
 
     private array $appReflectionsCache = [];
 
     /**
-     * @param ContainerBuilder $container
-     *
      * @throws ReflectionException
      */
     public function process(ContainerBuilder $container): void
@@ -45,13 +45,7 @@ class ManifestsPass implements CompilerPassInterface
             $manifestDefinition = $container->getDefinition($id);
             $manifestClass = new ReflectionClass($manifestDefinition->getClass());
             if (!$manifestClass->implementsInterface(ManifestInterface::class)) {
-                throw new LogicException(
-                    sprintf(
-                        'Only %s instances must be tagged with tag "%s"',
-                        ManifestInterface::class,
-                        self::MANIFEST_TAG
-                    )
-                );
+                throw new LogicException(sprintf('Only %s instances must be tagged with tag "%s"', ManifestInterface::class, self::MANIFEST_TAG));
             }
 
             $manifestShortName = $manifestClass->getMethod('shortName')->invoke(null);
@@ -74,13 +68,7 @@ class ManifestsPass implements CompilerPassInterface
                     );
 
                     if ($container->hasDefinition($newId)) {
-                        throw new LogicException(
-                            sprintf(
-                                'Classes %s and %s have the same kind and same shortName, but this combination must be unique within the app boundaries',
-                                $dedicatedManifestDefinition->getClass(),
-                                $container->getDefinition($newId)->getClass()
-                            )
-                        );
+                        throw new LogicException(sprintf('Classes %s and %s have the same kind and same shortName, but this combination must be unique within the app boundaries', $dedicatedManifestDefinition->getClass(), $container->getDefinition($newId)->getClass()));
                     }
 
                     $container->setDefinition($newId, $dedicatedManifestDefinition);
@@ -97,13 +85,9 @@ class ManifestsPass implements CompilerPassInterface
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $manifestDefinitionId
-     * @param string           $appAlias
-     *
      * @throws ReflectionException
      */
-    private function autowireContainerClasses(ContainerBuilder $container, string $manifestDefinitionId, string $appAlias)
+    private function autowireContainerClasses(ContainerBuilder $container, string $manifestDefinitionId, string $appAlias): void
     {
         $manifestDefinition = $container->getDefinition($manifestDefinitionId);
         foreach ($manifestDefinition->getArguments() as $name => $argument) {
@@ -128,13 +112,9 @@ class ManifestsPass implements CompilerPassInterface
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param string           $containerDefinitionId
-     * @param string           $appAlias
-     *
      * @throws ReflectionException
      */
-    private function autowireContainerClass(ContainerBuilder $container, string $containerDefinitionId, string $appAlias)
+    private function autowireContainerClass(ContainerBuilder $container, string $containerDefinitionId, string $appAlias): void
     {
         $containerDefinition = $container->getDefinition($containerDefinitionId);
         $appDefinitionId = AppsPass::appDefinitionId($appAlias);
@@ -179,9 +159,6 @@ class ManifestsPass implements CompilerPassInterface
     }
 
     /**
-     * @param string $className
-     *
-     * @return ReflectionClass
      * @throws ReflectionException
      */
     private function getAppReflection(string $className): ReflectionClass

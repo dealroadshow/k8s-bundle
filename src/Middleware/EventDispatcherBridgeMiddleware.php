@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Middleware;
 
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodCalledEvent;
@@ -39,7 +41,7 @@ class EventDispatcherBridgeMiddleware implements ManifestMethodPrefixMiddlewareI
         }
     }
 
-    public function afterMethodCall(ManifestInterface $proxy, string $methodName, array $params, mixed $returnedValue, mixed &$returnValue)
+    public function afterMethodCall(ManifestInterface $proxy, string $methodName, array $params, mixed $returnedValue, mixed &$returnValue): void
     {
         $event = new ManifestMethodCalledEvent(
             proxy: $proxy,

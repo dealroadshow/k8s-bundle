@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\EnvManagement;
 
 use Dealroadshow\K8S\Data\Collection\VolumeList;
@@ -21,11 +23,6 @@ class EnvAwareContainerMaker implements ContainerMakerInterface
     }
 
     /**
-     * @param ContainerInterface $manifest
-     * @param VolumeList         $volumes
-     * @param AppInterface       $app
-     *
-     * @return Container
      * @throws ReflectionException
      */
     public function make(ContainerInterface $manifest, VolumeList $volumes, AppInterface $app): Container

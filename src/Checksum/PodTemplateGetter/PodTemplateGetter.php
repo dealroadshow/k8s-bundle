@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Checksum\PodTemplateGetter;
 
 use Dealroadshow\K8S\API\Apps\Deployment;
@@ -18,9 +20,9 @@ class PodTemplateGetter
         StatefulSetPodTemplateGetter $stsGetter
     ) {
         $this->kindsMap = [
-            Deployment::KIND  => $defaultGetter,
-            Job::KIND         => $defaultGetter,
-            CronJob::KIND     => $cronJobGetter,
+            Deployment::KIND => $defaultGetter,
+            Job::KIND => $defaultGetter,
+            CronJob::KIND => $cronJobGetter,
             StatefulSet::KIND => $stsGetter,
         ];
     }

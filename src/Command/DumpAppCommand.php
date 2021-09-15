@@ -1,11 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestsDumpedEvent;
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestsProcessedEvent;
+use Dealroadshow\K8S\API\Apps\Deployment;
+use Dealroadshow\K8S\API\Apps\StatefulSet;
+use Dealroadshow\K8S\API\Batch\CronJob;
+use Dealroadshow\K8S\API\Batch\Job;
+use Dealroadshow\K8S\API\ConfigMap;
+use Dealroadshow\K8S\API\Networking\Ingress;
+use Dealroadshow\K8S\API\Scheduling\PriorityClass;
+use Dealroadshow\K8S\API\Secret;
+use Dealroadshow\K8S\API\Service;
+use Dealroadshow\K8S\Framework\App\AppProcessor;
 use Dealroadshow\K8S\Framework\Core\ConfigMap\ConfigMapInterface;
+use Dealroadshow\K8S\Framework\Core\CronJob\CronJobInterface;
+use Dealroadshow\K8S\Framework\Core\Deployment\DeploymentInterface;
+use Dealroadshow\K8S\Framework\Core\Ingress\IngressInterface;
+use Dealroadshow\K8S\Framework\Core\Job\JobInterface;
+use Dealroadshow\K8S\Framework\Core\PriorityClass\PriorityClassInterface;
 use Dealroadshow\K8S\Framework\Core\Secret\SecretInterface;
+use Dealroadshow\K8S\Framework\Core\Service\ServiceInterface;
+use Dealroadshow\K8S\Framework\Core\StatefulSet\StatefulSetInterface;
+use Dealroadshow\K8S\Framework\Dumper\AppDumper;
+use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use RuntimeException;
@@ -15,19 +36,28 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Dealroadshow\K8S\Framework\App\AppProcessor;
-use Dealroadshow\K8S\Framework\Dumper\AppDumper;
-use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Symfony\Component\Filesystem\Filesystem;
 use Throwable;
 
 class DumpAppCommand extends Command
 {
-    private const ARGUMENT_APPS_ALIASES  = 'apps-aliases';
-    private const OPTION_OUTPUT_DIR      = 'output-dir';
+    private const ARGUMENT_APPS_ALIASES = 'apps-aliases';
+    private const OPTION_OUTPUT_DIR = 'output-dir';
     private const OPTION_PRINT_MANIFESTS = 'print';
-    private const OPTION_RECREATE_DIR    = 'recreate-output-dir';
-    private const OPTION_GENERATE_ENV_SOURCES = 'generate-all-env-sources';
+    private const OPTION_RECREATE_DIR = 'recreate-output-dir';
+    private const OPTION_ALL_INSTANCES_OF = 'all-instances-of';
+
+    private const KINDS_MAP = [
+        ConfigMap::KIND => ConfigMapInterface::class,
+        CronJob::KIND => CronJobInterface::class,
+        Deployment::KIND => DeploymentInterface::class,
+        Job::KIND => JobInterface::class,
+        Ingress::KIND => IngressInterface::class,
+        Secret::KIND => SecretInterface::class,
+        Service::KIND => ServiceInterface::class,
+        StatefulSet::KIND => StatefulSetInterface::class,
+        PriorityClass::KIND => PriorityClassInterface::class,
+    ];
 
     protected static $defaultName = 'dealroadshow_k8s:dump:app';
 
@@ -41,7 +71,7 @@ class DumpAppCommand extends Command
         parent::__construct();
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this
             ->setDescription('Processes app and dumps Yaml manifests to output dir.')
@@ -69,10 +99,17 @@ class DumpAppCommand extends Command
                 'If specified, all manifests files will also be printed to stdout',
             )
             ->addOption(
-                self::OPTION_GENERATE_ENV_SOURCES,
+                self::OPTION_ALL_INSTANCES_OF,
                 null,
-                InputOption::VALUE_NONE,
-                'If specified, ALL ConfigMaps and Secrets from all apps (not only specified) will be generated',
+                InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
+                <<<DESCRIPTION
+                    If specified, ALL instances of chosen Kubernetes kinds from ALL apps (not only specified)
+                    , will be generated. It may be useful, for example, when your deployments use configmaps
+                    or secrets from another app, which you don't want to generate.
+                    Specifying this option like "<fg=yellow>--all-instances-of=Secret,ConfigMap</>" will result in 
+                    generation of all secrets and config maps from all apps, so that your deployments have data 
+                    they depend on.
+                    DESCRIPTION
             )
             ->setAliases([
                 'k8s:dump:app',
@@ -106,11 +143,12 @@ class DumpAppCommand extends Command
             $fs->remove([$outputDir]);
         }
 
-        if ($input->getOption(self::OPTION_GENERATE_ENV_SOURCES)) {
+        if ($kinds = $input->getOption(self::OPTION_ALL_INSTANCES_OF)) {
+            $classes = $this->getClassesFromKinds($kinds);
             foreach (array_diff($this->appRegistry->aliases(), $activeAppsAliases) as $appAlias) {
                 $this->appProcessor->processInstancesOf(
                     $appAlias,
-                    [SecretInterface::class, ConfigMapInterface::class]
+                    $classes
                 );
             }
         }
@@ -147,9 +185,7 @@ class DumpAppCommand extends Command
             try {
                 mkdir($outputDir);
             } catch (Throwable $error) {
-                throw new RuntimeException(
-                    sprintf('Cannot create output dir "%s": %s', $outputDir, $error->getMessage())
-                );
+                throw new RuntimeException(sprintf('Cannot create output dir "%s": %s', $outputDir, $error->getMessage()));
             }
         }
         $outputDir = realpath($outputDir);
@@ -169,5 +205,17 @@ class DumpAppCommand extends Command
         foreach ($filenames as $filename) {
             echo file_get_contents($filename), PHP_EOL, '---', PHP_EOL;
         }
+    }
+
+    private function getClassesFromKinds(array $kinds): array
+    {
+        $classes = [];
+        foreach ($kinds as $kind) {
+            $class = self::KINDS_MAP[$kind]
+                     ?? throw new InvalidArgumentException(sprintf('Kind "%s" is not supported. Supported kinds: %s', $kind, implode(', ', array_keys(self::KINDS_MAP))));
+            $classes[] = $class;
+        }
+
+        return $classes;
     }
 }

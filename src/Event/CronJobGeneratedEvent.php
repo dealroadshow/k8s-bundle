@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Event;
 
 use Dealroadshow\K8S\API\Batch\CronJob;
@@ -10,7 +12,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class CronJobGeneratedEvent extends Event implements ManifestGeneratedEventInterface
 {
-    const NAME = 'dealroadshow_k8s.manifest_generated.cronJob';
+    public const NAME = 'dealroadshow_k8s.manifest_generated.cronJob';
 
     public function __construct(private CronJobInterface $manifest, private CronJob $cronJob, private AppInterface $app)
     {

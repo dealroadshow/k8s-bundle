@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppResolver;
@@ -43,9 +45,7 @@ class AppGenerator
     private function ensureAppNameIsValid(string $appName): void
     {
         if ($this->appRegistry->has($appName)) {
-            throw new InvalidArgumentException(
-                sprintf('App "%s" already exists', $appName)
-            );
+            throw new InvalidArgumentException(sprintf('App "%s" already exists', $appName));
         }
     }
 }

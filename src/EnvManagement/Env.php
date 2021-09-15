@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\EnvManagement;
 
 use Closure;
@@ -8,14 +10,14 @@ use RuntimeException;
 
 class Env
 {
-    const DEV = 'dev';
-    const QA = 'qa';
-    const PRODUCTION = 'prod';
-    const STAGING = 'staging';
-    const TEST = 'test';
+    public const DEV = 'dev';
+    public const QA = 'qa';
+    public const PRODUCTION = 'prod';
+    public const STAGING = 'staging';
+    public const TEST = 'test';
 
     // Pseudo env used in some classes like EnvAwareContainerMaker
-    const DEFAULT = 'default';
+    public const DEFAULT = 'default';
 
     private static Closure|null $getEnvClosure = null;
 
@@ -32,9 +34,7 @@ class Env
             $container = DIContainerRegistry::get();
             $class = new ReflectionObject($container);
             if (!$class->hasMethod('getEnv')) {
-                throw new RuntimeException(
-                    sprintf('DI container class "%s" does not have method "getEnv()"', $class->getName())
-                );
+                throw new RuntimeException(sprintf('DI container class "%s" does not have method "getEnv()"', $class->getName()));
             }
             $method = $class->getMethod('getEnv');
             $method->setAccessible(true);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Registry;
 
 use Dealroadshow\K8S\APIResourceInterface;

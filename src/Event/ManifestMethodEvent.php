@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Event;
 
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
@@ -7,7 +9,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class ManifestMethodEvent extends Event
 {
-    const NAME = 'dealroadshow_k8s.manifest.before_method';
+    public const NAME = 'dealroadshow_k8s.manifest.before_method';
 
     private mixed $returnValue = null;
 

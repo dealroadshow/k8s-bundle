@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
 use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
@@ -10,11 +12,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class MiddlewarePass implements CompilerPassInterface
 {
-    const IMAGE_MIDDLEWARE_TAG           = 'dealroadshow_k8s.middleware.container_image';
-    const MANIFEST_PREFIX_MIDDLEWARE_TAG = 'dealroadshow_k8s.middleware.prefix';
-    const MANIFEST_SUFFIX_MIDDLEWARE_TAG = 'dealroadshow_k8s.middleware.suffix';
+    public const IMAGE_MIDDLEWARE_TAG = 'dealroadshow_k8s.middleware.container_image';
+    public const MANIFEST_PREFIX_MIDDLEWARE_TAG = 'dealroadshow_k8s.middleware.prefix';
+    public const MANIFEST_SUFFIX_MIDDLEWARE_TAG = 'dealroadshow_k8s.middleware.suffix';
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $container
             ->registerForAutoconfiguration(ContainerImageMiddlewareInterface::class)

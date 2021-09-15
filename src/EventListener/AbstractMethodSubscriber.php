@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodEvent;
@@ -8,9 +10,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 abstract class AbstractMethodSubscriber implements EventSubscriberInterface
 {
     abstract protected function supports(ManifestMethodEvent $event): bool;
+
     abstract protected function beforeMethod(ManifestMethodEvent $event): void;
 
-    public function handleEvent(ManifestMethodEvent $event)
+    public function handleEvent(ManifestMethodEvent $event): void
     {
         if ($this->supports($event)) {
             $this->beforeMethod($event);

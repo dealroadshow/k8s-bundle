@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Event;
 
 use Dealroadshow\K8S\API\Networking\Ingress;
@@ -10,7 +12,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class IngressGeneratedEvent extends Event implements ManifestGeneratedEventInterface
 {
-    const NAME = 'dealroadshow_k8s.manifest_generated.ingress';
+    public const NAME = 'dealroadshow_k8s.manifest_generated.ingress';
 
     public function __construct(private IngressInterface $manifest, private Ingress $ingress, private AppInterface $app)
     {

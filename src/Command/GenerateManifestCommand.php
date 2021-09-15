@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\Context\ContextInterface;
@@ -21,7 +23,7 @@ class GenerateManifestCommand extends Command
 {
     use ClearCacheTrait;
 
-    private const ARGUMENT_APP_NAME      = 'app-name';
+    private const ARGUMENT_APP_NAME = 'app-name';
     private const ARGUMENT_MANIFEST_TYPE = 'manifest-type';
     private const ARGUMENT_MANIFEST_NAME = 'manifest-name';
 
@@ -36,7 +38,7 @@ class GenerateManifestCommand extends Command
         parent::__construct();
     }
 
-    public function configure()
+    public function configure(): void
     {
         $this
             ->setDescription('Creates a new Manifest skeleton')
@@ -128,13 +130,7 @@ class GenerateManifestCommand extends Command
 
         $kind = Str::asClassName($typeName);
         if (!$this->contextRegistry->has($kind)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Manifest type "%s" is not supported. Supported types: "%s"',
-                    $typeName,
-                    implode('", "', $supportedTypes)
-                )
-            );
+            throw new InvalidArgumentException(sprintf('Manifest type "%s" is not supported. Supported types: "%s"', $typeName, implode('", "', $supportedTypes)));
         }
 
         return $this->contextRegistry->get($kind);
@@ -145,16 +141,14 @@ class GenerateManifestCommand extends Command
         $name = $input->getArgument(self::ARGUMENT_MANIFEST_NAME);
         if (!Str::isValidDNSSubdomain($name)) {
             $errTemplate = <<<'ERR'
-            Name "%s" is not valid for manifest name. It must be valid DNS subdomain name, i.e. it must:
-            - contain no more than 253 characters
-            - contain only lowercase alphanumeric characters, '-' or '.'
-            - start with an alphanumeric character
-            - end with an alphanumeric character
-            ERR;
+                Name "%s" is not valid for manifest name. It must be valid DNS subdomain name, i.e. it must:
+                - contain no more than 253 characters
+                - contain only lowercase alphanumeric characters, '-' or '.'
+                - start with an alphanumeric character
+                - end with an alphanumeric character
+                ERR;
 
-            throw new InvalidArgumentException(
-                sprintf($errTemplate, $name)
-            );
+            throw new InvalidArgumentException(sprintf($errTemplate, $name));
         }
 
         $manifest = $this->manifestRegistry->query($appAlias)
@@ -163,9 +157,7 @@ class GenerateManifestCommand extends Command
             ->getFirstResult();
 
         if (null !== $manifest) {
-            throw new InvalidArgumentException(
-                sprintf('Name "%s" is already taken by "%s"', $name, get_class($manifest))
-            );
+            throw new InvalidArgumentException(sprintf('Name "%s" is already taken by "%s"', $name, get_class($manifest)));
         }
 
         return $name;

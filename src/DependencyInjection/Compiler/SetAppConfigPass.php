@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\GetAppAliasTrait;
@@ -10,7 +12,7 @@ class SetAppConfigPass implements CompilerPassInterface
 {
     use GetAppAliasTrait;
 
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $appConfigs = $container->getParameter('dealroadshow_k8s.config.apps');
 

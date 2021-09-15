@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Checksum\Calculator;
 
 use Dealroadshow\Bundle\K8SBundle\Checksum\ChecksumAnnotation;

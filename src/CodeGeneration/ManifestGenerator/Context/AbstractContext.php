@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\Context;
 
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
@@ -24,34 +26,15 @@ abstract class AbstractContext implements ContextInterface
         try {
             $reflection = new ReflectionClass($interfaceName);
         } catch (ReflectionException) {
-            throw new LogicException(
-                sprintf(
-                    'Class "%s", returned by %s::interfaceName(), does not exist',
-                    $interfaceName,
-                    static::class
-                )
-            );
+            throw new LogicException(sprintf('Class "%s", returned by %s::interfaceName(), does not exist', $interfaceName, static::class));
         }
 
         if (!$reflection->isInterface()) {
-            throw new LogicException(
-                sprintf(
-                    'Class "%s", returned by %s::interfaceName(), must be an interface',
-                    $interfaceName,
-                    static::class
-                )
-            );
+            throw new LogicException(sprintf('Class "%s", returned by %s::interfaceName(), must be an interface', $interfaceName, static::class));
         }
 
         if (!$reflection->implementsInterface(ManifestInterface::class)) {
-            throw new LogicException(
-                sprintf(
-                    'Interface "%s", returned by %s::interfaceName(), must extend %s',
-                    $interfaceName,
-                    static::class,
-                    ManifestInterface::class
-                )
-            );
+            throw new LogicException(sprintf('Interface "%s", returned by %s::interfaceName(), must extend %s', $interfaceName, static::class, ManifestInterface::class));
         }
 
         return $interfaceName;

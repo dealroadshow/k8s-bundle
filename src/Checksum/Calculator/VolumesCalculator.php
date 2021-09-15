@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Checksum\Calculator;
 
 use Dealroadshow\Bundle\K8SBundle\Checksum\ChecksumAnnotation;
@@ -51,13 +53,7 @@ class VolumesCalculator implements ChecksumCalculatorInterface
     private function getSource(string $name, string $kind): ConfigMap|Secret
     {
         if (!$this->registry->has($name, $kind)) {
-            throw new LogicException(
-                sprintf(
-                    'One of manifests uses "%s" as a volume source, but no %s with such name was found',
-                    $name,
-                    $kind
-                )
-            );
+            throw new LogicException(sprintf('One of manifests uses "%s" as a volume source, but no %s with such name was found', $name, $kind));
         }
 
         return $this->registry->get($name, $kind);
