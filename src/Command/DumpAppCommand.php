@@ -181,7 +181,7 @@ class DumpAppCommand extends Command
         if (null === $outputDir) {
             throw new InvalidArgumentException('Option "--output-dir" must be specified');
         }
-        if (!file_exists(realpath($outputDir))) {
+        if (!file_exists($outputDir)) {
             try {
                 mkdir($outputDir);
             } catch (Throwable $error) {
