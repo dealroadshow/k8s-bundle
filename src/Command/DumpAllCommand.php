@@ -19,8 +19,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class DumpAllCommand extends Command
 {
-    private const OPTION_RECREATE_DIR = 'recreate-output-dir';
-    private const OPTION_PRINT_MANIFESTS = 'print';
+    public const OPTION_RECREATE_DIR = 'recreate-output-dir';
+    public const OPTION_PRINT_MANIFESTS = 'print';
 
     protected static $defaultName = 'dealroadshow_k8s:dump:all';
 

@@ -41,11 +41,11 @@ use Throwable;
 
 class DumpAppCommand extends Command
 {
-    private const ARGUMENT_APPS_ALIASES = 'apps-aliases';
-    private const OPTION_OUTPUT_DIR = 'output-dir';
-    private const OPTION_PRINT_MANIFESTS = 'print';
-    private const OPTION_RECREATE_DIR = 'recreate-output-dir';
-    private const OPTION_ALL_INSTANCES_OF = 'all-instances-of';
+    public const ARGUMENT_APPS_ALIASES = 'apps-aliases';
+    public const OPTION_OUTPUT_DIR = 'output-dir';
+    public const OPTION_PRINT_MANIFESTS = 'print';
+    public const OPTION_RECREATE_DIR = 'recreate-output-dir';
+    public const OPTION_ALL_INSTANCES_OF = 'all-instances-of';
 
     private const KINDS_MAP = [
         ConfigMap::KIND => ConfigMapInterface::class,
