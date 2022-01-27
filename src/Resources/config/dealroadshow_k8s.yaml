@@ -76,7 +76,7 @@ services:
 
     Dealroadshow\K8S\Framework\Core\ManifestProcessor:
         arguments:
-          - !tagged_iterator { tag: 'dealroadshow_k8s.resource_maker' }
+          $makers: !tagged_iterator { tag: 'dealroadshow_k8s.resource_maker' }
 
     Dealroadshow\K8S\Framework\Core\Container\ContainerMaker:
         arguments:
