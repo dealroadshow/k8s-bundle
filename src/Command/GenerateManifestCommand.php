@@ -157,7 +157,7 @@ class GenerateManifestCommand extends Command
             ->getFirstResult();
 
         if (null !== $manifest) {
-            throw new InvalidArgumentException(sprintf('Name "%s" is already taken by "%s"', $name, get_class($manifest)));
+            throw new InvalidArgumentException(sprintf('Name "%s" is already taken by "%s"', $name, $manifest::class));
         }
 
         return $name;

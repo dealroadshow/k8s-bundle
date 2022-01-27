@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
-use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodCalledEvent;
+use Dealroadshow\K8S\Framework\Event\ManifestMethodCalledEvent;
 use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
 use Dealroadshow\K8S\Framework\Util\Str;
 use LogicException;

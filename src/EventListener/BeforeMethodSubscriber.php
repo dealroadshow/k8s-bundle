@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\BeforeMethod;
-use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodEvent;
 use Dealroadshow\Bundle\K8SBundle\EventListener\Traits\ApplyWrappersTrait;
+use Dealroadshow\K8S\Framework\Event\ManifestMethodEvent;
 use ReflectionException;
 
 class BeforeMethodSubscriber extends AbstractMethodSubscriber

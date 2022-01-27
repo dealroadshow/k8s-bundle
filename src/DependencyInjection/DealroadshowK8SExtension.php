@@ -147,7 +147,7 @@ class DealroadshowK8SExtension extends Extension
         }
         if (!file_exists($codeDir)) {
             try {
-                @mkdir($codeDir, 0700, true);
+                @mkdir($codeDir, 0o700, true);
             } catch (Throwable) {
             }
         }
@@ -167,7 +167,7 @@ class DealroadshowK8SExtension extends Extension
             $manifestsDir = $srcDir.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'k8s-manifests';
         }
         if (!file_exists($manifestsDir)) {
-            @mkdir($manifestsDir, 0777, true);
+            @mkdir($manifestsDir, 0o777, true);
         }
         $container->setParameter('dealroadshow_k8s.manifests_dir', $manifestsDir);
 
