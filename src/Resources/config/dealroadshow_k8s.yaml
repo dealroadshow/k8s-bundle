@@ -44,6 +44,9 @@ services:
     Dealroadshow\Bundle\K8SBundle\EventListener\ResourcesMethodSubscriber: ~
     Dealroadshow\K8S\Framework\Renderer\FilteringService: ~
     Dealroadshow\K8S\Framework\Util\ManifestReferenceUtil: ~
+    Dealroadshow\K8S\Framework\Middleware\AbstractManifestPrefixMiddleware: ~
+    Dealroadshow\K8S\Framework\Middleware\AbstractManifestSuffixMiddleware: ~
+    Dealroadshow\K8S\Framework\Middleware\EventDispatcherBridgeMiddleware: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
     Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'
