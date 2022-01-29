@@ -11,6 +11,7 @@ use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
 use Dealroadshow\K8S\Framework\Util\Str;
 use InvalidArgumentException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,6 +20,11 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Throwable;
 
+#[AsCommand(
+    name: 'dealroadshow_k8s:generate:manifest',
+    description: 'Creates a new Manifest skeleton',
+    aliases: ['k8s:generate:manifest', 'k8s:gen:manifest', 'k8s:gen:man']
+)]
 class GenerateManifestCommand extends Command
 {
     use ClearCacheTrait;
@@ -26,8 +32,6 @@ class GenerateManifestCommand extends Command
     private const ARGUMENT_APP_NAME = 'app-name';
     private const ARGUMENT_MANIFEST_TYPE = 'manifest-type';
     private const ARGUMENT_MANIFEST_NAME = 'manifest-name';
-
-    protected static $defaultName = 'dealroadshow_k8s:generate:manifest';
 
     public function __construct(
         private AppRegistry $appRegistry,
@@ -41,7 +45,6 @@ class GenerateManifestCommand extends Command
     public function configure(): void
     {
         $this
-            ->setDescription('Creates a new Manifest skeleton')
             ->addArgument(
                 self::ARGUMENT_MANIFEST_NAME,
                 InputArgument::REQUIRED,
@@ -52,11 +55,6 @@ class GenerateManifestCommand extends Command
                 InputArgument::OPTIONAL,
                 'Manifest type (e.g. <fg=yellow>deployment</> or <fg=yellow>config-map</>)'
             )
-            ->setAliases([
-                'k8s:generate:manifest',
-                'k8s:gen:manifest',
-                'k8s:gen:man',
-            ])
         ;
     }
 
