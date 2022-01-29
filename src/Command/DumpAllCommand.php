@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Filesystem\Filesystem;
 
 #[AsCommand(
     name: 'dealroadshow_k8s:dump:all',
@@ -45,8 +46,9 @@ class DumpAllCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $recreateOutputDir = $input->getOption(self::OPTION_RECREATE_DIR);
         if ($recreateOutputDir && file_exists($this->manifestsDir) && is_dir($this->manifestsDir)) {
-            rmdir($this->manifestsDir);
-            mkdir($this->manifestsDir);
+            $fs = new Filesystem();
+            $fs->remove($this->manifestsDir);
+            $fs->mkdir($this->manifestsDir);
         }
 
         $this->generationService->processAll();
