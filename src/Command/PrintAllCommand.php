@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
 use Dealroadshow\K8S\Framework\ManifestGenerator\ManifestsGenerationService;

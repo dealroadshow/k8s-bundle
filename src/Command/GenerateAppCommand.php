@@ -55,10 +55,7 @@ class GenerateAppCommand extends Command
             return self::FAILURE;
         }
 
-        $io->success(
-            sprintf('App "%s" successfully generated, see file "%s"', $appName, $fileName)
-        );
-        $io->newLine();
+        $io->success(sprintf('App "%s" successfully generated, see file "%s"', $appName, $fileName));
 
         return self::SUCCESS;
     }

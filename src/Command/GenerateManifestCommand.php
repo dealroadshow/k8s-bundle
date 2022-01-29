@@ -92,7 +92,6 @@ class GenerateManifestCommand extends Command
                 $fileName
             )
         );
-        $io->newLine();
 
         return self::SUCCESS;
     }

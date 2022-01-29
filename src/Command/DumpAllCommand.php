@@ -56,7 +56,6 @@ class DumpAllCommand extends Command
 
         $io = $io->getErrorStyle();
         $io->success(sprintf('Manifests saved to directory "%s"', $this->manifestsDir));
-        $io->newLine();
 
         return self::SUCCESS;
     }
