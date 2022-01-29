@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'dealroadshow_k8s:print:all',
+    name: 'dealroadshow_k8s:print:apps',
     description: 'Prints manifests for specified apps to stdout',
     aliases: ['k8s:print:apps', 'k8s:print:app']
 )]
