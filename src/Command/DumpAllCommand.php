@@ -25,6 +25,9 @@ class DumpAllCommand extends Command
     public function __construct(private ManifestsGenerationService $generationService, private string $manifestsDir)
     {
         $this->manifestsDir = rtrim($this->manifestsDir, '/');
+        if (!file_exists($this->manifestsDir)) {
+            @mkdir($this->manifestsDir, 0o777, true);
+        }
 
         parent::__construct();
     }

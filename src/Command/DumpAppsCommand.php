@@ -82,7 +82,7 @@ class DumpAppsCommand extends Command
         }
         if (!file_exists($outputDir)) {
             try {
-                mkdir($outputDir);
+                mkdir($outputDir, 0o777, true);
             } catch (Throwable $error) {
                 throw new RuntimeException(sprintf('Cannot create output dir "%s": %s', $outputDir, $error->getMessage()));
             }
