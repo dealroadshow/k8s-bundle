@@ -27,8 +27,6 @@ use Throwable;
 )]
 class GenerateManifestCommand extends Command
 {
-    use ClearCacheTrait;
-
     private const ARGUMENT_APP_NAME = 'app-name';
     private const ARGUMENT_MANIFEST_TYPE = 'manifest-type';
     private const ARGUMENT_MANIFEST_NAME = 'manifest-name';
@@ -76,7 +74,6 @@ class GenerateManifestCommand extends Command
 
         try {
             $fileName = $this->generator->generate($name, $context, $app);
-            $this->clearCache();
         } catch (Throwable $e) {
             $io->error($e->getMessage());
             $io->newLine();

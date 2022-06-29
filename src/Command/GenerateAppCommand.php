@@ -20,8 +20,6 @@ use Throwable;
 )]
 class GenerateAppCommand extends Command
 {
-    use ClearCacheTrait;
-
     private const ARGUMENT_APP_NAME = 'app-name';
 
     public function __construct(private AppGenerator $generator)
@@ -47,7 +45,6 @@ class GenerateAppCommand extends Command
 
         try {
             $fileName = $this->generator->generate($appName);
-            $this->clearCache();
         } catch (Throwable $e) {
             $io->error($e->getMessage());
             $io->newLine();
