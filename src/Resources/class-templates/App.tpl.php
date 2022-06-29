@@ -11,7 +11,7 @@ class <?php echo $className; ?> extends AbstractApp
         return '<?php echo $appName; ?>';
     }
 
-    public static function manifestConfig(): array
+    public function manifestConfig(string $shortName): array;
     {
         return [];
     }
