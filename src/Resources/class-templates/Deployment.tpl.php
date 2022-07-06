@@ -12,6 +12,14 @@ class <?php echo $className; ?> extends AbstractContainerDeployment
         return Image::fromName('my-cool/image');
     }
 
+    public function selector(SelectorConfigurator $selector): void
+    {
+        $selector
+            ->addLabel('app', $this->app->alias())
+            ->addLabel('name', static::shortName())
+        ;
+    }
+
     public static function shortName(): string
     {
         return '<?php echo $manifestName; ?>';
