@@ -1,0 +1,29 @@
+site_name: Dealroadshow K8S Framework
+docs_dir: src
+site_dir: dist
+theme:
+  name: material
+  logo: assets/finsight-logo-white.svg
+  favicon: assets/finsight-logo-black.svg
+extra_css:
+  - //cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/atom-one-light.min.css
+extra_javascript:
+  - //cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js
+  - assets/init.js
+markdown_extensions:
+  - admonition
+  - pymdownx.tasklist
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: php
+          class: php
+nav:
+  - Overview: index.md
+  - Installation: installation.md
+  - Getting started: getting-started.md
+  - Concepts:
+      - Manifests: concepts/manifests.md
+      - Apps: concepts/apps.md
+      - Containers: concepts/containers.md
+      - Application lifecycle: concepts/lifecycle.md
