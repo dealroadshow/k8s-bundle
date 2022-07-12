@@ -23,12 +23,6 @@ If you did not modify K8S Bundle configuration, this command will generate new d
 If you open `HelloApp.php` file in IDE of your choice - you will see pretty basic class:
 
 ```php title="HelloApp.php"
-<?php
-
-namespace App\K8S\Hello;
-
-use Dealroadshow\K8S\Framework\App\AbstractApp;
-
 class HelloApp extends AbstractApp
 {
     public static function name(): string
@@ -47,7 +41,7 @@ class HelloApp extends AbstractApp
 Method `HappyApp::name()` is self-explanatory, and other methods are explained in [dedicated article](concepts/apps.md).
 
 ## Define your first Deployment
-Now that we have `HelloApp`, let's define our first [Deployment](core/deployment.md). Defining deployment using K8S Framework is as simple as defining it's corresponding PHP class for it. We could create deployment class by ourselves, but it would be simpler to generate it using console command:
+Now that we have `HelloApp`, let's define our first [Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/). Defining deployment using K8S Framework is as simple as defining it's corresponding PHP class for it. We could create deployment class by ourselves, but it would be simpler to generate it using console command:
 
 ```bash
 bin/console k8s:generate:manifest world
@@ -60,13 +54,6 @@ bin/console k8s:generate:manifest world
 Let's look at our new deployment class in `src/K8S/Hello/Manifest/WorldDeployment.php`:
 
 ```php title="WorldDeployment.php"
-<?php
-
-namespace App\K8S\Hello\Manifest;
-
-use Dealroadshow\K8S\Framework\Core\Container\Image\Image;
-use Dealroadshow\K8S\Framework\Core\Deployment\AbstractContainerDeployment;
-
 class WorldDeployment extends AbstractContainerDeployment
 {
     public function image(): Image
@@ -105,7 +92,7 @@ After running this command we can see our new deployment dumped to file `src/Res
 
 Let's look at this file:
 
-```yaml title="world.deployment.yaml" linenums="1"
+```yaml title="hello/world.deployment.yaml" linenums="1"
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -148,7 +135,6 @@ that later.
 For now we have defined our first deployment. It uses a dummy image name  `my-cool/image`. Let's replace it for a real image name. For demonstration purposes let it be `nginx`:
 
 ```php title="WorldDeployment.php"
-<?php
 // ...
 public function image(): Image
 {
@@ -161,7 +147,6 @@ public function image(): Image
 If you are using a good IDE, for example PhpStorm, just write down first letters `por` and IDE will create this method for you:
 
 ```php title="WorldDeployment.php"
-<?php
 //...
 public function ports(PortsConfigurator $ports): void
 {
@@ -171,7 +156,6 @@ public function ports(PortsConfigurator $ports): void
 Signature of argument `$ports` is pretty straightforward and simply following your IDE hints you could lead you to the something like this:
 
 ```php title="WorldDeployment.php"
-<?php
 //...
 public function ports(PortsConfigurator $ports): void
 {
@@ -196,14 +180,6 @@ bin/console k8s:generate:manifest world
 After chosing `service` as a kind of manifest you will get pretty basic service class `WorldService`.You can intuitively (and with help of IDE) define service ports in `ports()` method, but we should also add a `selector()` method in order for service to point properly to our pods. After this simple modifications our service class should look like follows:
 
 ```php title="WorldService.php"
-<?php
-
-namespace App\K8S\Hello\Manifest;
-
-use Dealroadshow\K8S\Data\Collection\StringMap;
-use Dealroadshow\K8S\Framework\Core\Service\AbstractService;
-use Dealroadshow\K8S\Framework\Core\Service\Configurator\ServicePortsConfigurator;
-
 class WorldService extends AbstractService
 {
     public function ports(ServicePortsConfigurator $ports): void

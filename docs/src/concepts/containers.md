@@ -1,5 +1,5 @@
 # Containers
-Containers are the heart of any [workload](https://kubernetes.io/docs/concepts/workloads/). No matter what workload type are you dealing with ([Deployment](../core/deployment.md), [Job](../core/job.md), [StatefulSet](../core/stateful-set.md) etc.), you'll have to define containers for it - but the good news is that container API object is the same for any workload, so you'll need to learn it once and use in any manifest.
+Containers are the heart of any [workload](https://kubernetes.io/docs/concepts/workloads/). No matter what workload type are you dealing with ([Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/), [Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/), [StatefulSet](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) etc.), you'll have to define containers for it - but the good news is that container API object is the same for any workload, so you'll need to learn it once and use in any manifest.
 
 All containers in K8S Framework must implement `ContainerInterface`. Containers returned from method `containers()` in workload. You may return array of them, or (which looks better) use `yield` keyword, for examle:
 
@@ -110,7 +110,7 @@ public function env(EnvConfigurator $env): void
 In Kubernetes manifests you can also define env variable that gets it's value from a plenty of different sources:
 
 ### Env variable from ConfigMap or Secret
-Env variable may get it's value from some key in [ConfigMap](../core/configmap.md) or [Secret](../core/secret.md). K8S Framework follows simple rule: **You don't deal with manifest names in manifest classes**, since simple typo in name of resource you want to use will lead to errors that's not immediately detectable. Instead, framework makes it easy to deal with connections between different Kubernetes resources by using their class names:
+Env variable may get it's value from some key in [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) or [Secret](https://kubernetes.io/docs/concepts/configuration/secret/). K8S Framework follows simple rule: **You don't deal with manifest names in manifest classes**, since simple typo in name of resource you want to use will lead to errors that's not immediately detectable. Instead, framework makes it easy to deal with connections between different Kubernetes resources by using their class names:
 
 ```php
 public function env(EnvConfigurator $env): void
@@ -173,7 +173,7 @@ public function env(EnvConfigurator $env): void
 
 
 ### Import all keys from ConfigMap or Secret as env variables
-Sometimes you'll want to import an entire [ConfigMap](../core/configmap.md) or [Secret](../core/secret.md) as env variables source. So all keys of ConfigMap or Secret will be names of environment variables:
+Sometimes you'll want to import an entire [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) or [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) as env variables source. So all keys of ConfigMap or Secret will be names of environment variables:
 
 ```php
 public function env(EnvConfigurator $env): void
@@ -204,7 +204,7 @@ public function env(EnvConfigurator $env): void
 ```
 
 ### Using env ConfigMaps or Secrets that are in different app
-Examples above will work only if  [ConfigMaps](../core/configmap.md) and [Secrets](../core/secret.md) you add belong to the same [app](apps.md) as your *container class*.
+Examples above will work only if  [ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/) and [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) you add belong to the same [app](apps.md) as your *container class*.
 
 For example, if you have container class `K8S\Hello\Container\NginxContainer`, where `K8S\Hello` is your app namespace, and you are trying to add variables from `K8S\World\Manifest\SomeConfigMap` as above - it will not work. Using env sources from other apps is considered a bad practice, since it will couple your apps, and it means that your apps are not structured correctly. But if you absolutely have to do this - here is how it's done:
 

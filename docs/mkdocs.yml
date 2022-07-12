@@ -20,10 +20,15 @@ markdown_extensions:
           class: php
 nav:
   - Overview: index.md
+  - How to read this docs: how-to-read.md
+  - Our vision: vision.md
   - Installation: installation.md
   - Getting started: getting-started.md
-  - Concepts:
+  - Basic concepts:
       - Manifests: concepts/manifests.md
-      - Apps: concepts/apps.md
       - Containers: concepts/containers.md
-      - Application lifecycle: concepts/lifecycle.md
+      - Apps: concepts/apps.md
+  - Application lifecycle: lifecycle.md
+  - Manifest methods interception: methods-interception.md
+  - Environments management: env-management.md
+  - Distribute your apps: reusable-apps.md

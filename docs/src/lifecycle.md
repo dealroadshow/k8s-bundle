@@ -3,8 +3,8 @@
 This article assumes that you are:
 
 - familiar with Kubernetes itself
-- have read about [manifests](manifests.md)
-- have basic understanding of [apps](apps.md) concept
+- have read about [manifests](concepts/manifests.md)
+- have basic understanding of [apps](concepts/apps.md) concept
 
 ## Console commands
 [K8S Bundle](https://github.com/dealroadshow/k8s-bundle) defines **4** console commands for manifest generation, which can be used with [Symfony Console entry-point](https://symfony.com/doc/current/console.html#running-commands) **`bin/console`**:
@@ -17,10 +17,10 @@ This article assumes that you are:
 Despite small differences in this commands, app's lifecycle is the same for any of them.
 
 ## Application lifecycle
-"*Application*" here refers to the Symfony application that generates manifests when you call one of the console commands listed above, not [*App*](apps.md) in K8S Framework. So what happens when applicaton starts?
+"*Application*" here refers to the Symfony application that generates manifests when you call one of the console commands listed above, not [*App*](concepts/apps.md) in K8S Framework. So what happens when applicaton starts?
 
 ### Collecting app instances
-Class **`AppRegistry`** has a simple API that allows to register / store [app](apps.md) instances and retrieve them. 
+Class **`AppRegistry`** has a simple API that allows to register / store [app](concepts/apps.md) instances and retrieve them. 
 
 !!! note "Note"
     Thanks to awesome [Dependency Injection](https://symfony.com/doc/current/service_container.html) in Symfony (including [autowiring](https://symfony.com/doc/current/service_container/autowiring.html) and [autoconfiguration](https://symfony.com/doc/current/service_container.html#the-autoconfigure-option)) you just need to define an App class, and it's instance will be created and registered in Symfony's Dependency Injection container.
@@ -48,4 +48,4 @@ Now that all apps and manifests are registered in corresponding registries, K8S 
 When all apps are *processed* - framework iterates once again over all app instances. This time for each app it retrieves all API resources, added during previous stage, encodes them to YAML format and saves them to filesystem or prints them to stdout, depending on what console command is called. After all manifests are dumped - application made it's job, so it finishes.
 
 ## Summary
-In this article we learned about lifecycle of manifests generation. If you got to this page by clicking link in [Apps](apps.md) article - feel free to return to it.
+In this article we learned about lifecycle of manifests generation. If you got to this page by clicking link in [Apps](concepts/apps.md) article - feel free to return to it.

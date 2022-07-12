@@ -4,7 +4,7 @@ This article and any other articles in this docs assume that you use [Dealroadsh
 
 ## Defining manifests
 Defining manifest in Dealroadshow K8S Framework - means to define it's PHP class.
-Thanks to Symfony's autowiring and autoconfiguration, K8S framework then finds all manifest classes, processes them and dumps them to YAML files.
+Thanks to Symfony's [autowiring](https://symfony.com/doc/current/service_container/autowiring.html) and autoconfiguration, K8S framework then finds all manifest classes, processes them and dumps them to YAML files.
 
 But what classes are considered as manifests? Well, all classes, that implement `ManifestInterface`. Let's look at this interface:
 
@@ -39,10 +39,13 @@ Please look again at `ManifestInterface` above. You may note that this interface
 
 ```yaml title="dealroadshow_k8s.yaml"
 dealroadshow_k8s:
-    manifests:
-        world:
-            replicas: 8
-            foo: bar
+	apps:
+	    - alias: YOUR_APP_NAME
+	      class: YOUR_APP_CLASS
+          manifests:
+              world:
+                  replicas: 8
+                  foo: bar
 ```
 
 Manifests configs are stored under key `manifests:` in this config. Each key in `manifests` object is a short name of manifest you want to configure, and value for that key - is manifest configuration. So if you have `WorldDeployment` class with short name `world` and a configuration as above - property `$config` in your deployment will contain such array:

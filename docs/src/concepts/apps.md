@@ -47,7 +47,7 @@ class RedisApp extends AbstractApp
 
 ```
 
-If you need just one Redis cluster - you don't need to configure anything. But what if you need two or more Redis clusters? It is possible to use `RedisApp` class to generate as many app copies as you need. All you have to do is [register](lifecycle.md#collecting-app-instances) one `RedisApp` instance in `AppRegistry` for every cluster you want. So if you need Kubernetes manifests for two clusters - you need to register two `RedisApp` instances with different *aliases*. If you use [K8S Bundle](https://github.com/dealroadshow/k8s-bundle) with Symfony application (recommended way of using [K8S Framework](https://github.com/dealroadshow/k8s-framework)), framework will register them for you - just configure them in `config/packages/dealroadshow_k8s.yaml` file:
+If you need just one Redis cluster - you don't need to configure anything. But what if you need two or more Redis clusters? It is possible to use `RedisApp` class to generate as many app copies as you need. All you have to do is [register](../lifecycle.md#collecting-app-instances) one `RedisApp` instance in `AppRegistry` for every cluster you want. So if you need Kubernetes manifests for two clusters - you need to register two `RedisApp` instances with different *aliases*. If you use [K8S Bundle](https://github.com/dealroadshow/k8s-bundle) with Symfony application (recommended way of using [K8S Framework](https://github.com/dealroadshow/k8s-framework)), framework will register them for you - just configure them in `config/packages/dealroadshow_k8s.yaml` file:
 
 ```yaml title="dealroadshow_k8s.yaml" linenums="1"
 dealroadshow_k8s:
@@ -171,7 +171,7 @@ Store your [container](containers.md) classes in this directory. Note that this 
 This is a most important directory in your app, since you should create your manifest classes in it. You may want to have some nested directories here, like `Manifest\Deployments`, `Manifest\ConfigMaps` and so on - feel free to create directory structure you like - Symfony and K8S framework will find and register your manifest classes by interfaces they implement, not by some exact file location.
 
 ### `Resources` dir
-If your app class extends `AbstractApp`, it will have method `readFile()`. Suppose your app has a deployment for some web service, and you want to mount config for your Nginx webserver from some [ConfigMap](../core/configmap.md). If you store nginx config in your ConfigMap class like string literal - it would be ugly. Instead you can store your nginx config as `Resources/nginx.conf` and then use method `AbstractApp::readFile()` to store it in your ConfigMap:
+If your app class extends `AbstractApp`, it will have method `readFile()`. Suppose your app has a deployment for some web service, and you want to mount config for your Nginx webserver from some [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/). If you store nginx config in your ConfigMap class like string literal - it would be ugly. Instead you can store your nginx config as `Resources/nginx.conf` and then use method `AbstractApp::readFile()` to store it in your ConfigMap:
 
 ```php
 class NginxConfigMap extends AbstractConfigMap
@@ -191,4 +191,4 @@ class NginxConfigMap extends AbstractConfigMap
 You may even want to implement more complex logic in your app class, for example method `compileTemplate()`- like if you want your nginx config to be generated from [Twig](https://twig.symfony.com/) template. In any of such scenarios, `Resources` dir is a place to store auxiliary files for your manifests.
 
 ## Summary
-In this article we got to know concept of apps better. If you did not yet read about [containers](containers.md) - you should probably get to that article. You may also be interested in general [lifecycle](lifecycle.md) of manifest generation application.
+In this article we got to know concept of apps better. If you did not yet read about [containers](containers.md) - you should probably get to that article. You may also be interested in general [lifecycle](../lifecycle.md) of manifest generation application.
