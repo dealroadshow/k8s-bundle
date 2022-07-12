@@ -1,0 +1,811 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/finsight-logo-black.svg">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Getting started - Dealroadshow K8S Framework</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/atom-one-light.min.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#getting-started" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Dealroadshow K8S Framework" class="md-header__button md-logo" aria-label="Dealroadshow K8S Framework" data-md-component="logo">
+      
+  <img src="../assets/finsight-logo-white.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Dealroadshow K8S Framework
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Getting started
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Dealroadshow K8S Framework" class="md-nav__button md-logo" aria-label="Dealroadshow K8S Framework" data-md-component="logo">
+      
+  <img src="../assets/finsight-logo-white.svg" alt="logo">
+
+    </a>
+    Dealroadshow K8S Framework
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how-to-read/" class="md-nav__link">
+        How to read this docs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vision/" class="md-nav__link">
+        Our vision
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Getting started
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Getting started
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-an-app" class="md-nav__link">
+    Create an App
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#define-your-first-deployment" class="md-nav__link">
+    Define your first Deployment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dump-manifests" class="md-nav__link">
+    Dump manifests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modifying-deployment" class="md-nav__link">
+    Modifying deployment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#define-a-service" class="md-nav__link">
+    Define a service
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Basic concepts
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Basic concepts" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Basic concepts
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/manifests/" class="md-nav__link">
+        Manifests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/containers/" class="md-nav__link">
+        Containers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/apps/" class="md-nav__link">
+        Apps
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lifecycle/" class="md-nav__link">
+        Application lifecycle
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../methods-interception/" class="md-nav__link">
+        Manifest methods interception
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../env-management/" class="md-nav__link">
+        Environments management
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reusable-apps/" class="md-nav__link">
+        Distribute your apps
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-an-app" class="md-nav__link">
+    Create an App
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#define-your-first-deployment" class="md-nav__link">
+    Define your first Deployment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dump-manifests" class="md-nav__link">
+    Dump manifests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modifying-deployment" class="md-nav__link">
+    Modifying deployment
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#define-a-service" class="md-nav__link">
+    Define a service
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="getting-started">Getting started</h1>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>This tutorial assumes you have already <a href="../installation/">installed</a> K8S Bundle.
+The entire Dealroadshow K8S Framework docummentation also assumes that you are already familiar with basic Kubernetes concepts and have at least some experience with the Kubernetes itself. If not - please learn Kubernetes before using this framework.</p>
+<h2 id="create-an-app">Create an App</h2>
+<p><a href="../concepts/apps/">App</a> is a basic concept in K8S Framework, similar to <em>chart</em> in <strong>Helm</strong> or, well, <em>app</em> in <strong>cdk8s</strong>. Put simply - app is a collection of <em>manifests</em>. Basically you will create app to define manifests for one of your services in SOA architecture - in order to distinguish this manifests from other service's manifests. If you have a "good old" monolith, your manifests may be split into apps using some other criteria, such as <em>domain contexts</em> in DDD ideology.</p>
+<p>To create an app - simply open terminal and generate app class using Symfony command, shipped with K8S Bundle:</p>
+<p><div class="highlight"><pre><span></span><code>bin/console k8s:generate:app hello
+</code></pre></div>
+If you did not modify K8S Bundle configuration, this command will generate new directory <code>K8S/Hello</code> in your sources dir (by default <code>src</code> in Symfony projects), app class <code>HelloApp</code> and basic dirs that you might want to have in an app:</p>
+<p><img alt="" src="../assets/images/app-dir.png" /></p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>To understand app's directory structure better, please read
+<a href="../concepts/apps/">dedicated article</a> for apps.</p>
+</div>
+<p>If you open <code>HelloApp.php</code> file in IDE of your choice - you will see pretty basic class:</p>
+<div class="highlight"><span class="filename">HelloApp.php</span><pre><span></span><code><span class="x">class HelloApp extends AbstractApp</span>
+<span class="x">{</span>
+<span class="x">    public static function name(): string</span>
+<span class="x">    {</span>
+<span class="x">        return &#39;hello&#39;;</span>
+<span class="x">    }</span>
+
+<span class="x">    public function manifestConfig(string $shortName): array</span>
+<span class="x">    {</span>
+<span class="x">        return [];</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>Method <code>HappyApp::name()</code> is self-explanatory, and other methods are explained in <a href="../concepts/apps/">dedicated article</a>.</p>
+<h2 id="define-your-first-deployment">Define your first Deployment</h2>
+<p>Now that we have <code>HelloApp</code>, let's define our first <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployment</a>. Defining deployment using K8S Framework is as simple as defining it's corresponding PHP class for it. We could create deployment class by ourselves, but it would be simpler to generate it using console command:</p>
+<div class="highlight"><pre><span></span><code>bin/console k8s:generate:manifest world
+</code></pre></div>
+<p><code>world</code> in command above is simply a short name for manifest. Command will ask you about type of your new manifest and an <em>app</em>, where to generate your new manifest:</p>
+<p><img alt="" src="../assets/images/deployment-generation.png" /></p>
+<p>Let's look at our new deployment class in <code>src/K8S/Hello/Manifest/WorldDeployment.php</code>:</p>
+<div class="highlight"><span class="filename">WorldDeployment.php</span><pre><span></span><code><span class="x">class WorldDeployment extends AbstractContainerDeployment</span>
+<span class="x">{</span>
+<span class="x">    public function image(): Image</span>
+<span class="x">    {</span>
+<span class="x">        return Image::fromName(&#39;my-cool/image&#39;);</span>
+<span class="x">    }</span>
+
+<span class="x">    public function selector(SelectorConfigurator $selector): void</span>
+<span class="x">    {</span>
+<span class="x">        $selector</span>
+<span class="x">            -&gt;addLabel(&#39;app&#39;, $this-&gt;app-&gt;alias())</span>
+<span class="x">            -&gt;addLabel(&#39;name&#39;, static::shortName())</span>
+<span class="x">        ;</span>
+<span class="x">    }</span>
+
+<span class="x">    public static function shortName(): string</span>
+<span class="x">    {</span>
+<span class="x">        return &#39;world&#39;;</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>This class is pretty basic too, but it's already a valid Kubernetes deployment!</p>
+<h2 id="dump-manifests">Dump manifests</h2>
+<p>Let's dump your first manifest to standard Kubernetes YAML and look at it:</p>
+<div class="highlight"><pre><span></span><code>bin/console k8s:dump:all
+</code></pre></div>
+<p>After running this command we can see our new deployment dumped to file <code>src/Resources/k8s-manifests/hello/world.deployment.yaml</code>:</p>
+<p><img alt="" src="../assets/images/dumped-deployment.png" /></p>
+<p>Let's look at this file:</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">hello/world.deployment.yaml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">apps/v1</span><span class="w"></span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Deployment</span><span class="w"></span>
+<span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello</span><span class="w"></span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">world</span><span class="w"></span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello-world</span><span class="w"></span>
+<span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello</span><span class="w"></span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">world</span><span class="w"></span>
+<span class="w">  </span><span class="nt">template</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">dealroadshow.com/env-sources-checksum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">d41d8cd98f00b204e9800998ecf8427e</span><span class="w"></span>
+<span class="w">        </span><span class="nt">dealroadshow.com/volume-sources-checksum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">d41d8cd98f00b204e9800998ecf8427e</span><span class="w"></span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="nt">app</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hello</span><span class="w"></span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">world</span><span class="w"></span>
+<span class="w">    </span><span class="nt">spec</span><span class="p">:</span><span class="w"></span>
+<span class="w">      </span><span class="nt">containers</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"></span>
+<span class="w">          </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cool/image</span><span class="w"></span>
+<span class="w">          </span><span class="nt">imagePullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IfNotPresent</span><span class="w"></span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">app</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<p>Few things to note here.</p>
+<p><em>First</em>, look how deployment name is formed in <strong>line 7</strong>: as you may already guessed,  name <code>hello-world</code> is a concatenation of app name, returned from <code>HelloApp::name()</code> method, and manifest <em>short name</em>, returned from <code>WorldDeployment::shortName()</code>. Good news is you will not have to work with full manifest names in your code, but more on
+that later.</p>
+<p><em>Second</em>, look at <strong>lines 17-18</strong>. This annotations guarantee that your pods will be recreated whenever any ConfigMaps or Secrets, used in your deployment, changed. You are welcome!</p>
+<h2 id="modifying-deployment">Modifying deployment</h2>
+<p>For now we have defined our first deployment. It uses a dummy image name  <code>my-cool/image</code>. Let's replace it for a real image name. For demonstration purposes let it be <code>nginx</code>:</p>
+<div class="highlight"><span class="filename">WorldDeployment.php</span><pre><span></span><code><span class="x">// ...</span>
+<span class="x">public function image(): Image</span>
+<span class="x">{</span>
+<span class="x">    return Image::fromName(&#39;nginx&#39;);</span>
+<span class="x">}</span>
+</code></pre></div>
+<p><a href="https://nginx.org">Nginx</a> is an open source web-server, so now that we use it, we know that we should expose some ports to the outside world. In Kubernetes manifests it is done by <code>ports</code> section. Dealroadshow K8S Framework follows simple rule: all method names in manifest classes are the same as names in corresponding sections in Kubernetes manifest. It means we should just try to define a method <code>ports()</code> in our deployment. In order to better understand all conventions and best practices for K8S framework, please read <a href="../concepts/manifests/">Understanding manifests</a></p>
+<p>If you are using a good IDE, for example PhpStorm, just write down first letters <code>por</code> and IDE will create this method for you:</p>
+<div class="highlight"><span class="filename">WorldDeployment.php</span><pre><span></span><code><span class="x">//...</span>
+<span class="x">public function ports(PortsConfigurator $ports): void</span>
+<span class="x">{</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>Signature of argument <code>$ports</code> is pretty straightforward and simply following your IDE hints you could lead you to the something like this:</p>
+<div class="highlight"><span class="filename">WorldDeployment.php</span><pre><span></span><code><span class="x">//...</span>
+<span class="x">public function ports(PortsConfigurator $ports): void</span>
+<span class="x">{</span>
+<span class="x">    $ports</span>
+<span class="x">        -&gt;add(80)</span>
+<span class="x">        -&gt;setName(&#39;http&#39;);</span>
+
+<span class="x">    $ports</span>
+<span class="x">        -&gt;add(443)</span>
+<span class="x">        -&gt;setName(&#39;https&#39;);</span>
+<span class="x">}</span>
+</code></pre></div>
+<h2 id="define-a-service">Define a service</h2>
+<p>Now we need to define a Kubernetes service in order to expose our deployment. As you may have already guessed - we will generate PHP class for service:</p>
+<div class="highlight"><pre><span></span><code>bin/console k8s:generate:manifest world
+</code></pre></div>
+<p>After chosing <code>service</code> as a kind of manifest you will get pretty basic service class <code>WorldService</code>.You can intuitively (and with help of IDE) define service ports in <code>ports()</code> method, but we should also add a <code>selector()</code> method in order for service to point properly to our pods. After this simple modifications our service class should look like follows:</p>
+<div class="highlight"><span class="filename">WorldService.php</span><pre><span></span><code><span class="x">class WorldService extends AbstractService</span>
+<span class="x">{</span>
+<span class="x">    public function ports(ServicePortsConfigurator $ports): void</span>
+<span class="x">    {</span>
+<span class="x">        $ports</span>
+<span class="x">            -&gt;add(80, 80)</span>
+<span class="x">            -&gt;setName(&#39;http&#39;);</span>
+
+<span class="x">        $ports</span>
+<span class="x">            -&gt;add(443, 443)</span>
+<span class="x">            -&gt;setName(&#39;https&#39;);</span>
+<span class="x">    }</span>
+
+<span class="x">    public function selector(StringMap $selector): void</span>
+<span class="x">    {</span>
+<span class="x">        $selector</span>
+<span class="x">            -&gt;add(&#39;app&#39;, $this-&gt;app-&gt;alias())</span>
+<span class="x">            -&gt;add(&#39;name&#39;, static::shortName())</span>
+<span class="x">        ;</span>
+<span class="x">    }</span>
+
+<span class="x">    public static function shortName(): string</span>
+<span class="x">    {</span>
+<span class="x">        return WorldDeployment::shortName();</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Good to know</p>
+<p>Please note how we defined short name for a service by reusing short name of deployment.It is a good practice to use deployment name in service, and service name in ingress - in further articles we will learn techniques of how to automatically define selectors and ports for our services based on it's names.</p>
+</div>
+<p>If you dump your manifests now by console command <code>k8s:dump:all</code>, you'll get your deployment and a service pointing to deployment's pods. In other articles we dive deeper into defining manifests and internals of K8S Framework.</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../installation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Installation" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Installation
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../concepts/manifests/" class="md-footer__link md-footer__link--next" aria-label="Next: Manifests" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Manifests
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+      
+        <script src="../assets/init.js"></script>
+      
+    
+  </body>
+</html>

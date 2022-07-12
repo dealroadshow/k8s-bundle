@@ -1,0 +1,802 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/finsight-logo-black.svg">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Environments management - Dealroadshow K8S Framework</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/atom-one-light.min.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#environments-management" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Dealroadshow K8S Framework" class="md-header__button md-logo" aria-label="Dealroadshow K8S Framework" data-md-component="logo">
+      
+  <img src="../assets/finsight-logo-white.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Dealroadshow K8S Framework
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Environments management
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Dealroadshow K8S Framework" class="md-nav__button md-logo" aria-label="Dealroadshow K8S Framework" data-md-component="logo">
+      
+  <img src="../assets/finsight-logo-white.svg" alt="logo">
+
+    </a>
+    Dealroadshow K8S Framework
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how-to-read/" class="md-nav__link">
+        How to read this docs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vision/" class="md-nav__link">
+        Our vision
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        Getting started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Basic concepts
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Basic concepts" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Basic concepts
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/manifests/" class="md-nav__link">
+        Manifests
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/containers/" class="md-nav__link">
+        Containers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concepts/apps/" class="md-nav__link">
+        Apps
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lifecycle/" class="md-nav__link">
+        Application lifecycle
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../methods-interception/" class="md-nav__link">
+        Manifest methods interception
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Environments management
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Environments management
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-configuration-files" class="md-nav__link">
+    Using configuration files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-env-suffixed-methods" class="md-nav__link">
+    Using env-suffixed methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Using env-suffixed methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#env-suffixed-methods-availability" class="md-nav__link">
+    Env-suffixed methods availability
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-methods-interception-for-env-management" class="md-nav__link">
+    Using methods interception for env management
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reusable-apps/" class="md-nav__link">
+        Distribute your apps
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-configuration-files" class="md-nav__link">
+    Using configuration files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-env-suffixed-methods" class="md-nav__link">
+    Using env-suffixed methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Using env-suffixed methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#env-suffixed-methods-availability" class="md-nav__link">
+    Env-suffixed methods availability
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-methods-interception-for-env-management" class="md-nav__link">
+    Using methods interception for env management
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="environments-management">Environments management</h1>
+<p>Today's product development lifecycle has many stages, which can include feature development, autotests, quality assurance (manual testing), demo for product owners on staging environment, and finally, deploy to production. It's considered good practice to keep all your environments similar, so if you are using Kubernetes for production - it's a good idea if your QA environment, staging etc. use Kubernetes too. If that is your case - you probably need slightly different manifests for each environment. For example:</p>
+<ul>
+<li>you need different credentials to your databases and third-party services;</li>
+<li>you may allocate many resources (cpu and memory) for your container's in production due to high load, but you don't want to overpay for the same resources in QA environment, and probably you want to give as little resources as possible to your workloads in your dev environment, if it resides on your laptop;</li>
+<li>some workloads should be running only on some environments.</li>
+</ul>
+<p>Simplest way to manage environments for your manifests using K8S Framework is to generate different manifests depending on <a href="https://symfony.com/doc/current/configuration.html#configuration-environments">Symfony environment</a> your generation command (like <code>bin/console k8s:dump:all</code>) was run with. Symfony derives it's environment from <code>APP_ENV</code> environment variable. This variable is also defined in your <code>.env</code> file if you've generated Symfony project by <code>symfony new</code> console command. When Symfony application is started, environment name is stored in <code>kernel.environment</code> <a href="https://symfony.com/doc/current/configuration.html#accessing-configuration-parameters">DI parameter</a>. </p>
+<div class="admonition tip tip">
+<p class="admonition-title">Tip</p>
+<p>If you don't understand concept behind <code>.env</code> file, please read about that in <a href="https://symfony.com/doc/current/configuration.html#configuring-environment-variables-in-env-files">Symfony docs</a>.</p>
+</div>
+<p>Generally, if you use Symfony environment as environment for your manifests, you have <strong>two main options</strong> to generate different manifests for different envs.</p>
+<h2 id="using-configuration-files">Using configuration files</h2>
+<p><strong>First option</strong> is to use <a href="https://symfony.com/doc/current/configuration.html#configuration-environments">Symfony configuration environments</a> to define different values for different environments. You then may <a href="https://symfony.com/doc/current/configuration.html#accessing-configuration-parameters">access</a> and use your configuration values in manifest classes. Short info on configuring your manifests is located in <a href="../concepts/manifests/#manifest-configuration">Manifests</a> article. </p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you are writing <a href="../reusable-apps/">reusable app</a> and want to distribute it - you probably want to create your own configuration structure for that app. <a href="../reusable-apps/">Dedicated article</a> contains all needed information and links to Symfony docs for that matter.</p>
+</div>
+<p>The downside of this solution is that your manifest classes are not descriptive - you just return some configuration values, and you cannot tell what are that values just by looking at your class. For example, let's say you have <code>ExampleDeployment</code> class, and you are defining resources for it using configuration values:</p>
+<div class="highlight"><span class="filename">ExampleDeployment.php</span><pre><span></span><code><span class="x">class ExampleDeployment extends AbstractContainerDeployment</span>
+<span class="x">{</span>
+<span class="x">    public function resources(ContainerResourcesInterface $resources): void</span>
+<span class="x">    {</span>
+<span class="x">        $config = $this-&gt;config;</span>
+<span class="x">        $resources</span>
+<span class="x">            -&gt;requestCPU(CPU::millicores($config[&#39;cpu&#39;][&#39;requests&#39;]))</span>
+<span class="x">            -&gt;requestMemory(Memory::mebibytes($config[&#39;memory&#39;][&#39;requests&#39;]))</span>
+<span class="x">            -&gt;limitCPU(CPU::millicores($config[&#39;cpu&#39;][&#39;limits&#39;]))</span>
+<span class="x">            -&gt;limitMemory(Memory::mebibytes($config[&#39;memory&#39;][&#39;limits&#39;]))</span>
+<span class="x">        ;</span>
+<span class="x">    }</span>
+
+<span class="x">    //...</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>What can you say about this deployment's resources consumption without generating YAML from it and looking into it? Probably nothing. In order to know real values, you must look at Symfony configuration file for the corresponding environment. But K8S Framework was designed for you to write self-descriptive manifest classes, so below is our <strong>second option</strong>.</p>
+<h2 id="using-env-suffixed-methods">Using env-suffixed methods</h2>
+<p><strong>Second option</strong> to manage your envs is to use <em>env-suffixed methods</em>. This option is a recomended way to manage environments for your manifests, unless you are writing <a href="../reusable-apps/">reusable app</a>, in which case you need to give your users a way to configure it.</p>
+<p><em>Env-suffixed methods</em> technique allows you to create a copy of a method you want to modify for some environment, with a sufix of environment name. It's easier to demonstrate that than explain, so let's rewrite our <code>ExampleDeployment::resources()</code> method from above example to show you how it's done:</p>
+<pre class="php"><code>class ExampleDeployment extends AbstractContainerDeployment
+{
+    public function resources(ContainerResourcesInterface $resources): void
+    {
+        $resources
+            -&gt;requestCPU(CPU::millicores(200))
+            -&gt;requestMemory(Memory::mebibytes(400))
+            -&gt;limitCPU(CPU::millicores(500))
+            -&gt;limitMemory(Memory::mebibytes(800))
+        ;
+    }
+
+    public function resourcesProd(ContainerResourcesInterface $resources): void
+    {
+        $resources
+            -&gt;limitCPU(CPU::cores(2))
+            -&gt;limitMemory(Memory::gibibytes(2))
+        ;
+    }
+
+    public function resourcesDev(ContainerResourcesInterface $resources): void
+    {
+        $resources
+            -&gt;requestCPU(CPU::millicores(50))
+            -&gt;requestMemory(Memory::mebibytes(100))
+        ;
+    }
+
+    //...
+}</code></pre>
+<p>Let's discuss what hapens here. Default method <code>resources()</code> will be called <strong>always</strong>, e.g. for any environment. If environment is <code>prod</code>, method <code>resourcesProd()</code> will be called <strong>after</strong> method <code>resources()</code> and thus will modify only cpu and memory limits, leaving requests as defined in <code>resources()</code>. If environment is <code>dev</code>, method <code>resourcesDev()</code> will be called after method <code>resources()</code> and will rewrite only cpu and memory requests, leaving limits as defined in <code>resources()</code>. We can check that by dumping manifests first with <code>prod</code> env, and then with <code>dev</code> env.</p>
+<p>Dumping with <code>prod</code> env:
+<div class="highlight"><pre><span></span><code>bin/console k8s:dump:all --env<span class="o">=</span>prod
+</code></pre></div></p>
+<p>If we look at resulting manifest, we'll find that <code>resources</code> section looks like follows:</p>
+<div class="highlight"><span class="filename">example.deployment.yaml</span><pre><span></span><code><span class="c1"># ...</span><span class="w"></span>
+<span class="nt">resources</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">limits</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> cpu</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;2&#39;</span><span class="p p-Indicator">,</span><span class="nt"> memory</span><span class="p">:</span><span class="w"> </span><span class="nv">2Gi</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">requests</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> cpu</span><span class="p">:</span><span class="w"> </span><span class="nv">200m</span><span class="p p-Indicator">,</span><span class="nt"> memory</span><span class="p">:</span><span class="w"> </span><span class="nv">400Mi</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"></span>
+</code></pre></div>
+<p>As we see, we have <code>requests</code> from original <code>resources()</code> method and <code>limits</code> from <code>resourcesProd()</code>.</p>
+<p>And if we dump manifests by calling <code>bin/console k8s:dump:all --env=dev</code> and look at the <code>resources</code> section in <code>example.deployment.yaml</code>, it will look like follows:</p>
+<div class="highlight"><span class="filename">example.deployment.yaml</span><pre><span></span><code><span class="c1"># ...</span><span class="w"></span>
+<span class="nt">resources</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">limits</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> cpu</span><span class="p">:</span><span class="w"> </span><span class="nv">500m</span><span class="p p-Indicator">,</span><span class="nt"> memory</span><span class="p">:</span><span class="w"> </span><span class="nv">800Mi</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="w">    </span><span class="nt">requests</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt"> cpu</span><span class="p">:</span><span class="w"> </span><span class="nv">50m</span><span class="p p-Indicator">,</span><span class="nt"> memory</span><span class="p">:</span><span class="w"> </span><span class="nv">100Mi</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"></span>
+</code></pre></div>
+<p>Again, we see <code>limits</code> from <code>resources()</code> method and <code>requests</code> from <code>resourcesDev()</code>.</p>
+<p>So, the easiest way to define <em>env-suffuxed</em> method is to copy original method (<code>resources()</code> method in examples above) and paste it in your class, then add to it's name suffix with a name of the environment, for which you want this method to be called. Then just replace the body of the env-suffixed method with whatever modifications you want to do.</p>
+<h3 id="env-suffixed-methods-availability">Env-suffixed methods availability</h3>
+<p>By default only <code>resources()</code> and <code>replicas()</code> methods support env-suffixed variants.
+But it's very easy to make any method you want to work like this. Just create <a href="https://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers">event subscriber</a> class that extends special abstract class <code>AbstractEnvAwareMethodSubscriber</code>, defined by K8S bundle. For example, if you want to use env-suffixed variants of method <code>containers()</code>, create such event subscriber:</p>
+<div class="highlight"><span class="filename">ContainersMethodSubscriber.php</span><pre><span></span><code><span class="x">class ContainersMethodSubscriber extends AbstractEnvAwareMethodSubscriber</span>
+<span class="x">{</span>
+<span class="x">    protected function methodName(): string</span>
+<span class="x">    {</span>
+<span class="x">        return &#39;containers&#39;;</span>
+<span class="x">    }</span>
+
+<span class="x">    protected function supports(ManifestMethodCalledEvent $event): bool</span>
+<span class="x">    {</span>
+<span class="x">        return $event-&gt;manifest() instanceof DeploymentInterface;</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>Now you can use env-suffixed variants of <code>containers()</code> method in all your deployment classes:</p>
+<div class="highlight"><span class="filename">ExampleDeployment.php</span><pre><span></span><code><span class="x">class ExampleDeployment extends AbstractContainerDeployment</span>
+<span class="x">{</span>
+<span class="x">    public function containers(): iterable</span>
+<span class="x">    {</span>
+<span class="x">        yield $this;</span>
+<span class="x">        yield new NginxContainer();</span>
+<span class="x">    }</span>
+
+<span class="x">    public function containersProd(): iterable</span>
+<span class="x">    {</span>
+<span class="x">        yield $this;</span>
+<span class="x">        yield new NginxContainer();</span>
+<span class="x">        yield new MonitoringContainer();</span>
+<span class="x">    }</span>
+
+<span class="x">    //...</span>
+<span class="x">}</span>
+</code></pre></div>
+<h2 id="using-methods-interception-for-env-management">Using methods interception for env management</h2>
+<p>Sometimes you want to set reasonable defaults for some environment without defining env-suffixed methods in every class. For example, you may want to set default resource requests for <strong>all</strong> your deployments to some minimal value for <code>dev</code> environment. You may use <a href="../methods-interception/">methods interception</a> technique for that. If you haven't read about methods interception yet, please read that article before you continue to read this section. Let's create event subscriber that will set minimal resources for <code>dev</code> environment for all deployments that don't define them explicitly:</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">DevResourcesSubscriber.php</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="x">#[When(env: &#39;dev&#39;)]</span>
+<span class="x">class DevResourcesSubscriber extends AbstractMethodResultSubscriber</span>
+<span class="x">{</span>
+<span class="x">    protected function supports(ManifestMethodCalledEvent $event): bool</span>
+<span class="x">    {</span>
+<span class="x">        return $event-&gt;manifest() instanceof AbstractContainerDeployment</span>
+<span class="x">            &amp;&amp; &#39;resources&#39; === $event-&gt;methodName();</span>
+<span class="x">    }</span>
+
+<span class="x">    protected function afterMethod(ManifestMethodCalledEvent $event): void</span>
+<span class="x">    {</span>
+<span class="x">        if (method_exists($event-&gt;manifest(), &#39;resourcesDev&#39;)) {</span>
+<span class="x">            // Resources for dev env are handled explicitly</span>
+<span class="x">            return;</span>
+<span class="x">        }</span>
+
+<span class="x">        /** @var ContainerResourcesInterface $resources */</span>
+<span class="x">        $resources = $event-&gt;methodParams()[&#39;resources&#39;];</span>
+<span class="x">        $resources</span>
+<span class="x">            -&gt;requestCPU(CPU::millicores(50))</span>
+<span class="x">            -&gt;requestMemory(Memory::mebibytes(50))</span>
+<span class="x">        ;</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre></div></td></tr></table></div>
+<p>Now, every time we generate manifests for <code>dev</code> environment, all deployments will request 50 mebibytes of memory and 50 millicores, unless they defined their resources requests for <code>dev</code> env explicitly by defining method <code>resourcesDev()</code>.</p>
+<div class="admonition success">
+<p class="admonition-title">Interesting</p>
+<p>Please notice PHP attribute <code>When</code> in line 1 above - this attribute comes with Symfony, and using it with our subscriber class ensures that this class will be registered in Symfony's <a href="https://symfony.com/doc/current/components/dependency_injection.html">Dependency Injection Container</a> only when Symfony environment is <code>dev</code>. Thanks to that, we don't check current environment in subscriber code.</p>
+</div>
+<h2 id="summary">Summary</h2>
+<p>Though a choice of environmants management method is a matter of taste, generally you should use <em>env-suffixed</em> methods, since it makes your manifest classes self-descriptive - you can see everything and for all environments just by looking at your class.</p>
+<p>If you create <a href="../reusable-apps/">reusable app</a>, please package it as a Symfony bundle and create friendly configuration for it.</p>
+<p>Use <a href="../methods-interception/">methods interception</a> technique if you want to change some behavior in all manifests for some environment.</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../methods-interception/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Manifest methods interception" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Manifest methods interception
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../reusable-apps/" class="md-footer__link md-footer__link--next" aria-label="Next: Distribute your apps" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Distribute your apps
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+      
+        <script src="../assets/init.js"></script>
+      
+    
+  </body>
+</html>

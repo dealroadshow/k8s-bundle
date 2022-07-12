@@ -1,0 +1,857 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/finsight-logo-black.svg">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Manifests - Dealroadshow K8S Framework</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/atom-one-light.min.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#manifests-explained" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Dealroadshow K8S Framework" class="md-header__button md-logo" aria-label="Dealroadshow K8S Framework" data-md-component="logo">
+      
+  <img src="../../assets/finsight-logo-white.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Dealroadshow K8S Framework
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Manifests
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Dealroadshow K8S Framework" class="md-nav__button md-logo" aria-label="Dealroadshow K8S Framework" data-md-component="logo">
+      
+  <img src="../../assets/finsight-logo-white.svg" alt="logo">
+
+    </a>
+    Dealroadshow K8S Framework
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-read/" class="md-nav__link">
+        How to read this docs
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vision/" class="md-nav__link">
+        Our vision
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/" class="md-nav__link">
+        Getting started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Basic concepts
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Basic concepts" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Basic concepts
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Manifests
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Manifests
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-manifests" class="md-nav__link">
+    Defining manifests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manifest-names" class="md-nav__link">
+    Manifest names
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-app-object-inside-manifests" class="md-nav__link">
+    Using app object inside manifests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manifest-configuration" class="md-nav__link">
+    Manifest configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manifest-metadata" class="md-nav__link">
+    Manifest metadata
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manifest-class-has-flat-structure" class="md-nav__link">
+    Manifest class has flat structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-container-methods-in-workload-classes" class="md-nav__link">
+    Defining container methods in workload classes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manifest-method-names-convention" class="md-nav__link">
+    Manifest method names convention
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#most-manifest-methods-are-void" class="md-nav__link">
+    Most manifest methods are void
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../containers/" class="md-nav__link">
+        Containers
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../apps/" class="md-nav__link">
+        Apps
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lifecycle/" class="md-nav__link">
+        Application lifecycle
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../methods-interception/" class="md-nav__link">
+        Manifest methods interception
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../env-management/" class="md-nav__link">
+        Environments management
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reusable-apps/" class="md-nav__link">
+        Distribute your apps
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-manifests" class="md-nav__link">
+    Defining manifests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manifest-names" class="md-nav__link">
+    Manifest names
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-app-object-inside-manifests" class="md-nav__link">
+    Using app object inside manifests
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manifest-configuration" class="md-nav__link">
+    Manifest configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manifest-metadata" class="md-nav__link">
+    Manifest metadata
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manifest-class-has-flat-structure" class="md-nav__link">
+    Manifest class has flat structure
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defining-container-methods-in-workload-classes" class="md-nav__link">
+    Defining container methods in workload classes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manifest-method-names-convention" class="md-nav__link">
+    Manifest method names convention
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#most-manifest-methods-are-void" class="md-nav__link">
+    Most manifest methods are void
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="manifests-explained">Manifests explained</h1>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>This article and any other articles in this docs assume that you use <a href="https://github.com/dealroadshow/k8s-bundle">Dealroadshow K8S Bundle</a> with a Symfony project and default Symfony configuration (<a href="https://symfony.com/doc/current/service_container/autowiring.html">autowiring</a> and <a href="https://symfony.com/doc/current/service_container.html#the-autoconfigure-option">autoconfiguration</a> enabled).</p>
+<h2 id="defining-manifests">Defining manifests</h2>
+<p>Defining manifest in Dealroadshow K8S Framework - means to define it's PHP class.
+Thanks to Symfony's <a href="https://symfony.com/doc/current/service_container/autowiring.html">autowiring</a> and autoconfiguration, K8S framework then finds all manifest classes, processes them and dumps them to YAML files.</p>
+<p>But what classes are considered as manifests? Well, all classes, that implement <code>ManifestInterface</code>. Let's look at this interface:</p>
+<div class="highlight"><span class="filename">ManifestInterface.php</span><pre><span></span><code><span class="x">interface ManifestInterface extends AppAwareInterface, ConfigAwareInterface, MetadataAwareInterface</span>
+<span class="x">{</span>
+<span class="x">    public static function kind(): string;</span>
+<span class="x">    public static function shortName(): string;</span>
+<span class="x">    public function fileNameWithoutExtension(): string;</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>We can see three methods that this interface defines and thus every manifest must have: <code>kind()</code>, <code>shortName()</code> and <code>fileNameWithoutExtension()</code>. As you may have guessed, method <code>kind()</code> just returns good old Kubernetes <strong>kind</strong> - <code>Deployment</code>, <code>Service</code>, <code>Secret</code>, <code>Ingress</code> or any other kind that is understendable by Kubernetes itself. You will probably never define this method by yourself, since you will use abstract classes, defined by framework, such as <code>AbstractDeployment</code> or <code>AbstractSecret</code>- they all have this method defined. Method <code>fileNameWithoutExtension()</code> is internal and is used in order to generate filenames of dumped manifests. You don't have to define it either.</p>
+<h2 id="manifest-names">Manifest names</h2>
+<p>The only method you need to define in every manifest is <code>shortName()</code>. Method is called <code>shortName()</code>, not <code>name()</code>, because it should return part of name, "relative" to app.
+By default, full name of generated manifest will be formed as <code>{app name}-{manifest shortName}</code>, so for example if you have an app class <code>HelloApp</code>, which method <code>HelloApp::name()</code> returns <code>hello</code>, and manifest <code>WorldDeployment</code>, which method <code>WorldDeployment::shortName()</code> returns <code>world</code>, generated YAML file will have name <code>hello/world.deployment.yaml</code> and will contain deployment with name <code>hello-world</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Don't worry if you don't like this naming convention. K8S framework is very flexible and allows to change this behavior. If you want to use your own naming convention for manifests - please read <a href="../../howtos/change-naming-convention/">Change naming convention</a></p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Good to know</p>
+<p>In fact, manifest names are prefixed not with app names, but with <a href="../apps/#names-and-aliases">app aliases</a>. Term "app name" above is a slight simplification, good enough for the most of users, since by default "app alias" will be equal to "app name".</p>
+</div>
+<h2 id="using-app-object-inside-manifests">Using app object inside manifests</h2>
+<p>Please look again at <code>ManifestInterface</code> above. You may note that this interface extends other interfaces, first of which is <code>AppAwareInterface</code>. This interface declares a single method - <code>setApp()</code> and is used to inject app instance into manifest. You don't have to do anything: app will be injected into every manifest you write, and inside manifest methods you may access it as <code>$this-&gt;app</code>. If you want to know, what useful methods you can leverage from app instance - please read dedicated <a href="../apps/">Apps</a> article.</p>
+<h2 id="manifest-configuration">Manifest configuration</h2>
+<p><code>ManifestInterface</code> also extends <code>ConfigAwareInterface</code>, which declares single method <code>setConfig()</code>. As with <code>setApp()</code>, you don't call this method either - it is called by framework on every manifest. In manifest class you can use inherited property <code>$this-&gt;config</code>, which has <code>array</code> type. By default this property will contain an empty array. If you want to pass some configuration to manifest - use bundle configuration, which should be stored in file <code>config/packages/dealroadshow_k8s.yaml</code> in your Symfony project:</p>
+<div class="highlight"><span class="filename">dealroadshow_k8s.yaml</span><pre><span></span><code><span class="nt">dealroadshow_k8s</span><span class="p">:</span><span class="w"></span>
+<span class="w">    </span><span class="nt">apps</span><span class="p">:</span><span class="w"></span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YOUR_APP_NAME</span><span class="w"></span>
+<span class="w">          </span><span class="nt">class</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YOUR_APP_CLASS</span><span class="w"></span>
+<span class="w">          </span><span class="nt">manifests</span><span class="p">:</span><span class="w"></span>
+<span class="w">              </span><span class="nt">world</span><span class="p">:</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span><span class="w"></span>
+<span class="w">                  </span><span class="nt">foo</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bar</span><span class="w"></span>
+</code></pre></div>
+<p>Manifests configs are stored under key <code>manifests:</code> in this config. Each key in <code>manifests</code> object is a short name of manifest you want to configure, and value for that key - is manifest configuration. So if you have <code>WorldDeployment</code> class with short name <code>world</code> and a configuration as above - property <code>$config</code> in your deployment will contain such array:
+<pre class="php"><code>$this-&gt;config === ['replicas' =&gt; 8, 'foo' =&gt; 'bar']; // true</code></pre></p>
+<p>You than may use this configuration as follows:</p>
+<pre class="php"><code>public function replicas(): int
+{
+    return $this-&gt;config['replicas'];
+}</code></pre>
+<p>Using bundle configuration file <code>dealroadshow_k8s.yaml</code> allows you to manage your environments easily, since you may create separate bundle configuration files for different envs - like <code>config/packages/prod/dealroadshow_k8s.yaml</code> for production and <code>config/packages/dev/dealroadshow_k8s.yaml</code> for development: a good example is option <code>replicas</code> above - you may want 8 replicas for your deployment in production, but you definetely want just 1 replica when you run your code locally on laptop. Configuration Environments is a default feature of Symfony Framework and you can read about this in <a href="https://symfony.com/doc/current/configuration.html#configuration-environments">official docs</a>.</p>
+<p>But as good as this Symfony feature is, <strong>it is NOT considered as best practice</strong> for environments management in K8S framework. The main downside of using configuration values in your manifests is that your code is not very <em>descriptive</em> - for example, if you look at method <code>replicas()</code> above - you don't see how much replicas this development will actually have; you must navigate to configuration file for corresponding environment and look for this <code>replicas</code> value there. It would be nice if looking at class itself is all you need to imagine how resulting YAML manifest will look like. More on that in <a href="../../env-management/">Environments Management</a>.</p>
+<h2 id="manifest-metadata">Manifest metadata</h2>
+<p>You may have noticed that every Kubernetes manifest has keys <code>kind</code> and <code>metadata</code>. In fact, manifest name is defined under <code>metadata</code> key, and every manifest has name. That's why <code>ManifestInterface</code> also extends <code>MetadataAwareInterface</code> and thus needs method <code>metadata()</code> defined. Since names for manifests are generated automatically, it means that <code>metadata</code> key is always generated. Method <code>metadata</code> is defined in any abstract class that you will use, such as <code>AbstractDeployment</code>, <code>AbstractIngress</code> etc.
+But apart from manifest name, <code>metadata</code> should also contain the same labels, as <code>selector</code> section - this is needed for deployment to be able to "find" pods it manages.
+Luckily, you don't have to copy that labels from <code>selector</code> section to <code>metadata</code> section - just define <code>selector()</code> method, and framework will make sure that <code>selector</code> labels are copied to <code>metadata</code> section in a top level of manifest and to pod template <code>metadata</code> section for workloads (deployments, jobs etc.).</p>
+<h2 id="manifest-class-has-flat-structure">Manifest class has flat structure</h2>
+<p>For demonstration purposes, let's look at YAML manifest, generated from <code>WorldDeployment</code> class, defined in <a href="../../getting-started/">Getting Started</a> article:</p>
+<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">hello/world.deployment.yaml</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="x">apiVersion: apps/v1</span>
+<span class="x">kind: Deployment</span>
+<span class="x">metadata:</span>
+<span class="x">  labels:</span>
+<span class="x">    app: hello</span>
+<span class="x">    name: world</span>
+<span class="x">  name: hello-world</span>
+<span class="x">spec:</span>
+<span class="x">  replicas: 1</span>
+<span class="x">  selector:</span>
+<span class="x">    matchLabels:</span>
+<span class="x">      app: hello</span>
+<span class="x">      name: world</span>
+<span class="x">  template:</span>
+<span class="x">    metadata:</span>
+<span class="x">      annotations:</span>
+<span class="x">        dealroadshow.com/env-sources-checksum: d41d8cd98f00b204e9800998ecf8427e</span>
+<span class="x">        dealroadshow.com/volume-sources-checksum: d41d8cd98f00b204e9800998ecf8427e</span>
+<span class="x">      labels:</span>
+<span class="x">        app: hello</span>
+<span class="x">        name: world</span>
+<span class="x">    spec:</span>
+<span class="x">      containers:</span>
+<span class="x">        -</span>
+<span class="x">          image: nginx</span>
+<span class="x">          imagePullPolicy: IfNotPresent</span>
+<span class="x">          name: app</span>
+<span class="x">          ports:</span>
+<span class="x">            - { containerPort: 80, name: http }</span>
+<span class="x">            - { containerPort: 443, name: https }</span>
+</code></pre></div></td></tr></table></div>
+<p>By looking at <code>ports</code> key in <strong>line 28</strong> we see that this key is located deep down in YAML object structure: <code>spec</code> -&gt; <code>template</code> -&gt; <code>spec</code> -&gt; <code>containers[0]</code> -&gt; <code>ports</code>.
+Oddly enough, <code>ports()</code> is a method in <code>WorldDeployment</code> class - this method is not "hidden" somewhere deep down in class hierarchy. This is a one of the main conventions in K8S framework - <strong>classes flatten actual YAML structure</strong> where possible. That's why method <code>ports()</code> is a top-level citizen of deployment class.</p>
+<h2 id="defining-container-methods-in-workload-classes">Defining container methods in workload classes</h2>
+<p>Some of you may have noticed weird part in a previous section: <code>ports</code> is a part of container specification, and <code>containers</code> section in line 23 in our YAML file is actually an array. So how do we define <code>ports()</code> method in deployment class, if there can be many containers, thus many <code>ports</code> sections?</p>
+<p>The trick here is <code>AbstractContainerDeployment</code> class, which we extend in our <code>WorldDeployment</code> class. Any deployment class has <code>containers()</code> method, which should return a collection of <code>ContainerInterface</code> instances. <code>AbstractContainerDeployment</code> uses the fact that most of the multi-container <a href="https://kubernetes.io/docs/concepts/workloads/">workloads</a> have one "main" container, which is an application itself and one or more "auxiliary" ones. For example, you may have deployment with 2 containers - <code>php-fpm</code> and <code>nginx</code>. You have your application in <code>php-fpm</code> container, therefore it's a "main" container here, and <code>nginx</code> container is just "auxiliary" one that helps you to expose your application via Web. You could create 2 classes, <code>PhpFpmContainer</code> and <code>NginxContainer</code>, and then return them in your method <code>WorldDeployment::containers()</code> like follows:</p>
+<div class="highlight"><span class="filename">WorldDeployment.php</span><pre><span></span><code><span class="x">class WorldDeployment extends AbstractDeployment</span>
+<span class="x">{</span>
+<span class="x">    public function containers(): iterable</span>
+<span class="x">    {</span>
+<span class="x">        yield new PhpFpmContainer();</span>
+<span class="x">        yield new NginxContainer();</span>
+<span class="x">    }</span>
+
+<span class="x">    //...</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>But having said that <code>php-fpm</code> is our <code>main</code> deployment and contains a big part of "deployment purpose" - it would be more descriptive to have this container logic in deployment class itself. That's why <code>AbstractContainerDeployment</code> implements both <code>ContainerInterface</code> and <code>DeploymentInterface</code> and it's <code>containers()</code> method looks like follows:</p>
+<div class="highlight"><span class="filename">AbstractContainerDeployment.php</span><pre><span></span><code><span class="x">public function containers(): iterable</span>
+<span class="x">{</span>
+<span class="x">    yield $this;</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>i.e. deployment returns itself as <code>ContainerInterface</code> and has methods both for <em>deployment</em> and <em>container</em>. Again, if we want to use <code>php-fpm</code> and <code>nginx</code> containers in our <code>WorldDeployment</code> class - we may extend it from <code>AbstractContainerDeployment</code> instead of <code>AbstractDeployment</code>, then define all methods for <code>php-fpm</code> container in our class, and then redeclare <code>containers()</code> method as follows:</p>
+<div class="highlight"><span class="filename">WorldDeployment.php</span><pre><span></span><code><span class="x">public function containers(): iterable</span>
+<span class="x">{</span>
+<span class="x">    yield $this;</span>
+<span class="x">    yield new NginxContainer();</span>
+<span class="x">}</span>
+</code></pre></div>
+<p>More on containers in <a href="../containers/">Containers</a> article.</p>
+<h2 id="manifest-method-names-convention">Manifest method names convention</h2>
+<p>At this moment you most likely already noticed it, but most methods in manifest classes, except <code>shortName()</code> and some internal framework methods are using the same names as corresponding sections in standard Kubernetes YAML manifest. So, basically if you know what you want to define in YAML manifest, you will not have problems with defining it in manifest class. </p>
+<p>For example, if you want to define <code>restartPolicy</code> section - you don't have to remember where in YAML object hierarchy this setting is (thanks to flat structure of manifest classes), or how to define it in your deployment class - just overwrite method <code>restartPolicy()</code> in your class. Start typing method name and your IDE will help you with defining this method. There are some exceptions for this rule, but they are <strong>very</strong> rare.</p>
+<h2 id="most-manifest-methods-are-void">Most manifest methods are void</h2>
+<p>This is a part of framework's design. The main idea behind this decision is this: there should be as little space for mistakes, as possible. Your IDE should generate your method along with it's parameters when you start typing method's name. Then you should be able to type something like <code>$someArgument-&gt;</code>, and your IDE will tell you, what methods this argument has (what are you limited to). This way you are limited to "valid" options in terms of manifests syntax, and only some logic mistakes are possible.</p>
+<p>If method needs to return instance of some class - basically convention is that this class should have one or more static constructors. Just type <code>[ClassName]::</code> and see if there are some.</p>
+<p>For example, if your IDE generated method <code>restartPolicy()</code> for you, you'll probably see it like follows:</p>
+<pre class="php"><code>public function restartPolicy(): RestartPolicy|null
+{
+    return parent::restartPolicy();
+}</code></pre>
+<p>See the <code>RestartPolicy</code> return type? Just start typing <code>return RestartPolicy::</code> in a method body, and IDE should give you a hint. After you've chosen one of static constructors, your method will look something like this:</p>
+<pre class="php"><code>public function restartPolicy(): RestartPolicy
+{
+    return RestartPolicy::always();
+}</code></pre>
+<p>This simple conventions will ease your experience of writing manifests and will drastically decrease number of errors.</p>
+<h2 id="summary">Summary</h2>
+<p>In this article we learned how to define manifests, some best practices for writing manifest classes and some conventions that K8S Framework has in order to make your life easier. 
+You may also want to learn about <a href="../../env-management/">Environments Management</a> or dive deeper into <a href="../containers/">Containers</a>.</p>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../../getting-started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting started" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Getting started
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../containers/" class="md-footer__link md-footer__link--next" aria-label="Next: Containers" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Containers
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+      
+        <script src="../../assets/init.js"></script>
+      
+    
+  </body>
+</html>
