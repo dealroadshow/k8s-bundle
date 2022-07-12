@@ -2,7 +2,9 @@ name: publish-documentation
 on:
   push:
     branches:
-      - master 
+      - master
+    paths:
+      - docs/**
 jobs:
   deploy:
     runs-on: ubuntu-latest
