@@ -14,7 +14,7 @@ class Env
     public const QA = 'qa';
     public const PRODUCTION = 'prod';
     public const STAGING = 'staging';
-    public const TEST = 'test';
+    public const RND = 'rnd';
 
     // Pseudo env used in some classes like EnvAwareContainerMaker
     public const DEFAULT = 'default';
