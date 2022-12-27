@@ -14,6 +14,7 @@ class Env
     public const QA = 'qa';
     public const PRODUCTION = 'prod';
     public const STAGING = 'staging';
+    public const TEST = 'test';
     public const RND = 'rnd';
 
     // Pseudo env used in some classes like EnvAwareContainerMaker
@@ -37,7 +38,6 @@ class Env
                 throw new RuntimeException(sprintf('DI container class "%s" does not have method "getEnv()"', $class->getName()));
             }
             $method = $class->getMethod('getEnv');
-            $method->setAccessible(true);
             self::$getEnvClosure = $method->getClosure($container);
         }
 
