@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits;
 
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\EnabledForEnvs;
-use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\EnabledForEnvVar;
+use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\DisabledForEnvVar;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
 
 trait CheckAttributesTrait
@@ -32,19 +32,19 @@ trait CheckAttributesTrait
     protected function enabledForEnvVar(\ReflectionClass $class): bool
     {
         do {
-            $attributes = AttributesUtil::getClassAttributes($class, EnabledForEnvVar::class);
+            $attributes = AttributesUtil::getClassAttributes($class, DisabledForEnvVar::class);
             $class = $class->getParentClass();
         } while (0 === count($attributes) && false !== $class);
 
         foreach ($attributes as $attribute) {
-            /** @var EnabledForEnvVar $attr */
+            /** @var DisabledForEnvVar $attr */
             $attr = $attribute->newInstance();
             $envVar = getenv($attr->envVarName);
             if (is_string($envVar) && 'false' === mb_strtolower($envVar)) {
                 $envVar = false;
             }
 
-            return (bool) $envVar;
+            return !$envVar;
         }
 
         return true;
