@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits;
 
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\EnabledForEnvs;
+use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\EnabledForEnvVar;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
-use ReflectionClass;
 
-trait EnabledForEnvTrait
+trait CheckAttributesTrait
 {
-    public function enabledForCurrentEnv(ReflectionClass $class, string $currentEnv): bool
+    protected function enabledForCurrentEnv(\ReflectionClass $class, string $currentEnv): bool
     {
         $attributes = AttributesUtil::getClassAttributes($class, EnabledForEnvs::class);
         while ($parentClass = $class->getParentClass()) {
@@ -27,5 +27,26 @@ trait EnabledForEnvTrait
         }
 
         return $enabled;
+    }
+
+    protected function enabledForEnvVar(\ReflectionClass $class): bool
+    {
+        do {
+            $attributes = AttributesUtil::getClassAttributes($class, EnabledForEnvVar::class);
+            $class = $class->getParentClass();
+        } while (0 === count($attributes) && false !== $class);
+
+        foreach ($attributes as $attribute) {
+            /** @var EnabledForEnvVar $attr */
+            $attr = $attribute->newInstance();
+            $envVar = getenv($attr->envVarName);
+            if (is_string($envVar) && 'false' === mb_strtolower($envVar)) {
+                $envVar = false;
+            }
+
+            return (bool) $envVar;
+        }
+
+        return true;
     }
 }

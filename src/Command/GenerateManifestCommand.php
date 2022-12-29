@@ -10,14 +10,12 @@ use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ManifestGener
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
 use Dealroadshow\K8S\Framework\Util\Str;
-use InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Throwable;
 
 class GenerateManifestCommand extends Command
 {
@@ -69,7 +67,7 @@ class GenerateManifestCommand extends Command
             $appAlias = $this->getAppAlias($io);
             $app = $this->appRegistry->get($appAlias);
             $name = $this->getManifestName($input, $context, $appAlias);
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             $io->error($e->getMessage());
             $io->newLine();
 
@@ -79,7 +77,7 @@ class GenerateManifestCommand extends Command
         try {
             $fileName = $this->generator->generate($name, $context, $app);
             $this->clearCache();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $io->error($e->getMessage());
             $io->newLine();
 
@@ -111,7 +109,7 @@ class GenerateManifestCommand extends Command
             return $alias;
         }
 
-        throw new InvalidArgumentException(sprintf('App for class name "%s" does not exist', $appClass));
+        throw new \InvalidArgumentException(sprintf('App for class name "%s" does not exist', $appClass));
     }
 
     private function getContext(InputInterface $input, SymfonyStyle $io): ContextInterface
@@ -130,7 +128,7 @@ class GenerateManifestCommand extends Command
 
         $kind = Str::asClassName($typeName);
         if (!$this->contextRegistry->has($kind)) {
-            throw new InvalidArgumentException(sprintf('Manifest type "%s" is not supported. Supported types: "%s"', $typeName, implode('", "', $supportedTypes)));
+            throw new \InvalidArgumentException(sprintf('Manifest type "%s" is not supported. Supported types: "%s"', $typeName, implode('", "', $supportedTypes)));
         }
 
         return $this->contextRegistry->get($kind);
@@ -148,7 +146,7 @@ class GenerateManifestCommand extends Command
                 - end with an alphanumeric character
                 ERR;
 
-            throw new InvalidArgumentException(sprintf($errTemplate, $name));
+            throw new \InvalidArgumentException(sprintf($errTemplate, $name));
         }
 
         $manifest = $this->manifestRegistry->query($appAlias)
@@ -157,7 +155,7 @@ class GenerateManifestCommand extends Command
             ->getFirstResult();
 
         if (null !== $manifest) {
-            throw new InvalidArgumentException(sprintf('Name "%s" is already taken by "%s"', $name, get_class($manifest)));
+            throw new \InvalidArgumentException(sprintf('Name "%s" is already taken by "%s"', $name, $manifest::class));
         }
 
         return $name;

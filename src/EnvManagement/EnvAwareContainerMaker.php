@@ -13,8 +13,6 @@ use Dealroadshow\K8S\Framework\Core\Container\ContainerMakerInterface;
 use Dealroadshow\K8S\Framework\Core\Container\Resources\ResourcesConfigurator;
 use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
 use Dealroadshow\K8S\Framework\Util\Str;
-use ReflectionException;
-use ReflectionObject;
 
 class EnvAwareContainerMaker implements ContainerMakerInterface
 {
@@ -23,14 +21,14 @@ class EnvAwareContainerMaker implements ContainerMakerInterface
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function make(ContainerInterface $manifest, VolumeList $volumes, AppInterface $app): Container
     {
         $container = $this->maker->make($manifest, $volumes, $app);
         $resources = new ResourcesConfigurator($container->resources());
 
-        $class = new ReflectionObject($manifest);
+        $class = new \ReflectionObject($manifest);
         $resourcesMethod = $class->getMethod('resources');
         $envSpecificResourcesMethodName = 'resources'.Str::asClassName($this->env);
         if (!$class->hasMethod($envSpecificResourcesMethodName)) {

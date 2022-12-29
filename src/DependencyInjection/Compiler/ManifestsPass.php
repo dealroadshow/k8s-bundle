@@ -10,9 +10,6 @@ use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
 use Dealroadshow\K8S\Framework\Util\Str;
-use LogicException;
-use ReflectionClass;
-use ReflectionException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -27,7 +24,7 @@ class ManifestsPass implements CompilerPassInterface
     private array $appReflectionsCache = [];
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function process(ContainerBuilder $container): void
     {
@@ -43,9 +40,9 @@ class ManifestsPass implements CompilerPassInterface
             }
 
             $manifestDefinition = $container->getDefinition($id);
-            $manifestClass = new ReflectionClass($manifestDefinition->getClass());
+            $manifestClass = new \ReflectionClass($manifestDefinition->getClass());
             if (!$manifestClass->implementsInterface(ManifestInterface::class)) {
-                throw new LogicException(sprintf('Only %s instances must be tagged with tag "%s"', ManifestInterface::class, self::MANIFEST_TAG));
+                throw new \LogicException(sprintf('Only %s instances must be tagged with tag "%s"', ManifestInterface::class, self::MANIFEST_TAG));
             }
 
             $manifestShortName = $manifestClass->getMethod('shortName')->invoke(null);
@@ -68,7 +65,7 @@ class ManifestsPass implements CompilerPassInterface
                     );
 
                     if ($container->hasDefinition($newId)) {
-                        throw new LogicException(sprintf('Classes %s and %s have the same kind and same shortName, but this combination must be unique within the app boundaries', $dedicatedManifestDefinition->getClass(), $container->getDefinition($newId)->getClass()));
+                        throw new \LogicException(sprintf('Classes %s and %s have the same kind and same shortName, but this combination must be unique within the app boundaries', $dedicatedManifestDefinition->getClass(), $container->getDefinition($newId)->getClass()));
                     }
 
                     $container->setDefinition($newId, $dedicatedManifestDefinition);
@@ -85,7 +82,7 @@ class ManifestsPass implements CompilerPassInterface
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     private function autowireContainerClasses(ContainerBuilder $container, string $manifestDefinitionId, string $appAlias): void
     {
@@ -98,7 +95,7 @@ class ManifestsPass implements CompilerPassInterface
             if (!class_exists($type)) {
                 continue;
             }
-            $class = new ReflectionClass($type);
+            $class = new \ReflectionClass($type);
             if (!$class->implementsInterface(ContainerInterface::class)) {
                 continue;
             }
@@ -112,7 +109,7 @@ class ManifestsPass implements CompilerPassInterface
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     private function autowireContainerClass(ContainerBuilder $container, string $containerDefinitionId, string $appAlias): void
     {
@@ -127,7 +124,7 @@ class ManifestsPass implements CompilerPassInterface
             if (!class_exists($type)) {
                 continue;
             }
-            $class = new ReflectionClass($type);
+            $class = new \ReflectionClass($type);
             if (!$class->implementsInterface(AppInterface::class)) {
                 continue;
             }
@@ -159,12 +156,12 @@ class ManifestsPass implements CompilerPassInterface
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
-    private function getAppReflection(string $className): ReflectionClass
+    private function getAppReflection(string $className): \ReflectionClass
     {
         if (!array_key_exists($className, $this->appReflectionsCache)) {
-            $this->appReflectionsCache[$className] = new ReflectionClass($className);
+            $this->appReflectionsCache[$className] = new \ReflectionClass($className);
         }
 
         return $this->appReflectionsCache[$className];

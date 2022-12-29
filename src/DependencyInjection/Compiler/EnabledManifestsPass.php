@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
-use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\EnabledForEnvTrait;
-use ReflectionClass;
-use ReflectionException;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\CheckAttributesTrait;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class EnabledManifestsPass implements CompilerPassInterface
 {
-    use EnabledForEnvTrait;
+    use CheckAttributesTrait;
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function process(ContainerBuilder $container): void
     {
@@ -23,8 +21,8 @@ class EnabledManifestsPass implements CompilerPassInterface
         $env = $container->getParameter('kernel.environment');
         foreach ($ids as $id => $tags) {
             $definition = $container->getDefinition($id);
-            $class = new ReflectionClass($definition->getClass());
-            if (!$this->enabledForCurrentEnv($class, $env)) {
+            $class = new \ReflectionClass($definition->getClass());
+            if (!$this->enabledForCurrentEnv($class, $env) || !$this->enabledForEnvVar($class)) {
                 $container->removeDefinition($id);
             }
         }

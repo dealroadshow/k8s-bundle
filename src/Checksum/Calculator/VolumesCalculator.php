@@ -14,7 +14,6 @@ use Dealroadshow\K8S\API\Batch\Job;
 use Dealroadshow\K8S\API\ConfigMap;
 use Dealroadshow\K8S\API\Secret;
 use Dealroadshow\K8S\Framework\Renderer\JsonRenderer;
-use LogicException;
 
 class VolumesCalculator implements ChecksumCalculatorInterface
 {
@@ -53,7 +52,7 @@ class VolumesCalculator implements ChecksumCalculatorInterface
     private function getSource(string $name, string $kind): ConfigMap|Secret
     {
         if (!$this->registry->has($name, $kind)) {
-            throw new LogicException(sprintf('One of manifests uses "%s" as a volume source, but no %s with such name was found', $name, $kind));
+            throw new \LogicException(sprintf('One of manifests uses "%s" as a volume source, but no %s with such name was found', $name, $kind));
         }
 
         return $this->registry->get($name, $kind);

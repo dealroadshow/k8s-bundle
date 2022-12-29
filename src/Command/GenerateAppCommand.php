@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Throwable;
 
 class GenerateAppCommand extends Command
 {
@@ -49,7 +48,7 @@ class GenerateAppCommand extends Command
         try {
             $fileName = $this->generator->generate($appName);
             $this->clearCache();
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $io->error($e->getMessage());
             $io->newLine();
 

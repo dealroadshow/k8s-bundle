@@ -15,7 +15,6 @@ use Dealroadshow\K8S\API\ConfigMap;
 use Dealroadshow\K8S\API\Secret;
 use Dealroadshow\K8S\Data\Container;
 use Dealroadshow\K8S\Framework\Renderer\JsonRenderer;
-use LogicException;
 
 class EnvSourcesCalculator implements ChecksumCalculatorInterface
 {
@@ -52,7 +51,7 @@ class EnvSourcesCalculator implements ChecksumCalculatorInterface
             } elseif (($secretRef = $envSource->secretRef()) && $name = $secretRef->getName()) {
                 $kind = Secret::KIND;
             } else {
-                throw new LogicException('EnvFromSource instance must contain either "configMapRef" or "secretRef" field');
+                throw new \LogicException('EnvFromSource instance must contain either "configMapRef" or "secretRef" field');
             }
 
             $source = $this->getSource($name, $kind);
@@ -87,7 +86,7 @@ class EnvSourcesCalculator implements ChecksumCalculatorInterface
     private function getSource(string $name, string $kind): ConfigMap|Secret
     {
         if (!$this->registry->has($name, $kind)) {
-            throw new LogicException(sprintf('One of manifests uses "%s" as an env source, but no %s with such name was found', $name, $kind));
+            throw new \LogicException(sprintf('One of manifests uses "%s" as an env source, but no %s with such name was found', $name, $kind));
         }
 
         return $this->registry->get($name, $kind);

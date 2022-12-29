@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
-use Closure;
 use Dealroadshow\K8S\Framework\App\AppInterface;
-use ReflectionClass;
-use ReflectionException;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -63,7 +60,7 @@ class Configuration implements ConfigurationInterface
                         ->cannotBeOverwritten()
                         ->beforeNormalization()
                             ->ifString()
-                            ->then(Closure::fromCallable([static::class, 'validClassName']))
+                            ->then(\Closure::fromCallable([static::class, 'validClassName']))
                         ->end()
                     ->end()
                 ->end()
@@ -73,7 +70,7 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     private static function validClassName(string $class): string
     {
@@ -81,7 +78,7 @@ class Configuration implements ConfigurationInterface
             throw new InvalidConfigurationException(sprintf('Class "%s" does not exist', $class));
         }
 
-        $reflection = new ReflectionClass($class);
+        $reflection = new \ReflectionClass($class);
         if (!$reflection->implementsInterface(AppInterface::class)) {
             throw new InvalidConfigurationException(sprintf('App  class "%s" must implement AppInterface', $class));
         }

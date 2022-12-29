@@ -7,7 +7,6 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\BeforeMethod;
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodEvent;
 use Dealroadshow\Bundle\K8SBundle\EventListener\Traits\ApplyWrappersTrait;
-use ReflectionException;
 
 class BeforeMethodSubscriber extends AbstractMethodSubscriber
 {
@@ -25,7 +24,7 @@ class BeforeMethodSubscriber extends AbstractMethodSubscriber
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     protected function beforeMethod(ManifestMethodEvent $event): void
     {

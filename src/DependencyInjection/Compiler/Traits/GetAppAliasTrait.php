@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits;
 
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
-use LogicException;
 
 trait GetAppAliasTrait
 {
@@ -19,7 +18,7 @@ trait GetAppAliasTrait
             }
         }
         if (null === $alias) {
-            throw new LogicException(sprintf('"%s" tag on app service "%s" does not have "alias" attribute.', AppsPass::APP_TAG, $serviceId));
+            throw new \LogicException(sprintf('"%s" tag on app service "%s" does not have "alias" attribute.', AppsPass::APP_TAG, $serviceId));
         }
 
         return $alias;

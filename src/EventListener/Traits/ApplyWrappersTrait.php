@@ -9,19 +9,16 @@ use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\BeforeMethod;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
-use LogicException;
 use ProxyManager\Proxy\AccessInterceptorInterface;
-use ReflectionException;
-use ReflectionObject;
 
 trait ApplyWrappersTrait
 {
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     private function applyWrappers(ManifestInterface $manifest, string $methodName, array $params, string $attributeClass, mixed &$returnValue): void
     {
-        $class = new ReflectionObject($manifest);
+        $class = new \ReflectionObject($manifest);
         if ($class->implementsInterface(AccessInterceptorInterface::class)) {
             $class = $class->getParentClass();
         }
@@ -53,12 +50,12 @@ trait ApplyWrappersTrait
             }
 
             if (!$method->isPublic()) {
-                throw new LogicException(sprintf('Method "%s::%s()" uses attribute "%s" and therefore must be public', $class->getName(), $method->getName(), $attributeClass));
+                throw new \LogicException(sprintf('Method "%s::%s()" uses attribute "%s" and therefore must be public', $class->getName(), $method->getName(), $attributeClass));
             }
 
             $originalMethod = $class->getMethod($methodName);
             if (!ReflectionUtil::sameSignature($originalMethod, $method)) {
-                throw new LogicException(sprintf('Method "%s::%s()" uses attribute "%s" to wrap method "%s()", but has another signature', $class->getName(), $method->getName(), $attributeClass, $methodName));
+                throw new \LogicException(sprintf('Method "%s::%s()" uses attribute "%s" to wrap method "%s()", but has another signature', $class->getName(), $method->getName(), $attributeClass, $methodName));
             }
 
             $result = $method->invoke($manifest, ...$params);

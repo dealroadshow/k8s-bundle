@@ -27,9 +27,7 @@ use Dealroadshow\K8S\Framework\Core\Service\ServiceInterface;
 use Dealroadshow\K8S\Framework\Core\StatefulSet\StatefulSetInterface;
 use Dealroadshow\K8S\Framework\Dumper\AppDumper;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
-use InvalidArgumentException;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,7 +35,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
-use Throwable;
 
 class DumpAppCommand extends Command
 {
@@ -127,10 +124,10 @@ class DumpAppCommand extends Command
             $outputDir = $this->getValidOutputDir($input);
             foreach ($activeAppsAliases as $appAlias) {
                 if (!$this->appRegistry->has($appAlias)) {
-                    throw new InvalidArgumentException(sprintf('App "%s" does not exist', $appAlias));
+                    throw new \InvalidArgumentException(sprintf('App "%s" does not exist', $appAlias));
                 }
             }
-        } catch (InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             $io->error($e->getMessage());
             $io->newLine();
 
@@ -179,18 +176,18 @@ class DumpAppCommand extends Command
     {
         $outputDir = $input->getOption(self::OPTION_OUTPUT_DIR) ?? $this->manifestsDir;
         if (null === $outputDir) {
-            throw new InvalidArgumentException('Option "--output-dir" must be specified');
+            throw new \InvalidArgumentException('Option "--output-dir" must be specified');
         }
         if (!file_exists($outputDir)) {
             try {
                 mkdir($outputDir);
-            } catch (Throwable $error) {
-                throw new RuntimeException(sprintf('Cannot create output dir "%s": %s', $outputDir, $error->getMessage()));
+            } catch (\Throwable $error) {
+                throw new \RuntimeException(sprintf('Cannot create output dir "%s": %s', $outputDir, $error->getMessage()));
             }
         }
         $outputDir = realpath($outputDir);
         if (!is_dir($outputDir)) {
-            throw new InvalidArgumentException(sprintf('Output path "%s" is not a directory', $outputDir));
+            throw new \InvalidArgumentException(sprintf('Output path "%s" is not a directory', $outputDir));
         }
 
         return $outputDir;
@@ -212,7 +209,7 @@ class DumpAppCommand extends Command
         $classes = [];
         foreach ($kinds as $kind) {
             $class = self::KINDS_MAP[$kind]
-                     ?? throw new InvalidArgumentException(sprintf('Kind "%s" is not supported. Supported kinds: %s', $kind, implode(', ', array_keys(self::KINDS_MAP))));
+                     ?? throw new \InvalidArgumentException(sprintf('Kind "%s" is not supported. Supported kinds: %s', $kind, implode(', ', array_keys(self::KINDS_MAP))));
             $classes[] = $class;
         }
 

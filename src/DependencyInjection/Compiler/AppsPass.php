@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
-use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\EnabledForEnvTrait;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\CheckAttributesTrait;
 use Dealroadshow\K8S\Framework\App\AbstractApp;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Util\Str;
-use LogicException;
-use ReflectionClass;
-use ReflectionException;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -20,7 +17,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AppsPass implements CompilerPassInterface
 {
-    use EnabledForEnvTrait;
+    use CheckAttributesTrait;
 
     public const APP_TAG = 'dealroadshow_k8s.app';
 
@@ -30,12 +27,12 @@ class AppsPass implements CompilerPassInterface
     private array $appsConfig;
 
     /**
-     * @var ReflectionClass[]
+     * @var \ReflectionClass[]
      */
     private array $appClasses;
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     public function process(ContainerBuilder $container): void
     {
@@ -100,7 +97,7 @@ class AppsPass implements CompilerPassInterface
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     private function createClassNameToAliasMap(): void
     {
@@ -112,7 +109,7 @@ class AppsPass implements CompilerPassInterface
     }
 
     /**
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     private function createAliasToClassNamesMap(): void
     {
@@ -123,9 +120,6 @@ class AppsPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @throws ReflectionException
-     */
     private function collectAppClasses(ContainerBuilder $container): void
     {
         $this->appClasses = [];
@@ -133,13 +127,19 @@ class AppsPass implements CompilerPassInterface
             if (!class_exists($id)) {
                 continue;
             }
-            $class = new ReflectionClass($id);
+            $class = new \ReflectionClass($id);
             if (!$class->implementsInterface(AppInterface::class)) {
-                throw new LogicException(sprintf('Only %s instances must be tagged with tag "%s"', AppInterface::class, self::APP_TAG));
+                throw new \LogicException(sprintf('Only %s instances must be tagged with tag "%s"', AppInterface::class, self::APP_TAG));
             }
-            if ($this->enabledForCurrentEnv($class, $container->getParameter('kernel.environment'))) {
-                $this->appClasses[$class->getName()] = $class;
+
+            if (!$this->enabledForCurrentEnv($class, $container->getParameter('kernel.environment'))) {
+                continue;
             }
+            if (!$this->enabledForEnvVar($class)) {
+                continue;
+            }
+
+            $this->appClasses[$class->getName()] = $class;
         }
     }
 

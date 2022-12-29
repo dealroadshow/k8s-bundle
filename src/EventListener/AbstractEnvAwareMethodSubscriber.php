@@ -7,8 +7,6 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodCalledEvent;
 use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
 use Dealroadshow\K8S\Framework\Util\Str;
-use LogicException;
-use ReflectionObject;
 
 abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubscriber
 {
@@ -20,7 +18,7 @@ abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubs
 
     protected function afterMethod(ManifestMethodCalledEvent $event): void
     {
-        $class = new ReflectionObject($event->manifest());
+        $class = new \ReflectionObject($event->manifest());
         $methodName = $event->methodName();
         if ($this->methodName() !== $methodName || !$class->hasMethod($methodName)) {
             return;
@@ -36,7 +34,7 @@ abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubs
         $originalMethod = $class->getMethod($methodName);
         $envAwareMethod = $class->getMethod($envAwareMethodName);
         if (!ReflectionUtil::sameSignature($originalMethod, $envAwareMethod)) {
-            throw new LogicException(sprintf('Class "%s" has env-aware version of method "%s": method "%s", but signatures does not match.', $class->getName(), $methodName, $envAwareMethodName));
+            throw new \LogicException(sprintf('Class "%s" has env-aware version of method "%s": method "%s", but signatures does not match.', $class->getName(), $methodName, $envAwareMethodName));
         }
 
         $returned = $envAwareMethod->invoke($event->manifest(), ...$event->methodParams());

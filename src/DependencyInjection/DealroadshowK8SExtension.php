@@ -18,7 +18,6 @@ use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
 use Dealroadshow\K8S\Framework\Middleware\ManifestMethodPrefixMiddlewareInterface;
 use Dealroadshow\K8S\Framework\Middleware\ManifestMethodSuffixMiddlewareInterface;
 use Dealroadshow\K8S\Framework\ResourceMaker\ResourceMakerInterface;
-use Exception;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -29,7 +28,7 @@ use Throwable;
 class DealroadshowK8SExtension extends Extension
 {
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -54,7 +53,7 @@ class DealroadshowK8SExtension extends Extension
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     private function loadInternal(array $config, ContainerBuilder $container): void
     {
