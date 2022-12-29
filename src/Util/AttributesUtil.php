@@ -32,7 +32,7 @@ class AttributesUtil
         return $attributes;
     }
 
-    public static function fromClass(ReflectionClass $class, string $attributeClass): object|null
+    public static function fromClass(\ReflectionClass $class, string $attributeClass): object|null
     {
         $reflections = self::getClassAttributes($class, $attributeClass);
         if (0 === count($reflections)) {
@@ -42,7 +42,7 @@ class AttributesUtil
         return $reflections[0]->newInstance();
     }
 
-    public static function fromClassOrParents(ReflectionClass $class, string $attributeClass): object|null
+    public static function fromClassOrParents(\ReflectionClass $class, string $attributeClass): object|null
     {
         $attribute = self::fromClass($class, $attributeClass);
         if ($attribute) {
