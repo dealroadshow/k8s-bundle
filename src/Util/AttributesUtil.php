@@ -31,4 +31,28 @@ class AttributesUtil
 
         return $attributes;
     }
+
+    public static function fromClass(ReflectionClass $class, string $attributeClass): object|null
+    {
+        $reflections = self::getClassAttributes($class, $attributeClass);
+        if (0 === count($reflections)) {
+            return null;
+        }
+
+        return $reflections[0]->newInstance();
+    }
+
+    public static function fromClassOrParents(ReflectionClass $class, string $attributeClass): object|null
+    {
+        $attribute = self::fromClass($class, $attributeClass);
+        if ($attribute) {
+            return $attribute;
+        }
+        $parent = $class->getParentClass();
+        if (false === $parent) {
+            return null;
+        }
+
+        return self::fromClassOrParents($parent, $attributeClass);
+    }
 }

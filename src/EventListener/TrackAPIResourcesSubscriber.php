@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
-use Dealroadshow\Bundle\K8SBundle\Event\ConfigMapGeneratedEvent;
-use Dealroadshow\Bundle\K8SBundle\Event\CronJobGeneratedEvent;
-use Dealroadshow\Bundle\K8SBundle\Event\DeploymentGeneratedEvent;
-use Dealroadshow\Bundle\K8SBundle\Event\JobGeneratedEvent;
-use Dealroadshow\Bundle\K8SBundle\Event\ManifestGeneratedEventInterface;
-use Dealroadshow\Bundle\K8SBundle\Event\SecretGeneratedEvent;
-use Dealroadshow\Bundle\K8SBundle\Event\StatefulSetGeneratedEvent;
 use Dealroadshow\Bundle\K8SBundle\Registry\APIResourceRegistry;
+use Dealroadshow\K8S\Framework\Event\ConfigMapGeneratedEvent;
+use Dealroadshow\K8S\Framework\Event\CronJobGeneratedEvent;
+use Dealroadshow\K8S\Framework\Event\DeploymentGeneratedEvent;
+use Dealroadshow\K8S\Framework\Event\JobGeneratedEvent;
+use Dealroadshow\K8S\Framework\Event\ManifestGeneratedEventInterface;
+use Dealroadshow\K8S\Framework\Event\SecretGeneratedEvent;
+use Dealroadshow\K8S\Framework\Event\StatefulSetGeneratedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class TrackAPIResourcesSubscriber implements EventSubscriberInterface

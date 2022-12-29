@@ -44,6 +44,8 @@ services:
     Dealroadshow\Bundle\K8SBundle\EventListener\ResourcesMethodSubscriber: ~
     Dealroadshow\K8S\Framework\Renderer\FilteringService: ~
     Dealroadshow\K8S\Framework\Util\ManifestReferenceUtil: ~
+    Dealroadshow\K8S\Framework\Middleware\EventDispatcherBridgeMiddleware: ~
+    Dealroadshow\K8S\Framework\ManifestGenerator\ManifestsGenerationService: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
     Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'
@@ -76,7 +78,7 @@ services:
 
     Dealroadshow\K8S\Framework\Core\ManifestProcessor:
         arguments:
-          - !tagged_iterator { tag: 'dealroadshow_k8s.resource_maker' }
+          $makers: !tagged_iterator { tag: 'dealroadshow_k8s.resource_maker' }
 
     Dealroadshow\K8S\Framework\Core\Container\ContainerMaker:
         arguments:
@@ -95,27 +97,4 @@ services:
         arguments:
             $calculators: !tagged_iterator { tag: 'dealroadshow_k8s.checksum_calculator' }
 
-    Dealroadshow\Bundle\K8SBundle\Command\GenerateManifestCommand:
-        tags:
-          - { name: 'console.command', command: 'dealroadshow_k8s:generate:manifest' }
-          - { name: 'console.command', command: 'k8s:generate:manifest' }
-          - { name: 'console.command', command: 'k8s:gen:manifest' }
-          - { name: 'console.command', command: 'k8s:gen:man' }
-
-    Dealroadshow\Bundle\K8SBundle\Command\GenerateAppCommand:
-        tags:
-          - { name: 'console.command', command: 'dealroadshow_k8s:generate:app' }
-          - { name: 'console.command', command: 'k8s:generate:app' }
-          - { name: 'console.command', command: 'k8s:gen:app' }
-
-    Dealroadshow\Bundle\K8SBundle\Command\DumpAppCommand:
-        tags:
-          - { name: 'console.command', command: 'dealroadshow_k8s:dump:app' }
-          - { name: 'console.command', command: 'k8s:dump:app' }
-          - { name: 'console.command', command: 'k8s:dump:apps' }
-
-    Dealroadshow\Bundle\K8SBundle\Command\DumpAllCommand:
-        tags:
-          - { name: 'console.command', command: 'dealroadshow_k8s:dump:all' }
-          - { name: 'console.command', command: 'k8s:dump:all' }
-          - { name: 'console.command', command: 'k8s:dump:all' }
+    Dealroadshow\K8S\Framework\Renderer\RendererInterface: '@Dealroadshow\K8S\Framework\Renderer\YamlRenderer'

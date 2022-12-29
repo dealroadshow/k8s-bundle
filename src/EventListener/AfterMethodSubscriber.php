@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\AfterMethod;
-use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodCalledEvent;
 use Dealroadshow\Bundle\K8SBundle\EventListener\Traits\ApplyWrappersTrait;
+use Dealroadshow\K8S\Framework\Event\ManifestMethodCalledEvent;
 
 class AfterMethodSubscriber extends AbstractMethodResultSubscriber
 {

@@ -3,31 +3,14 @@ echo "<?php\n"; ?>
 
 namespace <?php echo $namespace; ?>;
 
-use Dealroadshow\K8S\Framework\Core\Container\AbstractContainer;
 use Dealroadshow\K8S\Framework\Core\Container\Image\Image;
-use Dealroadshow\K8S\Framework\Core\Job\AbstractJob;
-use Dealroadshow\K8S\Framework\Core\Pod\Containers\PodContainers;
-use Dealroadshow\K8S\Framework\Core\Pod\Volume\VolumesConfigurator;
+use Dealroadshow\K8S\Framework\Core\Job\AbstractContainerJob;
 
-class <?php echo $className; ?> extends AbstractJob
+class <?php echo $className; ?> extends AbstractContainerJob
 {
-    public function containers(): iterable
+    public function image(): Image
     {
-        yield new class extends AbstractContainer {
-            public function name(): string
-            {
-                return '<?php echo $manifestName; ?>-container';
-            }
-
-            public function image(): Image
-            {
-                return Image::fromName('example/my-image-name');
-            }
-        };
-    }
-
-    public function volumes(VolumesConfigurator $volumes): void
-    {
+        return Image::fromName('my-cool/image');
     }
 
     public static function shortName(): string

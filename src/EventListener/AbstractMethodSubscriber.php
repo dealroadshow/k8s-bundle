@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
-use Dealroadshow\Bundle\K8SBundle\Event\ManifestMethodEvent;
+use Dealroadshow\K8S\Framework\Event\ManifestMethodEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 abstract class AbstractMethodSubscriber implements EventSubscriberInterface

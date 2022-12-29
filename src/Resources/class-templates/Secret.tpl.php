@@ -8,7 +8,7 @@ use Dealroadshow\K8S\Framework\Core\Secret\AbstractSecret;
 
 class <?php echo $className; ?> extends AbstractSecret
 {
-    public function stringData(StringMap $stringData): void
+    public function data(StringMap $data): void
     {
     }
 

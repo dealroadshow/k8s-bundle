@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\GetAppAliasTrait;
+use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\EnabledForApps;
+use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
@@ -56,6 +58,10 @@ class ManifestsPass implements CompilerPassInterface
                 }
 
                 foreach ($aliases as $alias) {
+                    if (!$this->manifestEnabledForApp($manifestClass, $alias)) {
+                        continue;
+                    }
+
                     $dedicatedManifestDefinition = clone $manifestDefinition;
                     $newId = sprintf(
                         'dealroadshow_k8s.apps.%s.manifests.%s_%s',
@@ -81,9 +87,6 @@ class ManifestsPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     private function autowireContainerClasses(ContainerBuilder $container, string $manifestDefinitionId, string $appAlias): void
     {
         $manifestDefinition = $container->getDefinition($manifestDefinitionId);
@@ -108,9 +111,6 @@ class ManifestsPass implements CompilerPassInterface
         }
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     private function autowireContainerClass(ContainerBuilder $container, string $containerDefinitionId, string $appAlias): void
     {
         $containerDefinition = $container->getDefinition($containerDefinitionId);
@@ -165,5 +165,16 @@ class ManifestsPass implements CompilerPassInterface
         }
 
         return $this->appReflectionsCache[$className];
+    }
+
+    private function manifestEnabledForApp(ReflectionClass $manifestClass, string $appAlias): bool
+    {
+        /** @var EnabledForApps $attribute */
+        $attribute = AttributesUtil::fromClassOrParents($manifestClass, EnabledForApps::class);
+        if (null === $attribute) {
+            return true;
+        }
+
+        return in_array($appAlias, $attribute->appAliases());
     }
 }

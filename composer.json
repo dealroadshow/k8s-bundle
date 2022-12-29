@@ -1,6 +1,6 @@
 {
     "name": "dealroadshow/k8s-bundle",
-    "description": "Integrates Dealroadshow K8S framework with Symfony 5",
+    "description": "Integrates Dealroadshow K8S framework with Symfony 6",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -21,12 +21,12 @@
     ],
     "require": {
         "php": ">=8.1",
-        "symfony/console": "5.3.*",
-        "symfony/dependency-injection": "5.3.*",
-        "symfony/config": "5.3.*",
-        "symfony/http-kernel": "5.3.*",
+        "symfony/console": ">=6.0",
+        "symfony/dependency-injection": ">=6.0",
+        "symfony/config": ">=6.0",
+        "symfony/http-kernel": ">=6.0",
         "dealroadshow/k8s-framework": "dev-master",
-        "symfony/event-dispatcher": "^5.3"
+        "symfony/event-dispatcher": ">=6.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

@@ -89,6 +89,9 @@ class EnvSourcesCalculator implements ChecksumCalculatorInterface
             throw new \LogicException(sprintf('One of manifests uses "%s" as an env source, but no %s with such name was found', $name, $kind));
         }
 
-        return $this->registry->get($name, $kind);
+        $apiResource =  $this->registry->get($name, $kind);
+        assert($apiResource instanceof ConfigMap || $apiResource instanceof Secret, new TypeError('$apiResource must be ConfigMap or Secret instance'));
+
+        return $apiResource;
     }
 }
