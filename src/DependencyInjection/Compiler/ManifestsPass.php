@@ -167,7 +167,7 @@ class ManifestsPass implements CompilerPassInterface
         return $this->appReflectionsCache[$className];
     }
 
-    private function manifestEnabledForApp(ReflectionClass $manifestClass, string $appAlias): bool
+    private function manifestEnabledForApp(\ReflectionClass $manifestClass, string $appAlias): bool
     {
         /** @var EnabledForApps $attribute */
         $attribute = AttributesUtil::fromClassOrParents($manifestClass, EnabledForApps::class);
