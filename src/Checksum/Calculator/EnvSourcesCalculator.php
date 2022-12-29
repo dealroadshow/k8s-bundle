@@ -90,7 +90,7 @@ class EnvSourcesCalculator implements ChecksumCalculatorInterface
         }
 
         $apiResource =  $this->registry->get($name, $kind);
-        assert($apiResource instanceof ConfigMap || $apiResource instanceof Secret, new TypeError('$apiResource must be ConfigMap or Secret instance'));
+        assert($apiResource instanceof ConfigMap || $apiResource instanceof Secret, new \TypeError('$apiResource must be ConfigMap or Secret instance'));
 
         return $apiResource;
     }
