@@ -15,6 +15,7 @@ return $config
             '@PHP80Migration' => true,
             '@PHP80Migration:risky' => true,
             '@PHP81Migration' => true,
+            '@PHP82Migration' => true,
             '@PSR12' => true,
             'protected_to_private' => false,
         ]

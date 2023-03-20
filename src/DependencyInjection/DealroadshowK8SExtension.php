@@ -15,8 +15,6 @@ use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ResourceMakersPas
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
-use Dealroadshow\K8S\Framework\Middleware\ManifestMethodPrefixMiddlewareInterface;
-use Dealroadshow\K8S\Framework\Middleware\ManifestMethodSuffixMiddlewareInterface;
 use Dealroadshow\K8S\Framework\ResourceMaker\ResourceMakerInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
@@ -91,14 +89,6 @@ class DealroadshowK8SExtension extends Extension
 
         $container->registerForAutoconfiguration(ContainerImageMiddlewareInterface::class)
             ->addTag(MiddlewarePass::IMAGE_MIDDLEWARE_TAG);
-
-        $container
-            ->registerForAutoconfiguration(ManifestMethodPrefixMiddlewareInterface::class)
-            ->addTag(MiddlewarePass::MANIFEST_PREFIX_MIDDLEWARE_TAG);
-
-        $container
-            ->registerForAutoconfiguration(ManifestMethodSuffixMiddlewareInterface::class)
-            ->addTag(MiddlewarePass::MANIFEST_SUFFIX_MIDDLEWARE_TAG);
 
         $container
             ->registerForAutoconfiguration(ChecksumCalculatorInterface::class)
