@@ -1,6 +1,6 @@
 # Dealroadshow K8S Bundle
 This bundle integrates [Dealroadshow K8S framework](https://github.com/dealroadshow/k8s-framework) 
-with Symfony 5. 
+with Symfony framework. 
 
 ## Installation
 

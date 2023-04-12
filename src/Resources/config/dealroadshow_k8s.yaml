@@ -36,7 +36,6 @@ services:
     Dealroadshow\K8S\Framework\ResourceMaker\Prometheus\PrometheusRuleMaker: ~
     Dealroadshow\K8S\Framework\Registry\AppRegistry: ~
     Dealroadshow\K8S\Framework\Registry\ManifestRegistry: ~
-    Dealroadshow\K8S\Framework\Proxy\ManifestProxyFactory: ~
     Dealroadshow\K8S\Framework\Util\ManifestAppFinder: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\AfterMethodSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\BeforeMethodSubscriber: ~
@@ -44,7 +43,7 @@ services:
     Dealroadshow\Bundle\K8SBundle\EventListener\ResourcesMethodSubscriber: ~
     Dealroadshow\K8S\Framework\Renderer\FilteringService: ~
     Dealroadshow\K8S\Framework\Util\ManifestReferenceUtil: ~
-    Dealroadshow\K8S\Framework\Middleware\EventDispatcherBridgeMiddleware: ~
+    Dealroadshow\K8S\Framework\Proxy\EventDispatcherBridgeInterceptor: ~
     Dealroadshow\K8S\Framework\ManifestGenerator\ManifestsGenerationService: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
@@ -88,10 +87,10 @@ services:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.manifest_generator.context' }
 
-    Dealroadshow\K8S\Framework\Middleware\ManifestMiddlewareService:
+    Dealroadshow\K8S\Framework\Proxy\ManifestProxyFactory:
         arguments:
-          - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.prefix', default_priority_method: 'priority' }
-          - !tagged_iterator { tag: 'dealroadshow_k8s.middleware.suffix', default_priority_method: 'priority' }
+            $bodyInterceptors: !tagged_iterator { tag: 'dealroadshow_proximity.interceptor.body' }
+            $resultInterceptors: !tagged_iterator { tag: 'dealroadshow_proximity.interceptor.result' }
 
     Dealroadshow\Bundle\K8SBundle\Checksum\ChecksumsService:
         arguments:

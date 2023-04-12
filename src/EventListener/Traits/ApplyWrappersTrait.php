@@ -9,7 +9,7 @@ use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\BeforeMethod;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
-use ProxyManager\Proxy\AccessInterceptorInterface;
+use Dealroadshow\Proximity\ProxyInterface;
 
 trait ApplyWrappersTrait
 {
@@ -19,7 +19,7 @@ trait ApplyWrappersTrait
     private function applyWrappers(ManifestInterface $manifest, string $methodName, array $params, string $attributeClass, mixed &$returnValue): void
     {
         $class = new \ReflectionObject($manifest);
-        if ($class->implementsInterface(AccessInterceptorInterface::class)) {
+        if ($class->implementsInterface(ProxyInterface::class)) {
             $class = $class->getParentClass();
         }
         foreach ($class->getMethods() as $method) {
