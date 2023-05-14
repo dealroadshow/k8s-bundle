@@ -7,6 +7,7 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener\Traits;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\AfterMethod;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\BeforeMethod;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
+use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
 use Dealroadshow\Proximity\ProxyInterface;
@@ -16,7 +17,7 @@ trait ApplyWrappersTrait
     /**
      * @throws \ReflectionException
      */
-    private function applyWrappers(ManifestInterface $manifest, string $methodName, array $params, string $attributeClass, mixed &$returnValue): void
+    private function applyWrappers(ManifestInterface|ContainerInterface $manifest, string $methodName, array $params, string $attributeClass, mixed &$returnValue): void
     {
         $class = new \ReflectionObject($manifest);
         if ($class->implementsInterface(ProxyInterface::class)) {
