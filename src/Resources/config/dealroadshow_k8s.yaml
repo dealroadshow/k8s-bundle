@@ -86,7 +86,7 @@ services:
         arguments:
           - !tagged_iterator { tag: 'dealroadshow_k8s.manifest_generator.context' }
 
-    Dealroadshow\K8S\Framework\Proxy\ManifestProxyFactory:
+    Dealroadshow\K8S\Framework\Proxy\ProxyFactory:
         arguments:
             $bodyInterceptors: !tagged_iterator { tag: 'dealroadshow_proximity.interceptor.body' }
             $resultInterceptors: !tagged_iterator { tag: 'dealroadshow_proximity.interceptor.result' }
