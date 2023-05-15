@@ -4,16 +4,21 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
-use Dealroadshow\K8S\Framework\Event\ManifestMethodEvent;
+use Dealroadshow\K8S\Framework\Event\ProxyableMethodEventInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 abstract class AbstractMethodSubscriber implements EventSubscriberInterface
 {
-    abstract protected function supports(ManifestMethodEvent $event): bool;
+    abstract protected function supports(ProxyableMethodEventInterface $event): bool;
 
-    abstract protected function beforeMethod(ManifestMethodEvent $event): void;
+    abstract protected function beforeMethod(ProxyableMethodEventInterface $event): void;
 
-    public function handleEvent(ManifestMethodEvent $event): void
+    /**
+     * @return string[]
+     */
+    abstract protected static function eventNames(): iterable;
+
+    public function handleEvent(ProxyableMethodEventInterface $event): void
     {
         if ($this->supports($event)) {
             $this->beforeMethod($event);
@@ -22,9 +27,12 @@ abstract class AbstractMethodSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents(): array
     {
-        return [
-            ManifestMethodEvent::NAME => ['handleEvent', static::priority()],
-        ];
+        $events = [];
+        foreach (static::eventNames() as $eventName) {
+            $events[$eventName] = ['handleEvent', static::priority()];
+        }
+
+        return $events;
     }
 
     protected static function priority(): int

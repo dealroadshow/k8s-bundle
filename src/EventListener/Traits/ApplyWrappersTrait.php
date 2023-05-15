@@ -7,8 +7,7 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener\Traits;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\AfterMethod;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\BeforeMethod;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
-use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
-use Dealroadshow\K8S\Framework\Core\ManifestInterface;
+use Dealroadshow\K8S\Framework\Core\ProxyableInterface;
 use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
 use Dealroadshow\Proximity\ProxyInterface;
 
@@ -17,9 +16,9 @@ trait ApplyWrappersTrait
     /**
      * @throws \ReflectionException
      */
-    private function applyWrappers(ManifestInterface|ContainerInterface $manifest, string $methodName, array $params, string $attributeClass, mixed &$returnValue): void
+    private function applyWrappers(ProxyableInterface $proxyable, string $methodName, array $params, string $attributeClass, mixed &$returnValue): void
     {
-        $class = new \ReflectionObject($manifest);
+        $class = new \ReflectionObject($proxyable);
         if ($class->implementsInterface(ProxyInterface::class)) {
             $class = $class->getParentClass();
         }
@@ -59,7 +58,7 @@ trait ApplyWrappersTrait
                 throw new \LogicException(sprintf('Method "%s::%s()" uses attribute "%s" to wrap method "%s()", but has another signature', $class->getName(), $method->getName(), $attributeClass, $methodName));
             }
 
-            $result = $method->invoke($manifest, ...$params);
+            $result = $method->invoke($proxyable, ...$params);
             if ($replacesReturnValue) {
                 $returnValue = $result;
             }

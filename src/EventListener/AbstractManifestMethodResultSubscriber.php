@@ -6,13 +6,8 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\K8S\Framework\Event\ManifestMethodCalledEvent;
 
-class ReplicasMethodSubscriber extends AbstractEnvAwareMethodSubscriber
+abstract class AbstractManifestMethodResultSubscriber extends AbstractMethodResultSubscriber
 {
-    public function methodName(): string
-    {
-        return 'replicas';
-    }
-
     protected static function eventNames(): iterable
     {
         return [ManifestMethodCalledEvent::NAME];

@@ -31,7 +31,7 @@ class AfterMethodSubscriber extends AbstractMethodResultSubscriber
         $returnValue = self::NO_RETURN_VALUE;
 
         $this->applyWrappers(
-            manifest: $event->manifest(),
+            proxyable: $event->manifest(),
             methodName: $event->methodName(),
             params: $event->methodParams(),
             attributeClass: AfterMethod::class,

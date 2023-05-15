@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
-use Dealroadshow\K8S\Framework\Event\ManifestMethodCalledEvent;
+use Dealroadshow\K8S\Framework\Event\ProxyableMethodCalledEventInterface;
 use Dealroadshow\K8S\Framework\Util\ReflectionUtil;
 use Dealroadshow\K8S\Framework\Util\Str;
+use Dealroadshow\Proximity\ProxyInterface;
 
 abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubscriber
 {
@@ -16,9 +17,12 @@ abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubs
     {
     }
 
-    protected function afterMethod(ManifestMethodCalledEvent $event): void
+    protected function afterMethod(ProxyableMethodCalledEventInterface $event): void
     {
-        $class = new \ReflectionObject($event->manifest());
+        $class = new \ReflectionObject($event->proxyable());
+        if ($class->implementsInterface(ProxyInterface::class)) {
+            $class = $class->getParentClass();
+        }
         $methodName = $event->methodName();
         if ($this->methodName() !== $methodName || !$class->hasMethod($methodName)) {
             return;
@@ -37,7 +41,7 @@ abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubs
             throw new \LogicException(sprintf('Class "%s" has env-aware version of method "%s": method "%s", but signatures does not match.', $class->getName(), $methodName, $envAwareMethodName));
         }
 
-        $returned = $envAwareMethod->invoke($event->manifest(), ...$event->methodParams());
+        $returned = $envAwareMethod->invoke($event->proxyable(), ...$event->methodParams());
         if ($this->replacesReturnValue()
             && $envAwareMethod->hasReturnType()
             && 'void' !== $envAwareMethod->getReturnType()
@@ -52,7 +56,7 @@ abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubs
         return true;
     }
 
-    protected function supports(ManifestMethodCalledEvent $event): bool
+    protected function supports(ProxyableMethodCalledEventInterface $event): bool
     {
         return $event->methodName() === $this->methodName();
     }

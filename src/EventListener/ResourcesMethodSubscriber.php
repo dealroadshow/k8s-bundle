@@ -6,7 +6,9 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
 use Dealroadshow\K8S\Framework\Core\Persistence\PersistentVolumeClaimInterface;
+use Dealroadshow\K8S\Framework\Event\ContainerMethodCalledEvent;
 use Dealroadshow\K8S\Framework\Event\ManifestMethodCalledEvent;
+use Dealroadshow\K8S\Framework\Event\ProxyableMethodCalledEventInterface;
 
 class ResourcesMethodSubscriber extends AbstractEnvAwareMethodSubscriber
 {
@@ -15,10 +17,18 @@ class ResourcesMethodSubscriber extends AbstractEnvAwareMethodSubscriber
         return 'resources';
     }
 
-    protected function supports(ManifestMethodCalledEvent $event): bool
+    protected function supports(ProxyableMethodCalledEventInterface $event): bool
     {
-        $manifest = $event->manifest();
+        $proxyable = $event->proxyable();
 
-        return $manifest instanceof ContainerInterface || $manifest instanceof PersistentVolumeClaimInterface;
+        return $proxyable instanceof ContainerInterface || $proxyable instanceof PersistentVolumeClaimInterface;
+    }
+
+    protected static function eventNames(): iterable
+    {
+        return [
+            ManifestMethodCalledEvent::NAME,
+            ContainerMethodCalledEvent::NAME,
+        ];
     }
 }
