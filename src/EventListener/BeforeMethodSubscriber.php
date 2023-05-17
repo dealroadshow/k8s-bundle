@@ -6,7 +6,9 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\BeforeMethod;
 use Dealroadshow\Bundle\K8SBundle\EventListener\Traits\ApplyWrappersTrait;
+use Dealroadshow\K8S\Framework\Event\ContainerMethodEvent;
 use Dealroadshow\K8S\Framework\Event\ManifestMethodEvent;
+use Dealroadshow\K8S\Framework\Event\ProxyableMethodEventInterface;
 
 class BeforeMethodSubscriber extends AbstractMethodSubscriber
 {
@@ -18,7 +20,7 @@ class BeforeMethodSubscriber extends AbstractMethodSubscriber
     {
     }
 
-    protected function supports(ManifestMethodEvent $event): bool
+    protected function supports(ProxyableMethodEventInterface $event): bool
     {
         return true;
     }
@@ -26,12 +28,12 @@ class BeforeMethodSubscriber extends AbstractMethodSubscriber
     /**
      * @throws \ReflectionException
      */
-    protected function beforeMethod(ManifestMethodEvent $event): void
+    protected function beforeMethod(ProxyableMethodEventInterface $event): void
     {
         $returnValue = self::NO_RETURN_VALUE;
 
         $this->applyWrappers(
-            manifest: $event->manifest(),
+            proxyable: $event->proxyable(),
             methodName: $event->methodName(),
             params: $event->methodParams(),
             attributeClass: BeforeMethod::class,
@@ -41,5 +43,13 @@ class BeforeMethodSubscriber extends AbstractMethodSubscriber
         if (self::NO_RETURN_VALUE !== $returnValue) {
             $event->setReturnValue($returnValue);
         }
+    }
+
+    protected static function eventNames(): iterable
+    {
+        return [
+            ManifestMethodEvent::NAME,
+            ContainerMethodEvent::NAME,
+        ];
     }
 }
