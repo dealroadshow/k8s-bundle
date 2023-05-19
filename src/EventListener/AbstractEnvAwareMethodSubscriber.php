@@ -41,11 +41,12 @@ abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubs
             throw new \LogicException(sprintf('Class "%s" has env-aware version of method "%s": method "%s", but signatures does not match.', $class->getName(), $methodName, $envAwareMethodName));
         }
 
+        $returnType = $envAwareMethod->getReturnType();
         $returned = $envAwareMethod->invoke($event->proxyable(), ...$event->methodParams());
         if ($this->replacesReturnValue()
             && $envAwareMethod->hasReturnType()
-            && 'void' !== $envAwareMethod->getReturnType()
-            && null !== $returned
+            && 'void' !== $returnType->getName()
+            && (null !== $returned || ($returnType?->allowsNull() ?? true))
         ) {
             $event->setReturnValue($returned);
         }
