@@ -46,8 +46,7 @@ abstract class AbstractEnvAwareMethodSubscriber extends AbstractMethodResultSubs
         if ($this->replacesReturnValue()
             && $envAwareMethod->hasReturnType()
             && 'void' !== $returnType->getName()
-            && $event->returnValueHasChanged()
-            && ($returnType?->allowsNull() ?? true)
+            && (null !== $returned || ($returnType?->allowsNull() ?? true))
         ) {
             $event->setReturnValue($returned);
         }
