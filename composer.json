@@ -19,7 +19,7 @@
         "symfony/dependency-injection": ">=6.0",
         "symfony/config": ">=6.0",
         "symfony/http-kernel": ">=6.0",
-        "dealroadshow/k8s-framework": "dev-allow-replacing-return-values-to-null",
+        "dealroadshow/k8s-framework": "dev-master",
         "symfony/event-dispatcher": ">=6.0",
         "dealroadshow/proximity": "dev-main"
     },
