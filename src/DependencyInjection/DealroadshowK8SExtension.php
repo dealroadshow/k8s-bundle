@@ -36,14 +36,6 @@ class DealroadshowK8SExtension extends Extension
         );
         $loader->load('dealroadshow_k8s.yaml');
 
-        $appsConfigs = array_column($configs, 'apps');
-        if (2 > count($appsConfigs)) {
-            $appsConfigs[] = []; // array_replace_recursive will have enough arguments
-        }
-        // We use ArrayNode::ignoreExtraKeys() for app configs in Configuration class,
-        // therefore Symfony will not merge app configs properly - thus we need to do this ourselves
-        $configs[count($configs) - 1]['apps'] = array_replace_recursive(...$appsConfigs);
-
         $this->loadInternal(
             $this->processConfiguration($this->getConfiguration($configs, $container), $configs),
             $container
