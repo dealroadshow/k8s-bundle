@@ -18,7 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class PrintAllCommand extends Command
 {
-    public function __construct(private ManifestsGenerationService $generationService)
+    public function __construct(private readonly ManifestsGenerationService $generationService)
     {
         parent::__construct();
     }

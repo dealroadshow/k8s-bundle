@@ -21,7 +21,7 @@ class PrintAppsCommand extends Command
 {
     public const ARGUMENT_APPS_ALIASES = 'apps-aliases';
 
-    public function __construct(private ManifestsGenerationService $generationService)
+    public function __construct(private readonly ManifestsGenerationService $generationService)
     {
         parent::__construct();
     }

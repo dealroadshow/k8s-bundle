@@ -22,7 +22,7 @@ class DumpAllCommand extends Command
 {
     public const OPTION_RECREATE_DIR = 'recreate-output-dir';
 
-    public function __construct(private ManifestsGenerationService $generationService, private string $manifestsDir)
+    public function __construct(private readonly ManifestsGenerationService $generationService, private string $manifestsDir)
     {
         $this->manifestsDir = rtrim($this->manifestsDir, '/');
         if (!file_exists($this->manifestsDir)) {

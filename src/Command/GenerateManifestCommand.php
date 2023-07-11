@@ -10,7 +10,6 @@ use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator\ManifestGener
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
 use Dealroadshow\K8S\Framework\Util\Str;
-use InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -31,10 +30,10 @@ class GenerateManifestCommand extends Command
     private const ARGUMENT_MANIFEST_NAME = 'manifest-name';
 
     public function __construct(
-        private AppRegistry $appRegistry,
-        private ManifestRegistry $manifestRegistry,
-        private ContextRegistry $contextRegistry,
-        private ManifestGenerator $generator
+        private readonly AppRegistry $appRegistry,
+        private readonly ManifestRegistry $manifestRegistry,
+        private readonly ContextRegistry $contextRegistry,
+        private readonly ManifestGenerator $generator
     ) {
         parent::__construct();
     }

@@ -28,9 +28,7 @@ class DumpAppsCommand extends Command
     public const OPTION_OUTPUT_DIR = 'output-dir';
     public const OPTION_RECREATE_DIR = 'recreate-output-dir';
 
-    protected static $defaultName = 'dealroadshow_k8s:dump:app';
-
-    public function __construct(private ManifestsGenerationService $generationService, private string $manifestsDir)
+    public function __construct(private readonly ManifestsGenerationService $generationService, private readonly string $manifestsDir)
     {
         parent::__construct();
     }
