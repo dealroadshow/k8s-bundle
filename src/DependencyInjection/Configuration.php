@@ -89,7 +89,6 @@ readonly class Configuration implements ConfigurationInterface
                                     ->defaultFalse()
                                 ->end()
                                 ->integerNode('replicas')
-                                    ->cannotBeEmpty()
                                 ->end()
                                 ->arrayNode('resources')
                                     ->children()
