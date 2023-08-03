@@ -42,6 +42,8 @@ readonly class ContainerResourcesConfiguration implements ConfigurationInterface
                     } catch (\InvalidArgumentException $e) {
                         throw new InvalidConfigurationException($e->getMessage());
                     }
+
+                    return $cpu;
                 })
             ->end();
 
@@ -64,6 +66,8 @@ readonly class ContainerResourcesConfiguration implements ConfigurationInterface
                     } catch (\InvalidArgumentException $e) {
                         throw new InvalidConfigurationException($e->getMessage());
                     }
+
+                    return $memory;
                 })
             ->end();
 

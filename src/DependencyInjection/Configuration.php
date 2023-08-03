@@ -131,8 +131,6 @@ readonly class Configuration implements ConfigurationInterface
 
     private function validResourcesNodeValue(array $nodeValue): array
     {
-        $config = ['resources' => $nodeValue];
-
-        return $this->processor->processConfiguration($this->resourcesConfiguration, [$config])['resources'];
+        return $this->processor->processConfiguration($this->resourcesConfiguration, [$nodeValue]);
     }
 }
