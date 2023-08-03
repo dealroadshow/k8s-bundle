@@ -4,14 +4,25 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\ContainerResources\ContainerResourcesConfiguration;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Symfony\Component\Config\Definition\Processor;
 
-class Configuration implements ConfigurationInterface
+readonly class Configuration implements ConfigurationInterface
 {
+    private ContainerResourcesConfiguration $resourcesConfiguration;
+    private Processor $processor;
+
+    public function __construct()
+    {
+        $this->resourcesConfiguration = new ContainerResourcesConfiguration();
+        $this->processor = new Processor();
+    }
+
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('dealroadshow_k8s');
@@ -19,10 +30,16 @@ class Configuration implements ConfigurationInterface
 
         $root
             ->children()
-                ->append(self::appsNode())
+                ->append($this->appsNode())
                 ->scalarNode('code_dir')->defaultNull()->end()
                 ->scalarNode('namespace_prefix')->defaultValue('App\\K8S\\')->end()
                 ->scalarNode('manifests_dir')->defaultNull()->end()
+                ->booleanNode('auto_set_resources')
+                    ->defaultFalse()
+                ->end()
+                ->booleanNode('auto_set_replicas')
+                    ->defaultFalse()
+                ->end()
                 ->arrayNode('filterManifests')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -44,7 +61,7 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    public static function appsNode(): ArrayNodeDefinition
+    public function appsNode(): ArrayNodeDefinition
     {
         $treeBuilder = new TreeBuilder('apps');
         $node = $treeBuilder->getRootNode();
@@ -60,7 +77,36 @@ class Configuration implements ConfigurationInterface
                         ->cannotBeOverwritten()
                         ->beforeNormalization()
                             ->ifString()
-                            ->then(\Closure::fromCallable([static::class, 'validClassName']))
+                            ->then(static::validClassName(...))
+                        ->end()
+                    ->end()
+                    ->arrayNode('manifests')
+                        ->useAttributeAsKey('name')
+                        ->arrayPrototype()
+                            ->ignoreExtraKeys(false)
+                            ->children()
+                                ->booleanNode('virtual')
+                                    ->defaultFalse()
+                                ->end()
+                                ->integerNode('replicas')
+                                ->end()
+                                ->arrayNode('resources')
+                                    ->children()
+                                        ->variableNode('requests')
+                                            ->validate()
+                                                ->ifArray()
+                                                ->then($this->validResourcesNodeValue(...))
+                                            ->end()
+                                        ->end()
+                                        ->variableNode('limits')
+                                            ->validate()
+                                                ->ifArray()
+                                                ->then($this->validResourcesNodeValue(...))
+                                            ->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
+                            ->end()
                         ->end()
                     ->end()
                 ->end()
@@ -69,9 +115,6 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     private static function validClassName(string $class): string
     {
         if (!class_exists($class)) {
@@ -84,5 +127,10 @@ class Configuration implements ConfigurationInterface
         }
 
         return $class;
+    }
+
+    private function validResourcesNodeValue(array $nodeValue): array
+    {
+        return $this->processor->processConfiguration($this->resourcesConfiguration, [$nodeValue]);
     }
 }

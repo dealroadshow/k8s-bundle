@@ -75,6 +75,8 @@ class DealroadshowK8SExtension extends Extension
         ;
 
         $container->setParameter('dealroadshow_k8s.config.apps', $config['apps']);
+        $container->setParameter('dealroadshow_k8s.auto_set_resources', $config['auto_set_resources']);
+        $container->setParameter('dealroadshow_k8s.auto_set_replicas', $config['auto_set_replicas']);
     }
 
     public function getAlias(): string
