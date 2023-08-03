@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\ContainerResources;
 
 use Dealroadshow\K8S\Framework\Core\Container\Resources\CPU;
@@ -36,7 +38,7 @@ readonly class ContainerResourcesConfiguration implements ConfigurationInterface
             ->cannotBeEmpty()
             ->beforeNormalization()
                 ->ifString()
-                ->then(function(string $cpu) {
+                ->then(function (string $cpu) {
                     try {
                         CPU::fromString($cpu);
                     } catch (\InvalidArgumentException $e) {
@@ -60,7 +62,7 @@ readonly class ContainerResourcesConfiguration implements ConfigurationInterface
             ->cannotBeEmpty()
             ->beforeNormalization()
                 ->ifString()
-                ->then(function(string $memory) {
+                ->then(function (string $memory) {
                     try {
                         Memory::fromString($memory);
                     } catch (\InvalidArgumentException $e) {

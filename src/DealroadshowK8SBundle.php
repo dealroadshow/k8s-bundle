@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Dealroadshow\Bundle\K8SBundle;
 
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AutoSetReplicasPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AutoSetResourcesPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\EnabledManifestsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
@@ -30,10 +32,12 @@ class DealroadshowK8SBundle extends Bundle
             ->addCompilerPass(pass: new EnabledManifestsPass(), priority: -8)
             ->addCompilerPass(pass: new SetAppConfigPass(), type: PassConfig::TYPE_OPTIMIZE, priority: -8)
             ->addCompilerPass(pass: new ManifestsPass(), type: PassConfig::TYPE_OPTIMIZE, priority: -16)
-            ->addCompilerPass(new ManifestGeneratorContextsPass())
-            ->addCompilerPass(new MiddlewarePass())
-            ->addCompilerPass(new ResourceMakersPass())
-            ->addCompilerPass(new RemoveAutowiredAppsPass(), PassConfig::TYPE_REMOVE)
+            ->addCompilerPass(pass: new ManifestGeneratorContextsPass())
+            ->addCompilerPass(pass: new MiddlewarePass())
+            ->addCompilerPass(pass: new ResourceMakersPass())
+            ->addCompilerPass(pass: new RemoveAutowiredAppsPass(), type: PassConfig::TYPE_REMOVE)
+            ->addCompilerPass(pass: new AutoSetReplicasPass(), priority: -32)
+            ->addCompilerPass(pass: new AutoSetResourcesPass(), priority: -32)
         ;
     }
 
