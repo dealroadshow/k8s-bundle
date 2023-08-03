@@ -67,7 +67,7 @@ class AutoSetResourcesSubscriber extends AbstractMethodSubscriber
             $resources->limitStorage(Memory::fromString($storageLimits));
         }
 
-        if (!empty($resources['requests']) || !empty($resources['limits'])) {
+        if (!empty($config['requests']) || !empty($config['limits'])) {
             // We don't want ambiguous behavior, so only one way of specifying resources should be used:
             // if resources are automatically set from config, they should not be set by method
             $event->setReturnValue(null); // This is done to prevent method body
