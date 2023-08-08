@@ -11,14 +11,10 @@ use Dealroadshow\K8S\Framework\Core\Deployment\DeploymentInterface;
 use Dealroadshow\K8S\Framework\Core\StatefulSet\StatefulSetInterface;
 use Dealroadshow\K8S\Framework\Event\ManifestMethodEvent;
 use Dealroadshow\K8S\Framework\Event\ProxyableMethodEventInterface;
-use Dealroadshow\Proximity\ProxyInterface;
 
 class AutoSetReplicasSubscriber extends AbstractMethodSubscriber
 {
     use EnsureMethodIsNotDeclaredInUserManifestTrait;
-    public function __construct(private readonly string $env)
-    {
-    }
 
     protected function supports(ProxyableMethodEventInterface $event): bool
     {
@@ -40,11 +36,6 @@ class AutoSetReplicasSubscriber extends AbstractMethodSubscriber
             $this->ensureMethodIsNotDeclaredInUserManifest($manifest, 'replicas', $app);
             $event->setReturnValue($replicas);
         }
-    }
-
-    private function checkIfReplicasMethodDeclared(): void
-    {
-
     }
 
     protected static function eventNames(): iterable
