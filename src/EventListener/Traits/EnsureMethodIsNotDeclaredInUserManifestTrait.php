@@ -11,7 +11,7 @@ use Symfony\Contracts\Service\Attribute\Required;
 
 trait EnsureMethodIsNotDeclaredInUserManifestTrait
 {
-    private readonly string $env;
+    private string $env;
 
     protected function ensureMethodIsNotDeclaredInUserManifest(ProxyableInterface $manifest, string $methodName, AppInterface $app): void
     {
