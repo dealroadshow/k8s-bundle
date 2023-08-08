@@ -69,7 +69,7 @@ class DealroadshowK8SBundle extends Bundle
 
         foreach ($appsConfigs as $appAlias => $appConfig) {
             foreach ($appConfig['manifests'] ?? [] as $manifestShortName => $manifestConfig) {
-                if ($manifestConfig['virtual'] ?? false) {
+                if (!is_string($manifestShortName) || $manifestConfig['virtual'] ?? false) {
                     continue;
                 }
 
