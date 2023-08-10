@@ -12,6 +12,7 @@ use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGenerator
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ResourceMakersPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\ContainerResources\ResourcesReferenceResolver;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
@@ -25,6 +26,13 @@ use Throwable;
 
 class DealroadshowK8SExtension extends Extension
 {
+    private readonly ResourcesReferenceResolver $referenceResolver;
+
+    public function __construct()
+    {
+        $this->referenceResolver = new ResourcesReferenceResolver();
+    }
+
     /**
      * @throws \Exception
      */
@@ -74,9 +82,23 @@ class DealroadshowK8SExtension extends Extension
             ->setupNamespacePrefix($config['namespace_prefix'], $container)
         ;
 
-        $container->setParameter('dealroadshow_k8s.config.apps', $config['apps']);
         $container->setParameter('dealroadshow_k8s.auto_set_resources', $config['auto_set_resources']);
         $container->setParameter('dealroadshow_k8s.auto_set_replicas', $config['auto_set_replicas']);
+
+        foreach ($config['apps'] as $appAlias => $appConfig) {
+            foreach ($appConfig['manifests'] as $shortName => $manifestConfig) {
+                $resources = $manifestConfig['resources'] ?? [];
+
+                foreach (['requests', 'limits'] as $resourcesKey) {
+                    $resourcesSection = $resources[$resourcesKey] ?? [];
+                    if (is_string($resourcesSection)) {
+                        $config['apps'][$appAlias]['manifests'][$shortName]['resources'][$resourcesKey] = $this->referenceResolver->resolve($resourcesSection, $resourcesKey, $appAlias, $config['apps']);
+                    }
+                }
+            }
+        }
+
+        $container->setParameter('dealroadshow_k8s.config.apps', $config['apps']);
     }
 
     public function getAlias(): string

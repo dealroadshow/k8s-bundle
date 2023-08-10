@@ -35,7 +35,8 @@ services:
     Dealroadshow\K8S\Framework\ResourceMaker\Prometheus\ServiceMonitorMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\Prometheus\PrometheusRuleMaker: ~
     Dealroadshow\K8S\Framework\Registry\AppRegistry: ~
-    Dealroadshow\K8S\Framework\Registry\ManifestRegistry: ~
+    Dealroadshow\K8S\Framework\Registry\ManifestRegistry:
+        public: true
     Dealroadshow\K8S\Framework\Util\ManifestAppFinder: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\AfterMethodSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\BeforeMethodSubscriber: ~

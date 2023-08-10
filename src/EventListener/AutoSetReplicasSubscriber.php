@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
+use Dealroadshow\Bundle\K8SBundle\EventListener\Traits\EnsureMethodIsNotDeclaredInUserManifestTrait;
 use Dealroadshow\Bundle\K8SBundle\Util\PropertyAccessUtil;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\Deployment\DeploymentInterface;
@@ -13,6 +14,8 @@ use Dealroadshow\K8S\Framework\Event\ProxyableMethodEventInterface;
 
 class AutoSetReplicasSubscriber extends AbstractMethodSubscriber
 {
+    use EnsureMethodIsNotDeclaredInUserManifestTrait;
+
     protected function supports(ProxyableMethodEventInterface $event): bool
     {
         $manifest = $event->proxyable();
@@ -25,10 +28,12 @@ class AutoSetReplicasSubscriber extends AbstractMethodSubscriber
     {
         /** @var DeploymentInterface|StatefulSetInterface $manifest */
         $manifest = $event->proxyable();
+
         /** @var AppInterface $app */
         $app = PropertyAccessUtil::getPropertyValue($manifest, 'app');
         $replicas = $app->manifestConfig($manifest::shortName())['replicas'] ?? null;
         if ($replicas) {
+            $this->ensureMethodIsNotDeclaredInUserManifest($manifest, 'replicas', $app);
             $event->setReturnValue($replicas);
         }
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
+use Dealroadshow\Bundle\K8SBundle\EventListener\Traits\EnsureMethodIsNotDeclaredInUserManifestTrait;
 use Dealroadshow\Bundle\K8SBundle\Util\PropertyAccessUtil;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
@@ -19,6 +20,8 @@ use Dealroadshow\K8S\Framework\Event\ProxyableMethodEventInterface;
 
 class AutoSetResourcesSubscriber extends AbstractMethodSubscriber
 {
+    use EnsureMethodIsNotDeclaredInUserManifestTrait;
+
     protected function supports(ProxyableMethodEventInterface $event): bool
     {
         $manifest = $event->proxyable();
@@ -70,6 +73,7 @@ class AutoSetResourcesSubscriber extends AbstractMethodSubscriber
         if (!empty($config['requests']) || !empty($config['limits'])) {
             // We don't want ambiguous behavior, so only one way of specifying resources should be used:
             // if resources are automatically set from config, they should not be set by method
+            $this->ensureMethodIsNotDeclaredInUserManifest($manifest, 'resources', $app);
             $event->setReturnValue(null); // This is done to prevent method body
         }
     }
