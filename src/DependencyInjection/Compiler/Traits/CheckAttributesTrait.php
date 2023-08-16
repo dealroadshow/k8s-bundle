@@ -47,7 +47,7 @@ trait CheckAttributesTrait
                 )
             );
         }
-        $parameter = $container->resolveEnvPlaceholders($container->getParameter($attribute->parameter));
+        $parameter = $container->resolveEnvPlaceholders($container->getParameter($attribute->parameter), true);
         if (!is_bool($parameter)) {
             throw new \RuntimeException(
                 sprintf(
