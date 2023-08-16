@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits;
 
+use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\EnabledForContainerParameter;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\EnabledForEnvs;
-use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\DisabledForEnvVar;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 trait CheckAttributesTrait
 {
@@ -29,24 +30,35 @@ trait CheckAttributesTrait
         return $enabled;
     }
 
-    protected function enabledForEnvVar(\ReflectionClass $class): bool
+    protected function enabledForContainerParameter(\ReflectionClass $class, ContainerBuilder $container): bool
     {
-        do {
-            $attributes = AttributesUtil::getClassAttributes($class, DisabledForEnvVar::class);
-            $class = $class->getParentClass();
-        } while (0 === count($attributes) && false !== $class);
-
-        foreach ($attributes as $attribute) {
-            /** @var DisabledForEnvVar $attr */
-            $attr = $attribute->newInstance();
-            $envVar = getenv($attr->envVarName);
-            if (is_string($envVar) && 'false' === mb_strtolower($envVar)) {
-                $envVar = false;
-            }
-
-            return !$envVar;
+        /** @var EnabledForContainerParameter|null $attribute */
+        $attribute = AttributesUtil::fromClassOrParents($class, EnabledForContainerParameter::class);
+        if (null === $attribute) {
+            return true;
         }
 
-        return true;
+        if (!$container->hasParameter($attribute->parameter)) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Parameter "%s", used in PHP attribute "%s", does not exist in Symfony service container',
+                    $attribute->parameter,
+                    EnabledForContainerParameter::class
+                )
+            );
+        }
+        $parameter = $container->getParameter($attribute->parameter);
+        if (!is_bool($parameter)) {
+            throw new \RuntimeException(
+                sprintf(
+                    'Parameter "%s", used in PHP attribute "%s", must contain a bool value, %s is given',
+                    $attribute->parameter,
+                    EnabledForContainerParameter::class,
+                    gettype($parameter)
+                )
+            );
+        }
+
+        return $parameter;
     }
 }

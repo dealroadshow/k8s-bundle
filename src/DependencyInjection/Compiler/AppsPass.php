@@ -135,7 +135,7 @@ class AppsPass implements CompilerPassInterface
             if (!$this->enabledForCurrentEnv($class, $container->getParameter('kernel.environment'))) {
                 continue;
             }
-            if (!$this->enabledForEnvVar($class)) {
+            if (!$this->enabledForContainerParameter($class, $container)) {
                 continue;
             }
 

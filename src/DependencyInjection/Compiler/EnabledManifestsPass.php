@@ -22,7 +22,7 @@ class EnabledManifestsPass implements CompilerPassInterface
         foreach ($ids as $id => $tags) {
             $definition = $container->getDefinition($id);
             $class = new \ReflectionClass($definition->getClass());
-            if (!$this->enabledForCurrentEnv($class, $env) || !$this->enabledForEnvVar($class)) {
+            if (!$this->enabledForCurrentEnv($class, $env) || !$this->enabledForContainerParameter($class, $container)) {
                 $container->removeDefinition($id);
             }
         }
