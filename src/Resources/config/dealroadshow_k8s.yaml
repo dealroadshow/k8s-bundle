@@ -45,7 +45,8 @@ services:
     Dealroadshow\Bundle\K8SBundle\EventListener\AutoSetReplicasSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\AutoSetResourcesSubscriber: ~
     Dealroadshow\K8S\Framework\Renderer\FilteringService: ~
-    Dealroadshow\K8S\Framework\Util\ManifestReferenceUtil: ~
+    Dealroadshow\K8S\Framework\Util\ManifestReferencesService: ~
+    Dealroadshow\K8S\Framework\Util\VersionedManifestReferencesService: ~
     Dealroadshow\K8S\Framework\Proxy\EventDispatcherBridgeInterceptor: ~
     Dealroadshow\K8S\Framework\ManifestGenerator\ManifestsGenerationService: ~
 
