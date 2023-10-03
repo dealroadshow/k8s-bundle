@@ -12,7 +12,6 @@ services:
 
     Dealroadshow\K8S\Framework\App\AppProcessor: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
-    Dealroadshow\K8S\Framework\Core\ManifestManager: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodTemplateSpecProcessor: ~
     Dealroadshow\K8S\Framework\Core\Job\JobSpecProcessor: ~
     Dealroadshow\K8S\Framework\Dumper\AppDumper: ~
