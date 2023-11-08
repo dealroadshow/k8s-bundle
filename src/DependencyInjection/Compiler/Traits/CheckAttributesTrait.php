@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits;
 
-use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\EnabledForContainerParameter;
+use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\EnabledForConfigurationParameter;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute\EnabledForEnvs;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -32,8 +32,8 @@ trait CheckAttributesTrait
 
     protected function enabledForContainerParameter(\ReflectionClass $class, ContainerBuilder $container): bool
     {
-        /** @var EnabledForContainerParameter|null $attribute */
-        $attribute = AttributesUtil::fromClassOrParents($class, EnabledForContainerParameter::class);
+        /** @var EnabledForConfigurationParameter|null $attribute */
+        $attribute = AttributesUtil::fromClassOrParents($class, EnabledForConfigurationParameter::class);
         if (null === $attribute) {
             return true;
         }
@@ -43,7 +43,7 @@ trait CheckAttributesTrait
                 sprintf(
                     'Parameter "%s", used in PHP attribute "%s", does not exist in Symfony service container',
                     $attribute->parameter,
-                    EnabledForContainerParameter::class
+                    EnabledForConfigurationParameter::class
                 )
             );
         }
@@ -53,7 +53,7 @@ trait CheckAttributesTrait
                 sprintf(
                     'Parameter "%s", used in PHP attribute "%s", must contain a bool value, %s is given',
                     $attribute->parameter,
-                    EnabledForContainerParameter::class,
+                    EnabledForConfigurationParameter::class,
                     gettype($parameter)
                 )
             );
