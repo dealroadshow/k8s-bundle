@@ -180,13 +180,14 @@ class DealroadshowK8SExtension extends Extension
 
     private function setupManifestsDir(array $config, ContainerBuilder $container): static
     {
-        $manifestsDir = $config['manifests_dir'] ?? null;
+        $configParam = 'manifests_dir';
+        $manifestsDir = $config[$configParam] ?? null;
         if (null === $manifestsDir) {
-            $srcDir = $this->getSrcDir($container);
-            if (!file_exists($srcDir)) {
-                throw $this->createExceptionForSrcDir('dealroadshow_k8s.manifests_dir', $srcDir);
+            $varDir = $container->getParameter('kernel.project_dir').DIRECTORY_SEPARATOR.'var';
+            if (!file_exists($varDir)) {
+                throw new \InvalidArgumentException(sprintf('Parameter "%s" is not set, default value is "var" directory, which was resolved to "%s", but no such directory exists.', $configParam, $varDir));
             }
-            $manifestsDir = $srcDir.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'k8s-manifests';
+            $manifestsDir = $varDir.DIRECTORY_SEPARATOR.'k8s-manifests';
         }
         if (!file_exists($manifestsDir)) {
             @mkdir($manifestsDir, 0o777, true);
