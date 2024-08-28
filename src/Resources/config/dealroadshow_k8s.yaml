@@ -30,6 +30,10 @@ services:
     Dealroadshow\K8S\Framework\ResourceMaker\StatefulSetMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\PriorityClassMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\ServiceAccountMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\RoleBindingMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\ClusterRoleBindingMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\RoleMaker: ~
+    Dealroadshow\K8S\Framework\ResourceMaker\ClusterRoleMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\HorizontalPodAutoscalerMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\Prometheus\PodMonitorMaker: ~
     Dealroadshow\K8S\Framework\ResourceMaker\Prometheus\ServiceMonitorMaker: ~
