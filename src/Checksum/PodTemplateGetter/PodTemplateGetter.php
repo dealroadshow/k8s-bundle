@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\Checksum\PodTemplateGetter;
 
-use Dealroadshow\K8S\API\Apps\Deployment;
-use Dealroadshow\K8S\API\Apps\StatefulSet;
-use Dealroadshow\K8S\API\Batch\CronJob;
-use Dealroadshow\K8S\API\Batch\Job;
-use Dealroadshow\K8S\Data\PodTemplateSpec;
+use Dealroadshow\K8S\Api\Apps\V1\Deployment;
+use Dealroadshow\K8S\Api\Apps\V1\StatefulSet;
+use Dealroadshow\K8S\Api\Batch\V1\CronJob;
+use Dealroadshow\K8S\Api\Batch\V1\Job;
+use Dealroadshow\K8S\Api\Core\V1\PodTemplateSpec;
 
 class PodTemplateGetter
 {

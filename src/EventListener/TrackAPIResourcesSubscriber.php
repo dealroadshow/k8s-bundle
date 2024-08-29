@@ -16,7 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class TrackAPIResourcesSubscriber implements EventSubscriberInterface
 {
-    private const EVENTS = [
+    private const array EVENTS = [
         ConfigMapGeneratedEvent::NAME,
         CronJobGeneratedEvent::NAME,
         DeploymentGeneratedEvent::NAME,

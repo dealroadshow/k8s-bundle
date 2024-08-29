@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Dealroadshow\Bundle\K8SBundle\Checksum\Calculator;
 
 use Dealroadshow\Bundle\K8SBundle\Util\SortUtil;
-use Dealroadshow\K8S\API\ConfigMap;
-use Dealroadshow\K8S\API\Secret;
+use Dealroadshow\K8S\Api\Core\V1\ConfigMap;
+use Dealroadshow\K8S\Api\Core\V1\Secret;
 
 trait ChecksumTrait
 {

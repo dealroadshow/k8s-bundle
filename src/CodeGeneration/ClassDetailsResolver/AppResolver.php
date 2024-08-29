@@ -7,11 +7,13 @@ namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
 use Dealroadshow\K8S\Framework\Util\Str;
 
-class AppResolver
+readonly class AppResolver
 {
-    private const SUFFIX_APP = 'App';
+    private const string SUFFIX_APP = 'App';
 
-    public function __construct(private string $codeDir, private string $namespacePrefix)
+    private string $namespacePrefix;
+
+    public function __construct(private string $codeDir, string $namespacePrefix)
     {
         $this->namespacePrefix = trim($namespacePrefix, '\\');
     }

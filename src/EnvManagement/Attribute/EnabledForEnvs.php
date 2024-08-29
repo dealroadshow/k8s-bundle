@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute;
 
 #[\Attribute(\Attribute::TARGET_CLASS)]
-class EnabledForEnvs
+readonly class EnabledForEnvs
 {
     /**
      * @var string[]

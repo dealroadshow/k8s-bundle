@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration;
 
-class TemplateRenderer
+readonly class TemplateRenderer
 {
     private string $templatesDir;
 
@@ -13,7 +13,7 @@ class TemplateRenderer
         $this->templatesDir = $templatesDir;
     }
 
-    public function render(string $templateName, array $variables)
+    public function render(string $templateName, array $variables): false|string
     {
         ob_get_clean();
         ob_start();

@@ -7,7 +7,7 @@ namespace Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_CLASS)]
-class EnabledForApps
+readonly class EnabledForApps
 {
     /**
      * @var string[]

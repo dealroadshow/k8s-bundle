@@ -8,10 +8,13 @@ use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetailsResolver\AppResolve
 use Dealroadshow\Bundle\K8SBundle\Util\Dir;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 
-class AppGenerator
+readonly class AppGenerator
 {
-    public function __construct(private AppRegistry $appRegistry, private AppResolver $resolver, private TemplateRenderer $renderer)
-    {
+    public function __construct(
+        private AppRegistry $appRegistry,
+        private AppResolver $resolver,
+        private TemplateRenderer $renderer
+    ) {
     }
 
     public function generate(string $appName): string
