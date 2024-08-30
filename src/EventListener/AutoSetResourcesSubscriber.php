@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\EventListener\Traits\EnsureMethodIsNotDeclaredInUserManifestTrait;
-use Dealroadshow\Bundle\K8SBundle\Util\PropertyAccessUtil;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Core\Container\ContainerInterface;
 use Dealroadshow\K8S\Framework\Core\Container\Resources\ContainerResourcesInterface;
@@ -17,6 +16,7 @@ use Dealroadshow\K8S\Framework\Core\StatefulSet\StatefulSetInterface;
 use Dealroadshow\K8S\Framework\Event\ContainerMethodEvent;
 use Dealroadshow\K8S\Framework\Event\ManifestMethodEvent;
 use Dealroadshow\K8S\Framework\Event\ProxyableMethodEventInterface;
+use Dealroadshow\K8S\Framework\Util\PropertyAccessor;
 
 class AutoSetResourcesSubscriber extends AbstractMethodSubscriber
 {
@@ -37,7 +37,7 @@ class AutoSetResourcesSubscriber extends AbstractMethodSubscriber
         /** @var DeploymentInterface|StatefulSetInterface $manifest */
         $manifest = $event->proxyable();
         /** @var AppInterface $app */
-        $app = PropertyAccessUtil::getPropertyValue($manifest, 'app');
+        $app = PropertyAccessor::get($manifest, 'app');
         $config = $app->manifestConfig($manifest::shortName())['resources'] ?? [];
 
         /** @var ContainerResourcesInterface $resources */
