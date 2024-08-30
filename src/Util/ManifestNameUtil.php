@@ -7,7 +7,7 @@ namespace Dealroadshow\Bundle\K8SBundle\Util;
 use Dealroadshow\K8S\Framework\Core\DynamicNameAwareInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 
-final readonly class ManifestName
+final readonly class ManifestNameUtil
 {
     public static function get(ManifestInterface $manifest): string
     {
