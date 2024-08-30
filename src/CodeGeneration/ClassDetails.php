@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\CodeGeneration;
 
-class ClassDetails
+readonly class ClassDetails
 {
     private string $className;
     private string $namespace;

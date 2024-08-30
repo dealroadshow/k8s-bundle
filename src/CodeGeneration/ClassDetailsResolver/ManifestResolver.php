@@ -8,13 +8,8 @@ use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ClassDetails;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Util\Str;
 
-class ManifestResolver
+readonly class ManifestResolver
 {
-    public function __construct(private string $namespacePrefix)
-    {
-        $this->namespacePrefix = trim($namespacePrefix, '\\');
-    }
-
     /**
      * @param bool $useDedicatedDir Whether to create a dir for this manifest (like dir "Example" for "ExampleDeployment")
      */

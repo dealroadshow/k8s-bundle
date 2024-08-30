@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\EnvManagement\Attribute;
 
-abstract class AbstractMethodDecoratorAttribute
+abstract readonly class AbstractMethodDecoratorAttribute
 {
     public function __construct(protected string $methodName, protected array $forEnvs, protected bool $replacesReturnValue = false)
     {

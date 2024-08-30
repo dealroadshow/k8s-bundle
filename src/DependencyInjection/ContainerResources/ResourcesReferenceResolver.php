@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 final readonly class ResourcesReferenceResolver
 {
-    private const PATTERN = '/^(@([-\w]+)\.)?(\$([-\w]+))$/';
+    private const string PATTERN = '/^(@([-\w]+)\.)?(\$([-\w]+))$/';
 
     /**
      * @param string $resourcesKey Either "requests" or "limits"

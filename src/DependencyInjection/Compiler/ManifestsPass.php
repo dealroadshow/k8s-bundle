@@ -21,7 +21,7 @@ class ManifestsPass implements CompilerPassInterface
 {
     use GetAppAliasTrait;
 
-    public const MANIFEST_TAG = 'dealroadshow_k8s.manifest';
+    public const string MANIFEST_TAG = 'dealroadshow_k8s.manifest';
 
     private array $appReflectionsCache = [];
 

@@ -14,7 +14,7 @@ class BeforeMethodSubscriber extends AbstractMethodSubscriber
 {
     use ApplyWrappersTrait;
 
-    private const NO_RETURN_VALUE = 'BEFORE-METHOD-SUBSCRIBER-NO-RETURN-VALUE';
+    private const string NO_RETURN_VALUE = 'BEFORE-METHOD-SUBSCRIBER-NO-RETURN-VALUE';
 
     public function __construct(private string $env)
     {
