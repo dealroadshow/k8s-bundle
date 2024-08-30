@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CheksumsSubscriber implements EventSubscriberInterface
 {
-    private const array WORKLOAD_KINDS = [
+    private const WORKLOAD_KINDS = [
         Deployment::KIND,
         Job::KIND,
         CronJob::KIND,
