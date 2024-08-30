@@ -19,7 +19,7 @@ readonly class VolumesCalculator implements ChecksumCalculatorInterface
 {
     use ChecksumTrait;
 
-    private const ANNOTATION_NAME = 'volume-sources-checksum';
+    private const string ANNOTATION_NAME = 'volume-sources-checksum';
 
     public function __construct(
         private PodTemplateGetter $podTemplateGetter,

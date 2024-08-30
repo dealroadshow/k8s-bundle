@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ResourceMakersPass implements CompilerPassInterface
 {
-    public const RESOURCE_MAKER_TAG = 'dealroadshow_k8s.resource_maker';
+    public const string RESOURCE_MAKER_TAG = 'dealroadshow_k8s.resource_maker';
 
     public function process(ContainerBuilder $container): void
     {

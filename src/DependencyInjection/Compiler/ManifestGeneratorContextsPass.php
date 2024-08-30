@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ManifestGeneratorContextsPass implements CompilerPassInterface
 {
-    public const CONTEXT_TAG = 'dealroadshow_k8s.manifest_generator.context';
+    public const string CONTEXT_TAG = 'dealroadshow_k8s.manifest_generator.context';
 
     public function process(ContainerBuilder $container): void
     {
