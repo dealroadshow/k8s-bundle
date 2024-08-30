@@ -9,7 +9,7 @@ use Dealroadshow\K8S\Framework\Util\Str;
 
 readonly class AppResolver
 {
-    private const string SUFFIX_APP = 'App';
+    private const SUFFIX_APP = 'App';
 
     private string $namespacePrefix;
 

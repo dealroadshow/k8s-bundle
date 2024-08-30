@@ -6,14 +6,14 @@ namespace Dealroadshow\Bundle\K8SBundle\EnvManagement;
 
 class Env
 {
-    public const string DEV = 'dev';
-    public const string QA = 'qa';
-    public const string PRODUCTION = 'prod';
-    public const string STAGING = 'staging';
-    public const string TEST = 'test';
+    public const DEV = 'dev';
+    public const QA = 'qa';
+    public const PRODUCTION = 'prod';
+    public const STAGING = 'staging';
+    public const TEST = 'test';
 
     // Pseudo env used in some classes like EnvAwareContainerMaker
-    public const string DEFAULT = 'default';
+    public const DEFAULT = 'default';
 
     private static \Closure|null $getEnvClosure = null;
 

@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ChecksumCalculatorPass implements CompilerPassInterface
 {
-    public const string CHECKSUM_CALCULATOR_TAG = 'dealroadshow_k8s.checksum_calculator';
+    public const CHECKSUM_CALCULATOR_TAG = 'dealroadshow_k8s.checksum_calculator';
 
     public function process(ContainerBuilder $container): void
     {
