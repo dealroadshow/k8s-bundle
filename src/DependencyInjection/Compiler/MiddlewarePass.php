@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class MiddlewarePass implements CompilerPassInterface
 {
-    public const string IMAGE_MIDDLEWARE_TAG = 'dealroadshow_k8s.middleware.container_image';
+    public const IMAGE_MIDDLEWARE_TAG = 'dealroadshow_k8s.middleware.container_image';
 
     public function process(ContainerBuilder $container): void
     {
