@@ -10,6 +10,7 @@ use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ChecksumCalculatorPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\DefaultMetadataLabelsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\DefaultSelectorLabelsPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\DefaultServiceSelectorPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
@@ -89,6 +90,7 @@ class DealroadshowK8SExtension extends Extension
 
         $container->setParameter(DefaultMetadataLabelsPass::PARAM, $config[Configuration::PARAM_SET_DEFAULT_METADATA_LABELS]);
         $container->setParameter(DefaultSelectorLabelsPass::PARAM, $config[Configuration::PARAM_SET_DEFAULT_SELECTOR_LABELS]);
+        $container->setParameter(DefaultServiceSelectorPass::PARAM, $config[Configuration::PARAM_SET_DEFAULT_SERVICE_SELECTOR]);
 
         foreach ($config['apps'] as $appAlias => $appConfig) {
             foreach ($appConfig['manifests'] as $shortName => $manifestConfig) {
