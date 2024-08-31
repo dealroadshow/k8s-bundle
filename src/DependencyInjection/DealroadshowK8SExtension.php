@@ -8,6 +8,8 @@ use Dealroadshow\Bundle\K8SBundle\Checksum\Calculator\ChecksumCalculatorInterfac
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ChecksumCalculatorPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\DefaultMetadataLabelsPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\DefaultSelectorLabelsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
@@ -84,6 +86,9 @@ class DealroadshowK8SExtension extends Extension
 
         $container->setParameter('dealroadshow_k8s.auto_set_resources', $config['auto_set_resources']);
         $container->setParameter('dealroadshow_k8s.auto_set_replicas', $config['auto_set_replicas']);
+
+        $container->setParameter(DefaultMetadataLabelsPass::PARAM, $config[Configuration::PARAM_SET_DEFAULT_METADATA_LABELS]);
+        $container->setParameter(DefaultSelectorLabelsPass::PARAM, $config[Configuration::PARAM_SET_DEFAULT_SELECTOR_LABELS]);
 
         foreach ($config['apps'] as $appAlias => $appConfig) {
             foreach ($appConfig['manifests'] as $shortName => $manifestConfig) {
