@@ -53,11 +53,13 @@ services:
     Dealroadshow\K8S\Framework\Util\VersionedManifestReferencesService: ~
     Dealroadshow\K8S\Framework\Proxy\EventDispatcherBridgeInterceptor: ~
     Dealroadshow\K8S\Framework\ManifestGenerator\ManifestsGenerationService: ~
+    Dealroadshow\K8S\Framework\Core\DefaultLabelsGenerator: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
     Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'
     Dealroadshow\K8S\Framework\Dumper\Context\ContextInterface: '@Dealroadshow\K8S\Framework\Dumper\Context\Context'
     Dealroadshow\K8S\Framework\Core\Container\ContainerMakerInterface: '@Dealroadshow\K8S\Framework\Core\Container\ContainerMaker'
+    Dealroadshow\K8S\Framework\Core\LabelsGeneratorInterface: '@Dealroadshow\K8S\Framework\Core\DefaultLabelsGenerator'
 
     Dealroadshow\Bundle\K8SBundle\:
         resource: '../../../src/'

@@ -14,6 +14,9 @@ use Symfony\Component\Config\Definition\Processor;
 
 readonly class Configuration implements ConfigurationInterface
 {
+    public const PARAM_SET_DEFAULT_SELECTOR_LABELS = 'set_default_selector_labels';
+    public const PARAM_SET_DEFAULT_METADATA_LABELS = 'set_default_metadata_labels';
+
     private ContainerResourcesConfiguration $resourcesConfiguration;
     private Processor $processor;
 
@@ -39,6 +42,12 @@ readonly class Configuration implements ConfigurationInterface
                 ->end()
                 ->booleanNode('auto_set_replicas')
                     ->defaultFalse()
+                ->end()
+                ->booleanNode(self::PARAM_SET_DEFAULT_SELECTOR_LABELS)
+                    ->defaultTrue()
+                ->end()
+                ->booleanNode(self::PARAM_SET_DEFAULT_METADATA_LABELS)
+                    ->defaultTrue()
                 ->end()
                 ->arrayNode('filterManifests')
                     ->addDefaultsIfNotSet()
