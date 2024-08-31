@@ -16,6 +16,7 @@ readonly class Configuration implements ConfigurationInterface
 {
     public const PARAM_SET_DEFAULT_SELECTOR_LABELS = 'set_default_selector_labels';
     public const PARAM_SET_DEFAULT_METADATA_LABELS = 'set_default_metadata_labels';
+    public const PARAM_SET_DEFAULT_SERVICE_SELECTOR = 'set_default_service_selector';
 
     private ContainerResourcesConfiguration $resourcesConfiguration;
     private Processor $processor;
@@ -47,6 +48,9 @@ readonly class Configuration implements ConfigurationInterface
                     ->defaultTrue()
                 ->end()
                 ->booleanNode(self::PARAM_SET_DEFAULT_METADATA_LABELS)
+                    ->defaultTrue()
+                ->end()
+                ->booleanNode(self::PARAM_SET_DEFAULT_SERVICE_SELECTOR)
                     ->defaultTrue()
                 ->end()
                 ->arrayNode('filterManifests')

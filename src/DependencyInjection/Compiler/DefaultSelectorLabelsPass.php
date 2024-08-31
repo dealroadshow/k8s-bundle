@@ -14,7 +14,7 @@ class DefaultSelectorLabelsPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container): void
     {
-        if ($container->getParameter(self::PARAM)) {
+        if (!$container->getParameter(self::PARAM)) {
             $container->removeDefinition(DefaultSelectorLabelsSubscriber::class);
         }
     }

@@ -8,10 +8,9 @@ use Dealroadshow\Bundle\K8SBundle\Attribute\NoDefaultSelectorLabels;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
 use Dealroadshow\K8S\Api\Apps\V1\Deployment;
 use Dealroadshow\K8S\Api\Apps\V1\StatefulSet;
-use Dealroadshow\K8S\Framework\Core\Deployment\DeploymentInterface;
 use Dealroadshow\K8S\Framework\Core\LabelsGeneratorInterface;
-use Dealroadshow\K8S\Framework\Core\StatefulSet\StatefulSetInterface;
-use Dealroadshow\K8S\Framework\Event\ManifestGeneratedEvent;
+use Dealroadshow\K8S\Framework\Event\DeploymentGeneratedEvent;
+use Dealroadshow\K8S\Framework\Event\StatefulSetGeneratedEvent;
 use Dealroadshow\K8S\Framework\Util\ClassName;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -21,12 +20,9 @@ readonly class DefaultSelectorLabelsSubscriber implements EventSubscriberInterfa
     {
     }
 
-    protected function onManifestGenerated(ManifestGeneratedEvent $event): void
+    protected function onManifestGenerated(DeploymentGeneratedEvent|StatefulSetGeneratedEvent $event): void
     {
         $manifest = $event->manifest();
-        if (!$manifest instanceof DeploymentInterface && !$manifest instanceof StatefulSetInterface) {
-            return;
-        }
         if ($this->classHasNoSelectorAttribute(ClassName::real($manifest))) {
             return;
         }
@@ -40,7 +36,8 @@ readonly class DefaultSelectorLabelsSubscriber implements EventSubscriberInterfa
     public static function getSubscribedEvents(): array
     {
         return [
-            ManifestGeneratedEvent::NAME => 'onManifestGenerated',
+            DeploymentGeneratedEvent::NAME => 'onManifestGenerated',
+            StatefulSetGeneratedEvent::NAME => 'onManifestGenerated',
         ];
     }
 
