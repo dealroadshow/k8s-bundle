@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
-use Dealroadshow\Bundle\K8SBundle\EventListener\DefaultMetadataLabelsSubscriber;
 use Dealroadshow\Bundle\K8SBundle\EventListener\DefaultSelectorLabelsSubscriber;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
