@@ -24,7 +24,7 @@ class DefaultSelectorLabelsSubscriber extends AbstractManifestMethodSubscriber
     {
         $manifest = $event->proxyable();
 
-        return ($manifest instanceof DeploymentInterface || $manifest instanceof StatefulSet)
+        return ($manifest instanceof DeploymentInterface || $manifest instanceof StatefulSetInterface)
             && 'selector' === $event->methodName();
     }
 
