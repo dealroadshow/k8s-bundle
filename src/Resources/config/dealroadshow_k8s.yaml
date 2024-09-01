@@ -48,6 +48,9 @@ services:
     Dealroadshow\Bundle\K8SBundle\EventListener\ResourcesMethodSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\AutoSetReplicasSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\AutoSetResourcesSubscriber: ~
+    Dealroadshow\Bundle\K8SBundle\EventListener\DefaultMetadataLabelsSubscriber: ~
+    Dealroadshow\Bundle\K8SBundle\EventListener\DefaultSelectorLabelsSubscriber: ~
+    Dealroadshow\Bundle\K8SBundle\EventListener\DefaultServiceSelectorSubscriber: ~
     Dealroadshow\K8S\Framework\Renderer\FilteringService: ~
     Dealroadshow\K8S\Framework\Util\ManifestReferencesService: ~
     Dealroadshow\K8S\Framework\Util\VersionedManifestReferencesService: ~
