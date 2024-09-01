@@ -12,6 +12,7 @@ use Dealroadshow\K8S\Framework\Core\LabelSelector\SelectorConfigurator;
 use Dealroadshow\K8S\Framework\Core\LabelsGeneratorInterface;
 use Dealroadshow\K8S\Framework\Core\StatefulSet\StatefulSetInterface;
 use Dealroadshow\K8S\Framework\Event\ProxyableMethodEventInterface;
+
 use Dealroadshow\K8S\Framework\Util\ClassName;
 
 class DefaultSelectorLabelsSubscriber extends AbstractManifestMethodSubscriber
