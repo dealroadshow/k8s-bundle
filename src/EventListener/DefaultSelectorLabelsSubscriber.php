@@ -6,7 +6,6 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\Attribute\NoDefaultSelectorLabels;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
-use Dealroadshow\K8S\Api\Apps\V1\StatefulSet;
 use Dealroadshow\K8S\Framework\Core\Deployment\DeploymentInterface;
 use Dealroadshow\K8S\Framework\Core\LabelSelector\SelectorConfigurator;
 use Dealroadshow\K8S\Framework\Core\LabelsGeneratorInterface;
