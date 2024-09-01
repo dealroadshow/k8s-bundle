@@ -7,32 +7,37 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 use Dealroadshow\Bundle\K8SBundle\Attribute\NoDefaultMetadataLabels;
 use Dealroadshow\Bundle\K8SBundle\Util\AttributesUtil;
 use Dealroadshow\K8S\Framework\Core\LabelsGeneratorInterface;
-use Dealroadshow\K8S\Framework\Event\ManifestGeneratedEvent;
+use Dealroadshow\K8S\Framework\Core\ManifestInterface;
+use Dealroadshow\K8S\Framework\Core\MetadataConfigurator;
+use Dealroadshow\K8S\Framework\Event\ProxyableMethodEventInterface;
 use Dealroadshow\K8S\Framework\Util\ClassName;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-readonly class DefaultMetadataLabelsSubscriber implements EventSubscriberInterface
+class DefaultMetadataLabelsSubscriber extends AbstractManifestMethodSubscriber
 {
-    public function __construct(private LabelsGeneratorInterface $labelsGenerator)
+    public function __construct(private readonly LabelsGeneratorInterface $labelsGenerator)
     {
     }
 
-    public function onManifestGenerated(ManifestGeneratedEvent $event): void
+    protected function supports(ProxyableMethodEventInterface $event): bool
     {
-        $manifest = $event->manifest();
-        if ($this->classHasNoSelectorAttribute(ClassName::real($manifest))) {
+        return 'metadata' === $event->methodName()
+            && ($event->methodParams()['meta'] ?? null) instanceof MetadataConfigurator;
+    }
+
+    protected function beforeMethod(ProxyableMethodEventInterface $event): void
+    {
+        /** @var ManifestInterface $manifest */
+        $manifest = $event->proxyable();
+        if ($this->classHasNoLabelsAttribute(ClassName::real($manifest))) {
             return;
         }
         $labels = $this->labelsGenerator->byManifestInstance($manifest);
-        $event->apiResource()->metadata()->labels()->addAll($labels);
+        /** @var MetadataConfigurator $meta */
+        $meta = $event->methodParams()['meta'];
+        $meta->labels()->addAll($labels);
     }
 
-    public static function getSubscribedEvents(): array
-    {
-        return [ManifestGeneratedEvent::NAME => 'onManifestGenerated'];
-    }
-
-    private function classHasNoSelectorAttribute(string $className): bool
+    private function classHasNoLabelsAttribute(string $className): bool
     {
         $class = new \ReflectionClass($className);
         $attribute = AttributesUtil::fromClass($class, NoDefaultMetadataLabels::class);
