@@ -11,12 +11,14 @@ use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ChecksumCalculato
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\DefaultMetadataLabelsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\DefaultSelectorLabelsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\DefaultServiceSelectorPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\LocalizationStrategyPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ResourceMakersPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\ContainerResources\ResourcesReferenceResolver;
 use Dealroadshow\K8S\Framework\App\AppInterface;
+use Dealroadshow\K8S\Framework\App\Integration\Localization\LocalizationStrategyInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
 use Dealroadshow\K8S\Framework\ResourceMaker\ResourceMakerInterface;
@@ -133,6 +135,10 @@ class DealroadshowK8SExtension extends Extension
         $container
             ->registerForAutoconfiguration(ChecksumCalculatorInterface::class)
             ->addTag(ChecksumCalculatorPass::CHECKSUM_CALCULATOR_TAG);
+
+        $container
+            ->registerForAutoconfiguration(LocalizationStrategyInterface::class)
+            ->addTag(LocalizationStrategyPass::LOCALIZATION_STRATEGY_TAG);
     }
 
     private function setupTemplatesDir(ContainerBuilder $container): static
