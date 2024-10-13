@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
+use Dealroadshow\Bundle\K8SBundle\App\Integration\DummyLocalizationStrategy;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\ContainerResources\ContainerResourcesConfiguration;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -64,6 +65,19 @@ readonly class Configuration implements ConfigurationInterface
                                 ->end()
                                 ->arrayNode('exclude')
                                     ->scalarPrototype()->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('integration')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('configuration')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('localization_strategy')
+                                    ->defaultNull()
                                 ->end()
                             ->end()
                         ->end()
