@@ -57,7 +57,7 @@ services:
     Dealroadshow\K8S\Framework\Proxy\EventDispatcherBridgeInterceptor: ~
     Dealroadshow\K8S\Framework\ManifestGenerator\ManifestsGenerationService: ~
     Dealroadshow\K8S\Framework\Core\DefaultLabelsGenerator: ~
-    Dealroadshow\K8S\Framework\App\Integration\ExternalEnvSourcesRegistry: ~
+    Dealroadshow\K8S\Framework\App\Integration\EnvSourcesRegistry: ~
 
     Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Metadata\MetadataHelper'
     Dealroadshow\K8S\Framework\Helper\Names\NamesHelperInterface: '@Dealroadshow\K8S\Framework\Helper\Names\DefaultNamesHelper'

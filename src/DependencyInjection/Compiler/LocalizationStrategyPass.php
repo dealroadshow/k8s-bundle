@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
-use Dealroadshow\K8S\Framework\App\Integration\ExternalEnvSourcesRegistry;
+use Dealroadshow\K8S\Framework\App\Integration\EnvSourcesRegistry;
 use Dealroadshow\K8S\Framework\App\Integration\Localization\AbstractLocalizationStrategy;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,7 +22,7 @@ class LocalizationStrategyPass implements CompilerPassInterface
             if (is_subclass_of($strategyDefinition->getClass(), AbstractLocalizationStrategy::class)) {
                 $strategyDefinition->addMethodCall(
                     'setEnvSourcesRegistry',
-                    [new Reference(ExternalEnvSourcesRegistry::class)]
+                    [new Reference(EnvSourcesRegistry::class)]
                 );
             }
         }
