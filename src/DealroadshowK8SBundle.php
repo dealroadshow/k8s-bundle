@@ -8,6 +8,7 @@ use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AutoSetReplicasPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AutoSetResourcesPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\EnabledManifestsPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\LocalizationStrategyPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
@@ -45,6 +46,7 @@ class DealroadshowK8SBundle extends Bundle
             ->addCompilerPass(pass: new RemoveAutowiredAppsPass(), type: PassConfig::TYPE_REMOVE)
             ->addCompilerPass(pass: new AutoSetReplicasPass(), priority: -32)
             ->addCompilerPass(pass: new AutoSetResourcesPass(), priority: -32)
+            ->addCompilerPass(pass: new LocalizationStrategyPass())
         ;
     }
 

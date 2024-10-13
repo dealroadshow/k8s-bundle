@@ -111,3 +111,9 @@ services:
             $calculators: !tagged_iterator { tag: 'dealroadshow_k8s.checksum_calculator' }
 
     Dealroadshow\K8S\Framework\Renderer\RendererInterface: '@Dealroadshow\K8S\Framework\Renderer\YamlRenderer'
+
+    Dealroadshow\K8S\Framework\App\Integration\Localization\LocalizationStrategyInterface: ~
+
+    Dealroadshow\K8S\Framework\App\Integration\Localization\ExternalConfigurationLocalizer:
+        arguments:
+            $strategy: '@Dealroadshow\K8S\Framework\App\Integration\Localization\LocalizationStrategyInterface'
