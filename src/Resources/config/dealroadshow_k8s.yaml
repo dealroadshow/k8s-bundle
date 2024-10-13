@@ -112,6 +112,7 @@ services:
 
     Dealroadshow\K8S\Framework\Renderer\RendererInterface: '@Dealroadshow\K8S\Framework\Renderer\YamlRenderer'
 
+    Dealroadshow\Bundle\K8SBundle\App\Integration\DummyLocalizationStrategy: ~
     Dealroadshow\K8S\Framework\App\Integration\Localization\LocalizationStrategyInterface: ~
 
     Dealroadshow\K8S\Framework\App\Integration\Localization\ExternalConfigurationLocalizer:
