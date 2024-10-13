@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\Command;
 
-use Dealroadshow\K8S\Framework\App\Integration\ExternalEnvSourcesRegistry;
+use Dealroadshow\K8S\Framework\App\Integration\EnvSourcesRegistry;
 use Dealroadshow\K8S\Framework\App\Integration\Localization\ExternalConfigurationLocalizer;
 use Dealroadshow\K8S\Framework\ManifestGenerator\ManifestsGenerationService;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
@@ -24,7 +24,7 @@ class LocalizeConfigurationCommand extends Command
     public function __construct(
         private readonly ExternalConfigurationLocalizer $localizer,
         private readonly AppRegistry $appRegistry,
-        private readonly ExternalEnvSourcesRegistry $externalEnvSourcesRegistry,
+        private readonly EnvSourcesRegistry $envSourcesRegistry,
         private readonly ManifestsGenerationService $mg,
     ) {
         parent::__construct();
@@ -53,7 +53,7 @@ class LocalizeConfigurationCommand extends Command
         foreach ($apps as $app) {
             $this->localizer->localizeDependencies(
                 $app->alias(),
-                $this->externalEnvSourcesRegistry->getForApp($app->alias())
+                $this->envSourcesRegistry->getForApp($app->alias())
             );
         }
 
