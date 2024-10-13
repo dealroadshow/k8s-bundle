@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection;
 
+use Dealroadshow\Bundle\K8SBundle\App\Integration\DummyLocalizationStrategy;
 use Dealroadshow\Bundle\K8SBundle\Checksum\Calculator\ChecksumCalculatorInterface;
 use Dealroadshow\Bundle\K8SBundle\CodeGeneration\ManifestGenerator;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
@@ -25,8 +26,10 @@ use Dealroadshow\K8S\Framework\ResourceMaker\ResourceMakerInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Reference;
 use Throwable;
 
 class DealroadshowK8SExtension extends Extension
@@ -108,6 +111,11 @@ class DealroadshowK8SExtension extends Extension
         }
 
         $container->setParameter('dealroadshow_k8s.config.apps', $config['apps']);
+        $localizationStrategyClass = $config['integration']['configuration']['localization_strategy'] ?? DummyLocalizationStrategy::class;
+        if (!class_exists($localizationStrategyClass)) {
+            throw new \InvalidArgumentException(sprintf('Localization strategy class "%s" does not exist.', $localizationStrategyClass));
+        }
+        $container->setAlias(LocalizationStrategyInterface::class, $localizationStrategyClass);
     }
 
     public function getAlias(): string

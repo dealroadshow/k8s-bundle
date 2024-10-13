@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\App\Integration;
 
+use Dealroadshow\K8S\Framework\App\Integration\Localization\AbstractLocalizationStrategy;
 use Dealroadshow\K8S\Framework\App\Integration\Localization\LocalizationStrategyInterface;
 
-class DummyLocalizationStrategy implements LocalizationStrategyInterface
+class DummyLocalizationStrategy extends AbstractLocalizationStrategy
 {
     public function localize(string $dependentAppAlias, array $dependencies): mixed
     {
