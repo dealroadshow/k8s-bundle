@@ -111,6 +111,7 @@ class DealroadshowK8SExtension extends Extension
         }
 
         $container->setParameter('dealroadshow_k8s.config.apps', $config['apps']);
+
         $localizationStrategyClass = $config['integration']['configuration']['localization_strategy'] ?? DummyLocalizationStrategy::class;
         if (!class_exists($localizationStrategyClass)) {
             throw new \InvalidArgumentException(sprintf('Localization strategy class "%s" does not exist.', $localizationStrategyClass));

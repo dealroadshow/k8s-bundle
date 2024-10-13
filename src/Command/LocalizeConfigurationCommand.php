@@ -6,6 +6,7 @@ namespace Dealroadshow\Bundle\K8SBundle\Command;
 
 use Dealroadshow\K8S\Framework\App\Integration\ExternalEnvSourcesRegistry;
 use Dealroadshow\K8S\Framework\App\Integration\Localization\ExternalConfigurationLocalizer;
+use Dealroadshow\K8S\Framework\ManifestGenerator\ManifestsGenerationService;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -24,6 +25,7 @@ class LocalizeConfigurationCommand extends Command
         private readonly ExternalConfigurationLocalizer $localizer,
         private readonly AppRegistry $appRegistry,
         private readonly ExternalEnvSourcesRegistry $externalEnvSourcesRegistry,
+        private readonly ManifestsGenerationService $mg,
     ) {
         parent::__construct();
     }
@@ -41,6 +43,8 @@ class LocalizeConfigurationCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $this->mg->processAll();
+
         $aliases = $input->getArgument('apps');
         $apps = in_array('all', $aliases)
             ? $this->appRegistry->all()
