@@ -124,3 +124,11 @@ services:
     Dealroadshow\K8S\Framework\App\Integration\Localization\ExternalConfigurationLocalizer:
         arguments:
             $strategy: '@Dealroadshow\K8S\Framework\App\Integration\Localization\LocalizationStrategyInterface'
+
+    Dealroadshow\K8S\Framework\Runtime\DelegatingRuntimeStatusResolver:
+        arguments:
+            $strategies: !tagged_iterator { tag: 'dealroadshow_k8s.runtime_status_resolver.strategy' }
+
+    Dealroadshow\K8S\Framework\Runtime\ManifestRuntimeStatusResolverInterface: '@Dealroadshow\K8S\Framework\Runtime\DelegatingRuntimeStatusResolver'
+    Dealroadshow\Bundle\K8SBundle\Runtime\StatusResolver\Strategy\EnabledForEnvStrategy: ~
+    Dealroadshow\Bundle\K8SBundle\Runtime\StatusResolver\Strategy\EnabledForConfigurationParameterStrategy: ~

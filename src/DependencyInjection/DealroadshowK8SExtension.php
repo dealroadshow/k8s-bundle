@@ -26,10 +26,8 @@ use Dealroadshow\K8S\Framework\ResourceMaker\ResourceMakerInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Reference;
 use Throwable;
 
 class DealroadshowK8SExtension extends Extension
@@ -48,7 +46,7 @@ class DealroadshowK8SExtension extends Extension
     {
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(__DIR__.'/../Resources/config')
+            new FileLocator(__DIR__.'/../../config')
         );
         $loader->load('dealroadshow_k8s.yaml');
 

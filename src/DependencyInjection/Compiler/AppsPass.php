@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
-use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\Traits\CheckAttributesTrait;
 use Dealroadshow\K8S\Framework\App\AbstractApp;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\Registry\AppRegistry;
@@ -17,8 +16,6 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AppsPass implements CompilerPassInterface
 {
-    use CheckAttributesTrait;
-
     public const APP_TAG = 'dealroadshow_k8s.app';
 
     private array $aliasToClassNamesMap;
@@ -130,13 +127,6 @@ class AppsPass implements CompilerPassInterface
             $class = new \ReflectionClass($id);
             if (!$class->implementsInterface(AppInterface::class)) {
                 throw new \LogicException(sprintf('Only %s instances must be tagged with tag "%s"', AppInterface::class, self::APP_TAG));
-            }
-
-            if (!$this->enabledForCurrentEnv($class, $container->getParameter('kernel.environment'))) {
-                continue;
-            }
-            if (!$this->enabledForContainerParameter($class, $container)) {
-                continue;
             }
 
             $this->appClasses[$class->getName()] = $class;
