@@ -17,12 +17,14 @@ use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGenerator
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ResourceMakersPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\RuntimeStatusResolverStrategiesPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\ContainerResources\ResourcesReferenceResolver;
 use Dealroadshow\K8S\Framework\App\AppInterface;
 use Dealroadshow\K8S\Framework\App\Integration\Localization\LocalizationStrategyInterface;
 use Dealroadshow\K8S\Framework\Core\ManifestInterface;
 use Dealroadshow\K8S\Framework\Middleware\ContainerImageMiddlewareInterface;
 use Dealroadshow\K8S\Framework\ResourceMaker\ResourceMakerInterface;
+use Dealroadshow\K8S\Framework\Runtime\ManifestStatusResolverStrategyInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -146,6 +148,10 @@ class DealroadshowK8SExtension extends Extension
         $container
             ->registerForAutoconfiguration(LocalizationStrategyInterface::class)
             ->addTag(LocalizationStrategyPass::LOCALIZATION_STRATEGY_TAG);
+
+        $container
+            ->registerForAutoconfiguration(ManifestStatusResolverStrategyInterface::class)
+            ->addTag(RuntimeStatusResolverStrategiesPass::TAG);
     }
 
     private function setupTemplatesDir(ContainerBuilder $container): static
