@@ -13,6 +13,7 @@ use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\MiddlewarePass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\RemoveAutowiredAppsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ResourceMakersPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\RuntimeStatusResolverStrategiesPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\SetAppConfigPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\DealroadshowK8SExtension;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\DIContainerRegistry;
@@ -36,6 +37,7 @@ class DealroadshowK8SBundle extends Bundle
 
         $container
             ->addCompilerPass(new AppsPass())
+            ->addCompilerPass(new RuntimeStatusResolverStrategiesPass())
             ->addCompilerPass(pass: new SetAppConfigPass(), type: PassConfig::TYPE_OPTIMIZE, priority: -8)
             ->addCompilerPass(pass: new ManifestsPass(), type: PassConfig::TYPE_OPTIMIZE, priority: -16)
             ->addCompilerPass(pass: new ManifestGeneratorContextsPass())
