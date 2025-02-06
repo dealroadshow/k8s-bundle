@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler;
 
-use Dealroadshow\K8S\Framework\Runtime\ManifestRuntimeStatusResolverInterface;
 use Dealroadshow\K8S\Framework\Runtime\ManifestStatusResolverStrategyInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
