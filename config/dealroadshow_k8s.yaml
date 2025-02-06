@@ -72,10 +72,10 @@ services:
     Dealroadshow\K8S\Framework\Core\LabelsGeneratorInterface: '@Dealroadshow\K8S\Framework\Core\DefaultLabelsGenerator'
 
     Dealroadshow\Bundle\K8SBundle\:
-        resource: '../../../src/'
+        resource: '../src/'
         exclude:
-          - '../../../src/DependencyInjection'
-          - '../../../src/Resources'
+          - '../src/DependencyInjection'
+          - '../src/Resources'
 
     Dealroadshow\Bundle\K8SBundle\CodeGeneration\TemplateRenderer:
         arguments:
