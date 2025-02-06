@@ -17,8 +17,6 @@ use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\RuntimeStatusReso
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\SetAppConfigPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\DealroadshowK8SExtension;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\DIContainerRegistry;
-use Dealroadshow\K8S\Framework\Registry\ManifestRegistry;
-use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -26,11 +24,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class DealroadshowK8SBundle extends Bundle
 {
-    public function boot(): void
-    {
-        $this->validateManifestsConfigs();
-    }
-
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);
@@ -60,39 +53,6 @@ class DealroadshowK8SBundle extends Bundle
         $this->container = $container;
         if (null !== $container) {
             DIContainerRegistry::set($container);
-        }
-    }
-
-    private function validateManifestsConfigs(): void
-    {
-        /** @var ManifestRegistry $manifestRegistry */
-        $manifestRegistry = $this->container->get(ManifestRegistry::class);
-        $appsConfigs = $this->container->getParameter('dealroadshow_k8s.config.apps');
-
-        foreach ($appsConfigs as $appAlias => $appConfig) {
-            foreach ($appConfig['manifests'] ?? [] as $manifestShortName => $manifestConfig) {
-                if (!is_string($manifestShortName) || $manifestConfig['virtual'] ?? false) {
-                    continue;
-                }
-
-                $manifest = $manifestRegistry
-                    ->query($appAlias)
-                    ->shortName($manifestShortName)
-                    ->getFirstResult();
-
-                if (null !== $manifest) {
-                    continue;
-                }
-
-                throw new InvalidConfigurationException(
-                    sprintf(
-                        'There is a configuration section for manifest "%s" in manifests config in app "%s", '
-                        .'however there is no manifest with such short name in this app. Did you make a typo?',
-                        $manifestShortName,
-                        $appAlias
-                    )
-                );
-            }
         }
     }
 }
