@@ -1,0 +1,12 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  release:
+    name: Release PHP Package
+    uses: dealroadshow/operations-github-actions/.github/workflows/workflow-semantic-release-php.yaml@main
+    secrets: inherit

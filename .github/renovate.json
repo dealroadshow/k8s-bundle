@@ -1,0 +1,46 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Enable and group k8s php libs dependency updates.",
+  "packageRules": [
+    {
+      "groupName": "K8s Composer Major",
+      "matchUpdateTypes": ["major"],
+      "matchFileNames": ["composer.json"],
+      "matchManagers": ["composer"],
+      "schedule": ["at any time"],
+      "addLabels": [
+        "major"
+      ]
+    },
+    {
+      "groupName": "K8s Composer",
+      "rebaseWhen": "behind-base-branch",
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
+      "matchFileNames": ["composer.json"],
+      "matchManagers": ["composer"],
+      "matchDepNames": [
+        "dealroadshow/k8s-resources"
+      ],
+      "schedule": ["at any time"]
+    },
+    {
+      "groupName": "K8s Composer Auto Merge",
+      "automerge": true,
+      "rebaseWhen": "behind-base-branch",
+      "automergeStrategy": "squash",
+      "matchUpdateTypes": [
+        "patch",
+        "minor"
+      ],
+      "matchDepNames": [
+        "!/^dealroadshow/k8s-resources/"
+      ],
+      "matchFileNames": ["composer.json"],
+      "matchManagers": ["composer"],
+      "schedule": ["at any time"]
+    }
+  ]
+}

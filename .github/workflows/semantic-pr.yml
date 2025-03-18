@@ -1,0 +1,11 @@
+name: "Semantic PR"
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  validate-pr:
+    name: Validate PR title
+    uses: dealroadshow/operations-github-actions/.github/workflows/workflow-semantic-pr.yml@main
+    secrets: inherit
