@@ -12,8 +12,10 @@ use Dealroadshow\K8S\Framework\Event\ProxyableMethodCalledEventInterface;
 
 class ResourcesMethodSubscriber extends AbstractEnvAwareMethodSubscriber
 {
-    public function __construct(string $env, private bool $containerResourcesPoliciesEnabled)
-    {
+    public function __construct(
+        string $env,
+        private readonly bool $containerResourcesPoliciesEnabled,
+    ) {
         parent::__construct($env);
     }
 
@@ -25,7 +27,7 @@ class ResourcesMethodSubscriber extends AbstractEnvAwareMethodSubscriber
     protected function supports(ProxyableMethodCalledEventInterface $event): bool
     {
         // This subscriber must not work when container resources policies are used, since this is alternative approach to setting resources.
-        if (!$this->containerResourcesPoliciesEnabled) {
+        if ($this->containerResourcesPoliciesEnabled) {
             return false;
         }
 
