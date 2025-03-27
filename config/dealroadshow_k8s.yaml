@@ -1,5 +1,7 @@
 parameters:
     dealroadshow_k8s.annotation_domain: 'dealroadshow.com'
+    dealroadshow_k8s.container.resources.policies.enabled: '%env(defined:DEALROADSHOW_K8S_USE_RESOURCE_POLICIES)%'
+    dealroadshow_k8s.container.resources.policies.env: '%env(default:kernel.environment:DEALROADSHOW_K8S_RESOURCE_POLICIES_ENV)%'
 
 services:
     _defaults:
@@ -9,6 +11,8 @@ services:
             $env: '%kernel.environment%'
             $annotationDomain: '%dealroadshow_k8s.annotation_domain%'
             $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
+            $containerResourcesPoliciesEnabled: '%dealroadshow_k8s.container.resources.policies.enabled%'
+            $containerResourcesPoliciesEnv: '%dealroadshow_k8s.container.resources.policies.env%'
 
     Dealroadshow\K8S\Framework\App\AppProcessor: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
@@ -52,6 +56,7 @@ services:
     Dealroadshow\Bundle\K8SBundle\EventListener\BeforeMethodSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\ReplicasMethodSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\ResourcesMethodSubscriber: ~
+    Dealroadshow\Bundle\K8SBundle\EventListener\ResourcesPoliciesSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\AutoSetReplicasSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\AutoSetResourcesSubscriber: ~
     Dealroadshow\Bundle\K8SBundle\EventListener\DefaultMetadataLabelsSubscriber: ~

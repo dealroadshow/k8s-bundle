@@ -7,6 +7,7 @@ namespace Dealroadshow\Bundle\K8SBundle;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AppsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AutoSetReplicasPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\AutoSetResourcesPass;
+use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ConfigureResourcePoliciesPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\LocalizationStrategyPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestGeneratorContextsPass;
 use Dealroadshow\Bundle\K8SBundle\DependencyInjection\Compiler\ManifestsPass;
@@ -40,6 +41,7 @@ class DealroadshowK8SBundle extends Bundle
             ->addCompilerPass(pass: new AutoSetReplicasPass(), priority: -32)
             ->addCompilerPass(pass: new AutoSetResourcesPass(), priority: -32)
             ->addCompilerPass(pass: new LocalizationStrategyPass())
+            ->addCompilerPass(pass: new ConfigureResourcePoliciesPass())
         ;
     }
 
