@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dealroadshow\Bundle\K8SBundle\EnvManagement\Container;
 
 use Dealroadshow\K8S\Api\Core\V1\ResourceRequirements;
@@ -55,4 +57,3 @@ class ResourcePolicyApplier
         }
     }
 }
-
