@@ -15,8 +15,11 @@ use Dealroadshow\K8S\Framework\Util\PropertyAccessor;
 
 class ResourcePolicyApplier
 {
-    public function __construct(private ResourcePolicyRegistry $registry)
-    {
+    public function __construct(
+        private ResourcePolicyRegistry $registry,
+        private ResourcePolicyConfiguratorInterface $configurator,
+    ) {
+        $this->configurator->configure($this->registry);
     }
 
     public function apply(ContainerInterface|PersistentVolumeClaimInterface $container, ResourcesConfigurator|PvcResourcesConfigurator $resources, string $env): void
