@@ -41,8 +41,8 @@ class ResourcePolicyApplier
         $requests = $resources->requests();
         $limits = $resources->limits();
 
-        if ($defaultCpuRequests = $defaults->requests()->get('cpu')) {
-            $defaultCpuRequests = CPU::fromString($defaultCpuRequests);
+        if ($defaults->requests()->has('cpu')) {
+            $defaultCpuRequests = CPU::fromString($defaults->requests()->get('cpu'));
             if (!$requests->has('cpu')) {
                 $resourcesConfigurator->requestCPU($defaultCpuRequests);
             } else {
@@ -52,8 +52,8 @@ class ResourcePolicyApplier
             }
         }
 
-        if ($defaultCpuLimits = $defaults->limits()->get('cpu')) {
-            $defaultCpuLimits = CPU::fromString($defaultCpuLimits);
+        if ($defaults->limits()->has('cpu')) {
+            $defaultCpuLimits = CPU::fromString($defaults->limits()->get('cpu'));
             if (!$limits->has('cpu')) {
                 $resourcesConfigurator->limitCPU($defaultCpuLimits);
             } else {
@@ -63,8 +63,8 @@ class ResourcePolicyApplier
             }
         }
 
-        if ($defaultMemoryRequests = $defaults->requests()->get('memory')) {
-            $defaultMemoryRequests = Memory::fromString($defaultMemoryRequests);
+        if ($defaults->requests()->has('memory')) {
+            $defaultMemoryRequests = Memory::fromString($defaults->requests()->get('memory'));
             if (!$requests->has('memory')) {
                 $resourcesConfigurator->requestMemory($defaultMemoryRequests);
             } else {
@@ -74,8 +74,8 @@ class ResourcePolicyApplier
             }
         }
 
-        if ($defaultMemoryLimits = $defaults->limits()->get('memory')) {
-            $defaultMemoryLimits = Memory::fromString($defaultMemoryLimits);
+        if ($defaults->limits()->has('memory')) {
+            $defaultMemoryLimits = Memory::fromString($defaults->limits()->get('memory'));
             if (!$limits->has('memory')) {
                 $resourcesConfigurator->limitMemory($defaultMemoryLimits);
             } else {
@@ -85,8 +85,8 @@ class ResourcePolicyApplier
             }
         }
 
-        if ($defaultStorageRequests = $defaults->requests()->get('storage')) {
-            $defaultStorageRequests = Memory::fromString($defaultStorageRequests);
+        if ($defaults->requests()->has('storage')) {
+            $defaultStorageRequests = Memory::fromString($defaults->requests()->get('storage'));
             if (!$requests->has('storage')) {
                 $resourcesConfigurator->requestStorage($defaultStorageRequests);
             } else {
@@ -96,8 +96,8 @@ class ResourcePolicyApplier
             }
         }
 
-        if ($defaultStorageLimits = $defaults->limits()->get('storage')) {
-            $defaultStorageLimits = Memory::fromString($defaultStorageLimits);
+        if ($defaults->limits()->has('storage')) {
+            $defaultStorageLimits = Memory::fromString($defaults->limits()->get('storage'));
             if (!$limits->has('storage')) {
                 $resourcesConfigurator->limitStorage($defaultStorageLimits);
             } else {
