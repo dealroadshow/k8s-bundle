@@ -6,6 +6,7 @@ namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\ReplicasPolicyRegistry;
 use Dealroadshow\K8S\Framework\Core\Deployment\DeploymentInterface;
+use Dealroadshow\K8S\Framework\Core\StatefulSet\StatefulSetInterface;
 use Dealroadshow\K8S\Framework\Event\ProxyableMethodCalledEventInterface;
 
 class ReplicasPoliciesSubscriber extends AbstractManifestMethodResultSubscriber
@@ -19,8 +20,10 @@ class ReplicasPoliciesSubscriber extends AbstractManifestMethodResultSubscriber
 
     protected function supports(ProxyableMethodCalledEventInterface $event): bool
     {
+        $manifest = $event->proxyable();
+
         return $this->deploymentReplicasPoliciesEnabled &&
-            $event->proxyable() instanceof DeploymentInterface
+            ($manifest instanceof DeploymentInterface || $manifest instanceof StatefulSetInterface)
             && 'replicas' === $event->methodName();
     }
 
