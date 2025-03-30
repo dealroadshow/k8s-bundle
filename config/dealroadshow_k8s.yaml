@@ -1,7 +1,9 @@
 parameters:
     dealroadshow_k8s.annotation_domain: 'dealroadshow.com'
     dealroadshow_k8s.container.resources.policies.enabled: '%env(defined:DEALROADSHOW_K8S_USE_RESOURCE_POLICIES)%'
+    dealroadshow_k8s.deployment.replicas.policies.enabled: '%env(defined:DEALROADSHOW_K8S_USE_REPLICAS_POLICIES)%'
     dealroadshow_k8s.container.resources.policies.env: '%env(default:kernel.environment:DEALROADSHOW_K8S_RESOURCE_POLICIES_ENV)%'
+    dealroadshow_k8s.deployment.replicas.policies.env: '%env(default:kernel.environment:DEALROADSHOW_K8S_REPLICAS_POLICIES_ENV)%'
 
 services:
     _defaults:
@@ -13,6 +15,8 @@ services:
             $manifestsDir: '%dealroadshow_k8s.manifests_dir%'
             $containerResourcesPoliciesEnabled: '%dealroadshow_k8s.container.resources.policies.enabled%'
             $containerResourcesPoliciesEnv: '%dealroadshow_k8s.container.resources.policies.env%'
+            $deploymentReplicasPoliciesEnabled: '%dealroadshow_k8s.deployment.replicas.policies.enabled%'
+            $deploymentReplicasPoliciesEnv: '%dealroadshow_k8s.deployment.replicas.policies.env%'
 
     Dealroadshow\K8S\Framework\App\AppProcessor: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
