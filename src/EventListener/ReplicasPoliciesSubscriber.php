@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Dealroadshow\Bundle\K8SBundle\EventListener;
 
+use Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\ReplicasPolicyConfiguratorInterface;
 use Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\ReplicasPolicyRegistry;
 use Dealroadshow\K8S\Framework\Core\Deployment\DeploymentInterface;
 use Dealroadshow\K8S\Framework\Core\StatefulSet\StatefulSetInterface;
@@ -15,7 +16,9 @@ class ReplicasPoliciesSubscriber extends AbstractManifestMethodResultSubscriber
         private readonly bool $deploymentReplicasPoliciesEnabled,
         private readonly string $deploymentReplicasPoliciesEnv,
         private readonly ReplicasPolicyRegistry $policies,
+        ReplicasPolicyConfiguratorInterface $configurator,
     ) {
+        $configurator->configure($policies);
     }
 
     protected function supports(ProxyableMethodCalledEventInterface $event): bool
