@@ -136,9 +136,9 @@ services:
     Dealroadshow\K8S\Framework\App\Integration\Localization\LocalizationStrategyInterface: ~
 
     Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\DummyReplicasPolicyConfigurator: ~
-    Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\ReplicasPolicyConfiguratorInterface: ~
+    Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\ReplicasPolicyConfiguratorInterface: '@Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\DummyReplicasPolicyConfigurator'
     Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\DummyResourcePolicyConfigurator: ~
-    Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\ResourcePolicyConfiguratorInterface: ~
+    Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\ResourcePolicyConfiguratorInterface: '@Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\DummyResourcePolicyConfigurator'
 
 
     Dealroadshow\K8S\Framework\App\Integration\Localization\ExternalConfigurationLocalizer:
