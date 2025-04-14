@@ -19,7 +19,7 @@
         "symfony/dependency-injection": ">=7.1",
         "symfony/config": ">=7.1",
         "symfony/http-kernel": ">=7.1",
-        "dealroadshow/k8s-framework": "^1.0",
+        "dealroadshow/k8s-framework": "dev-self-rendering-manifests",
         "symfony/event-dispatcher": ">=7.1",
         "dealroadshow/proximity": "^1.0",
         "dealroadshow/proximity-bundle": "^1.0"
