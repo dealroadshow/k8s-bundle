@@ -135,6 +135,12 @@ services:
     Dealroadshow\Bundle\K8SBundle\App\Integration\DummyLocalizationStrategy: ~
     Dealroadshow\K8S\Framework\App\Integration\Localization\LocalizationStrategyInterface: ~
 
+    Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\DummyReplicasPolicyConfigurator: ~
+    Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\ReplicasPolicyConfiguratorInterface: ~
+    Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\DummyResourcePolicyConfigurator: ~
+    Dealroadshow\Bundle\K8SBundle\EnvManagement\Container\ResourcePolicyConfiguratorInterface: ~
+
+
     Dealroadshow\K8S\Framework\App\Integration\Localization\ExternalConfigurationLocalizer:
         arguments:
             $strategy: '@Dealroadshow\K8S\Framework\App\Integration\Localization\LocalizationStrategyInterface'
