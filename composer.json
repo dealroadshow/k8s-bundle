@@ -21,8 +21,8 @@
         "symfony/http-kernel": ">=7.1",
         "dealroadshow/k8s-framework": "^1.0",
         "symfony/event-dispatcher": ">=7.1",
-        "dealroadshow/proximity": "dev-main",
-        "dealroadshow/proximity-bundle": "dev-main"
+        "dealroadshow/proximity": "^1.0",
+        "dealroadshow/proximity-bundle": "^1.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
