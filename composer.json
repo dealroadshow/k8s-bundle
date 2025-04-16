@@ -30,5 +30,8 @@
         "psr-4": {
             "Dealroadshow\\Bundle\\K8SBundle\\": "src/"
         }
+    },
+    "scripts": {
+        "cs": "PHP_CS_FIXER_IGNORE_ENV=true ./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix"
     }
 }
