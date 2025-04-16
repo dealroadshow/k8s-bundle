@@ -14,9 +14,10 @@ use Dealroadshow\K8S\Api\Batch\V1\Job;
 use Dealroadshow\K8S\Api\Core\V1\ConfigMap;
 use Dealroadshow\K8S\Api\Core\V1\Container;
 use Dealroadshow\K8S\Api\Core\V1\Secret;
+use Dealroadshow\K8S\Framework\Core\Container\Env\ExternalConfigurationRegistry;
 use Dealroadshow\K8S\Framework\Renderer\JsonRenderer;
 
-class EnvSourcesCalculator implements ChecksumCalculatorInterface
+readonly class EnvSourcesCalculator implements ChecksumCalculatorInterface
 {
     use ChecksumTrait;
 
@@ -26,6 +27,7 @@ class EnvSourcesCalculator implements ChecksumCalculatorInterface
         private PodTemplateGetter $podTemplateGetter,
         private APIResourceRegistry $registry,
         private JsonRenderer $renderer,
+        private ExternalConfigurationRegistry $externalConfigurations,
     ) {
     }
 
@@ -52,6 +54,16 @@ class EnvSourcesCalculator implements ChecksumCalculatorInterface
                 $kind = Secret::KIND;
             } else {
                 throw new \LogicException('EnvFromSource instance must contain either "configMapRef" or "secretRef" field');
+            }
+
+            $isExternal = match ($kind) {
+                ConfigMap::KIND => $this->externalConfigurations->hasConfigMap($name),
+                Secret::KIND => $this->externalConfigurations->hasSecret($name),
+                default => throw new \LogicException(sprintf('Env source must be either ConfigMap or Secret, but got env source with kind "%s".', $kind)),
+            };
+
+            if ($isExternal) {
+                continue;
             }
 
             $source = $this->getSource($name, $kind);
