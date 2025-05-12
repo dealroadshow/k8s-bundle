@@ -63,8 +63,8 @@ class DealroadshowK8SExtension extends Extension
             $normalizedAppsConfigs[] = []; // array_replace_recursive will have enough arguments
         }
 
-        // We use ArrayNode::ignoreExtraKeys() for app configs in Configuration class,
-        // therefore Symfony will not merge app configs properly - thus we need to do this ourselves
+        // We use ArrayNode::ignoreExtraKeys() for app configs in Configuration class;
+        // therefore, Symfony will not merge app configs properly - thus we need to do this ourselves
         $finalAppsConfig = array_replace_recursive(...$normalizedAppsConfigs);
 
         $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
@@ -87,6 +87,7 @@ class DealroadshowK8SExtension extends Extension
             ->setupManifestsDir($config, $container)
             ->setupFilters($config, $container)
             ->setupTemplatesDir($container)
+            ->setupExcludedSelectorLabels($config, $container)
             ->setupNamespacePrefix($config['namespace_prefix'], $container)
         ;
 
@@ -240,5 +241,15 @@ class DealroadshowK8SExtension extends Extension
         $errMessage = str_replace(PHP_EOL, ' ', $errMessage);
 
         return new InvalidConfigurationException($errMessage);
+    }
+
+    private function setupExcludedSelectorLabels(array $config, ContainerBuilder $container): static
+    {
+        $container->setParameter(
+            'dealroadshow_k8s.excluded_selector_labels',
+            $config['selector_labels_exclude']
+        );
+
+        return $this;
     }
 }
