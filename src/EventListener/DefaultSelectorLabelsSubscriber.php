@@ -15,8 +15,10 @@ use Dealroadshow\K8S\Framework\Util\ClassName;
 
 class DefaultSelectorLabelsSubscriber extends AbstractManifestMethodSubscriber
 {
-    public function __construct(private readonly LabelsGeneratorInterface $labelsGenerator)
-    {
+    public function __construct(
+        private readonly LabelsGeneratorInterface $labelsGenerator,
+        private readonly array $excludedSelectorLabels,
+    ) {
     }
 
     protected function supports(ProxyableMethodEventInterface $event): bool
@@ -37,7 +39,9 @@ class DefaultSelectorLabelsSubscriber extends AbstractManifestMethodSubscriber
 
         /** @var SelectorConfigurator $selector */
         $selector = $event->methodParams()['selector'];
-        $selector->addLabels($this->labelsGenerator->byManifestInstance($manifest));
+        $labels = $this->labelsGenerator->byManifestInstance($manifest);
+        $labels = array_diff_key($labels, array_fill_keys($this->excludedSelectorLabels, null));
+        $selector->addLabels($labels);
     }
 
     private function classHasNoSelectorAttribute(string $className): bool

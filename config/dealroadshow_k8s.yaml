@@ -17,6 +17,7 @@ services:
             $containerResourcesPoliciesEnv: '%dealroadshow_k8s.container.resources.policies.env%'
             $deploymentReplicasPoliciesEnabled: '%dealroadshow_k8s.deployment.replicas.policies.enabled%'
             $deploymentReplicasPoliciesEnv: '%dealroadshow_k8s.deployment.replicas.policies.env%'
+            $excludedSelectorLabels: '%dealroadshow_k8s.excluded_selector_labels%'
 
     Dealroadshow\K8S\Framework\App\AppProcessor: ~
     Dealroadshow\K8S\Framework\Core\Pod\PodSpecProcessor: ~
